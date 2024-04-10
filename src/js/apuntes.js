@@ -54,6 +54,15 @@ class Dice{
     }
 }
 
+/*Prueba para comprobar que carga la clase
+    let playerTester = new Player('green', 4);
+console.log('Jugador creado: ' + playerTester);
+console.log('Color: ' + playerTester._color + '; Number of pieces: ' + playerTester._numPieces);*/
+
+/*Prueba para comprobar que llame bien a la clase Dice
+    let dice = new Dice();
+    console.log('Dado creado, tirada: ' + dice.throw());*/
+
 /*jugadores[numPlayer "= 4"]
 r = jugador(..., fichas)
 g = jugador
