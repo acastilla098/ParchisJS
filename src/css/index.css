@@ -1,0 +1,9 @@
+* {
+    background-color: aliceblue;
+}
+
+.content{
+    align-self: center;
+    align-items: center;
+    align-content: center;
+}

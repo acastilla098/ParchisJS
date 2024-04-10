@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Juego del parchis</title>
+  <link rel="icon" href="./../../src/assets/icons/juego-de-mesa.png">
+  <script src="../../src/js/index.js" type="text/javascript"></script>
+</head>
+
+<body>
+    
+    <h1>Juego del Parchis</h1>
+    <div>
+        <form>
+            Selecciona el numero de jugadores:
+            <br />
+            <input name="players" type="radio" value="2" />2 Jugadores
+            <br />
+            <input name="players" type="radio" value="4" checked="checked" />4 Jugadores
+            <br/>
+            Selecciona el numero de dados:
+            <br />
+            <input name="dice" type="radio" value="1" />1 Dado
+            <br />
+            <input name="dice" type="radio" value="2" checked="checked" />2 Dados
+            <br />
+            Selecciona el numero de fichas por jugador:
+            <br />
+            <input name="tokens" type="radio" value="1" />1 Ficha
+            <br />
+            <input name="tokens" type="radio" value="2" />2 Fichas
+            <br />
+            <input name="tokens" type="radio" value="3" />3 Fichas
+            <br />
+            <input name="tokens" type="radio" value="4" checked="checked"/>4 Fichas
+        </form>
+    </div>
+    <button onclick="playGame()">Jugar</button>
+    <h3>Definicion:</h3>
+    <p>Juego de mesa que se practica en un tablero con cuatro salidas y con casillas numeradas, 
+        en el que cada jugador trata de hacer llegar sus cuatro fichas, avanzando según determina 
+        el dado, a la casilla central, y gana el primero que lo consigue.</p>
+    <h3>Controles:</h3>
+    <p>Para jugar solo sera necesario el raton, el jugador que este en juego debera lanzar los dados y ver que opciones tiene segun los resultados</p>
+    <h3>Reglas</h3>
+    <ul>
+        <li>1. Se debe salir de la casa con 5.</li>
+        
+        <li>2. Con doble 1, 2, 3, 4, 5, 6 se puede volver a tirar</li>
+
+        <li>3. Si come una ficha de un oponente ese se le regresa a su casa, y quién se la comió gana 20 pasos.</li>
+        
+        <li>4. Las casillas seguras son: De salida, con estrellas y de llegada.</li>
+        
+        <li>5. El ganador es quien lleve todas sus 4 fichas a su casa.</li>
+        
+        <li>6. Si el resultado de los dados no permite moverse al jugador se salta de turno</li>
+
+        <li>7. Si se colocan dos fichas del mismo color en una misma casilla se realizara un bloqueo, nadie puede pasar a traves de el.</li>
+
+        <li>8. Si una ficha se encuentra en la casilla de salida de otro jugador y este saca una ficha de su casa, la ficha del jugador enemigo sera comida.</li>
+    </ul>
+</body>
+</html>
