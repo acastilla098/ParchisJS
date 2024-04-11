@@ -1,0 +1,51 @@
+.ux-parchis{
+    position: absolute; top: 200px; left: 500px;
+}
+.rojo{
+    width:150px;height:150px;position:absolute ;background:red;top:300px;border-radius:0px 0px 0px 10px;
+}
+.amarillo{
+    width:150px;height:150px;position:absolute ;background:yellow;top:300px;left:300px;border-radius:0px 0px 10px 0px;
+}
+.verde{
+    width:150px;height:150px;position:absolute ;background:green;left:300px;border-radius:0px 10px 0px 0px;
+}
+.azul{
+    width:150px;height:150px;position:absolute; background:blue;border-radius:10px 0px 0px 0px;
+}
+.diceRojo{
+    width:80px;height:80px;position:absolute ;background:rgb(228, 115, 115);border-radius:10px;left:35px;top:35px;
+}
+.diceAzul{
+    width:80px;height:80px;position:absolute ;background:rgb(115, 115, 209);border-radius:10px;left:35px;top:35px;
+}
+.diceVerde{
+    width:80px;height:80px;position:absolute ;background:rgb(163, 245, 163);border-radius:10px;left:35px;top:35px;
+}
+.diceAmarillo{
+    width:80px;height:80px;position:absolute ;background:rgb(240, 240, 141);border-radius:10px;left:35px;top:35px;
+}
+.centerRed{
+    width:1px;height:1px;position:absolute ;border:50px solid transparent ;top:178px;left:178px;border-right:50px solid red;transform:rotate(180deg);
+}
+.centerBlue{
+    width:1px;height:1px;position:absolute ;border:50px solid transparent ;top:178px;left:178px;border-right:50px solid blue;transform:rotate(270deg);
+}
+.centerYellow{
+    width:1px;height:1px;position:absolute ;border:50px solid transparent ;top:178px;left:178px;border-right:50px solid yellow;transform:rotate(90deg);
+}
+.centerGreen{
+    width:1px;height:1px;position:absolute ;border:50px solid transparent ;top:178px;left:178px;border-right:50px solid green;transform:rotate(360deg);
+}
+.lineBlue{
+    width:50px;height:160px;position:absolute ;background:blue;left:204px;top:20px;
+}
+.lineRed{
+    width:160px;height:50px;position:absolute ;background:red;top:204px;left:20px;
+}
+.lineYellow{
+    width:50px;height:160px;position:absolute ;background:yellow;top:272px;left:203px;
+}
+.lineGreen{
+    width:160px;height:50px;position:absolute ;background:green;left:272px;top:203px;
+}
