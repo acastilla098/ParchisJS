@@ -3,10 +3,14 @@ export default class Player {
 
     constructor(color,numPieces){
         this._color = color;
+        
         this._numPieces = numPieces;//Number of pieces
         this._homePieces = numPieces;//Number of pieces in home
-        this._outPieces = 0;
-        this._keepPieces = 0;
+        this._outPieces = 0;//Number of pieces on table
+        this._keepPieces = 0;//Number of pieces victorious
+
+        this._end = false;
+        this._position = 0;
     }
 
     get homePieces(){
