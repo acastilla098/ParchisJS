@@ -112,7 +112,7 @@ console.log('Has hecho click en la ficha.');
 
         tokenImg.className = this._CLASSES.UX_TOKEN;
         tokenImg.alt = "Icono ficha";
-        tokenImg.src = valuesPieces[this._indexP];
+        tokenImg.src = valuesPieces[this._index];
         tokenImg.style.position = 'relative';
         tokenImg.style.left = 0;
         tokenImg.width = 50;
