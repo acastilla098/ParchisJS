@@ -1,27 +1,19 @@
-import { createBtnThrow, set_events, ELEMENTS } from "./DOMManager.js";
+import DOMManager from "./DOMManager.js";
+import Events from "./Events.js";
+import GameComponents from "./GameComponents.js";
+import ConfigRoute from "./class/ConfigRoute.js";
 
-function play() {
 
-    let playersIn = 0;
-    let index = 0;
+function initialize() {
 
-    /*do {
+    let config = new ConfigRoute();
+    let gameComponents = new GameComponents(config);
+    let events = new Events(gameComponents.createPlayers(), gameComponents.createDices());
+    let dom = new DOMManager(events);
 
-        thrown(players[index],dices);
-        
-        index++;
-    } while (playersIn <= 4);*/
-
-    createBtnThrow();
-    set_events();
-
-//console.log(ELEMENTS);
-
-    ELEMENTS[1]
+    dom.createBtnThrow();
+    dom.set_events();
 }
 
-function thrown(player,dices){
 
-}
-
-play();
+initialize();
