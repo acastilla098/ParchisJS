@@ -4,6 +4,10 @@ export default class DOMManager{
 
         this._tokenss = 0;
 
+        this._indexP = 0;
+
+        this._index = 0;
+
         this._events = events;
 
         this._ELEMENTS = [];
@@ -13,7 +17,8 @@ export default class DOMManager{
             UX_CONTENT:     'ux-content',
             UX_IMG:         'ux-img',
             UX_TOKEN:       'ux-token',
-            UX_TURN:        'ux-turn'
+            UX_TURN:        'ux-turn',
+            UX_USER:        'ux-user'
         }
     
         this._PIECES = {
@@ -38,19 +43,42 @@ export default class DOMManager{
         this._ELEMENTS.push(this._div);
 console.log(this._div);
 
+        this._valuesP = Object.values(this._PLAYERS);
+
     }
 
     set_events(){
         
         document.querySelector(`.${this._CLASSES.UX_IMG}`).addEventListener('click', () => {
-            this._events.throu();
+console.log(this._index);
+            let playerReady = this._events.nextPlayer(this._index);
+            
+            this._events.throu(playerReady);
 
-            if(this._tokenss < 4){
-
+            if(this._tokenss < this._events.howMuchPieces() ){
+                
                 setTimeout(this.createToken(),1000);
 
             }
 
+            if (this._tokenss == this._events.howMuchPieces()) {
+
+                if(!(this._indexP == 3)){
+                    this._indexP++;
+                    this._tokenss = 0;
+                }
+            }
+
+            this._index++;
+console.log('Index players: ' + this._index);
+console.log('Values players img: ');
+console.log(this._valuesP);
+
+            if (this._index == this._events.howMuchPlayers()) {
+                this._index = 0;
+            }
+
+            document.querySelector(`.${this._CLASSES.UX_USER}`).src = this._valuesP[this._index];
         });
 
 
@@ -66,6 +94,7 @@ console.log('Has hecho click en la ficha.');
         let btnT = document.createElement('img');
 
         btnT.alt = "Cubilete";
+        btnT.title = "Cubilete";
         btnT.className = this._CLASSES.UX_IMG;
         btnT.src = "./../assets/img/cubilete.jpg";
         btnT.width = 200;
@@ -77,11 +106,13 @@ console.log('Has hecho click en la ficha.');
     }
 
     createToken(){
+        let valuesPieces = Object.values(this._PIECES);
+        
         let tokenImg = document.createElement('img');
 
         tokenImg.className = this._CLASSES.UX_TOKEN;
         tokenImg.alt = "Icono ficha";
-        tokenImg.src = this._PIECES.RED_PIECE;
+        tokenImg.src = valuesPieces[this._indexP];
         tokenImg.style.position = 'relative';
         tokenImg.style.left = 0;
         tokenImg.width = 50;
@@ -93,7 +124,7 @@ console.log('Has hecho click en la ficha.');
 
         tokenImg.addEventListener('click', () => {
 console.log("movve: " + movve);
-            movve = this._events.moveToken();
+            movve = this._events.moveToken();//Esto luego se gestionará con los div de cada fila
 
             tokenImg.style.left = `${movve}em`;
 
@@ -107,6 +138,8 @@ console.log('Tokens out: ' + this._tokenss);
     }
 
     createTurnPlayer(){
+        
+
         let divP = document.createElement('div');
         divP.className = this._CLASSES.UX_TURN;
         divP.style.width = 200;
@@ -119,15 +152,26 @@ console.log('Tokens out: ' + this._tokenss);
 
         let turnPlayer = document.createElement('img')
 
+        this._index = 0;
         turnPlayer.alt = "Jugador a tirar";
-        turnPlayer.src = this._PLAYERS.RED_PLAYER;
+        turnPlayer.src = this._valuesP[this._index];
+        turnPlayer.className = this._CLASSES.UX_USER
+        turnPlayer.title = 'Jugador';
         turnPlayer.width = 50;
         turnPlayer.height = 50;
         turnPlayer.style.position = 'static';
 
-        turnPlayer.addEventListener('click', () => {
-            turnPlayer.src = this._events.changeTurn(this._PLAYERS,1);
-        });
+
+        /*turnPlayer.addEventListener('click', () => {
+
+            this._index++;
+            if (this._index == 4) {
+                this._index = 0;
+            }
+//console.log('Index: ' + index);
+            turnPlayer.src = valuesP[index];
+
+        });*/
 
         divP.appendChild(p);
         divP.appendChild(turnPlayer);

@@ -12,7 +12,7 @@ export default class Events{
 
     }
 
-    throu(){
+    throu(playerReady){
 
 console.log(this._players);
 
@@ -23,7 +23,7 @@ console.log(this._players);
 
             }
 
-console.log(`Player ${this._players[0]._color} thrown the dices: ${this._addition}`);
+console.log(`Player ${playerReady._color} thrown the dices: ${this._addition}`);
 console.log(`Addition: ${this._addition}`);
         //}
     }
@@ -47,9 +47,16 @@ console.log('Move: ' + this._move);
 
     }
 
-    changeTurn(classes, pos){
-        
-        return `${classes[pos]}`;
+    howMuchPieces(){
+        return this._players[0]._numPieces;
+    }
+    
+    howMuchPlayers(){
+        return this._players.length;
+    }
+
+    nextPlayer(p){
+        return this._players[p];
     }
 
 }
