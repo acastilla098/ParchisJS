@@ -14,18 +14,15 @@ export default class Events{
 
     throu(playerReady){
 
-console.log(this._players);
+        for (let d = 0; d < this._dices.length; d++) {
 
-        //for (let p = 0; p < players.length; p++) {
-            for (let d = 0; d < this._dices.length; d++) {
+            this._addition += this._dices[d].throw();
 
-                this._addition += this._dices[d].throw();
-
-            }
+        }
 
 console.log(`Player ${playerReady._color} thrown the dices: ${this._addition}`);
 console.log(`Addition: ${this._addition}`);
-        //}
+
     }
     
     _clearAddition(){
@@ -40,8 +37,6 @@ console.log(`Addition: ${this._addition}`);
         this._move += this._addition;
 
         this._clearAddition();
-
-//console.log('Move: ' + this._move);
 
         return this._move;
 

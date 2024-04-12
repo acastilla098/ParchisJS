@@ -47,6 +47,15 @@ export default class DOMManager{
 
         }
 
+        this._COLORS = {
+
+            DICE_RED:        'diceRed',
+            DICE_YELLOW:     'diceYellow',
+            DICE_GREEN:      'diceGreen',
+            DICE_BLUE:       'diceBlue'
+
+        }
+
         this._divC = document.querySelector(`.${this._CLASSES.UX_CONTENT}`);
         this._ELEMENTS.push(this._divC);
 
@@ -76,7 +85,7 @@ console.log(this._divC);
     set_events(){
         
         document.querySelector(`.${this._CLASSES.UX_IMG}`).addEventListener('click', () => {
-//console.log(this._index);
+
             let playerReady = this._events.nextPlayer(this._index);
             
             this._events.throu(playerReady);
@@ -124,6 +133,7 @@ console.log(this._divC);
 
     createToken(){
         let valuesPieces = Object.values(this._PIECES);
+        let valuesColors = Object.values(this._COLORS);
         
         let tokenImg = document.createElement('img');
 
@@ -132,8 +142,8 @@ console.log(this._divC);
         tokenImg.src = valuesPieces[this._index];
         tokenImg.style.position = 'relative';
         tokenImg.style.left = 0;
-        tokenImg.width = 50;
-        tokenImg.height = 50;
+        tokenImg.width = 20;
+        tokenImg.height = 20;
 
         this._ELEMENTS.push(tokenImg);
 
@@ -147,7 +157,9 @@ console.log(this._divC);
 
         })
 
-        this._ELEMENTS[0].appendChild(tokenImg);
+        let divHome = document.querySelector(`.${valuesColors[this._index]}`);
+
+        divHome.appendChild(tokenImg);
 
         this._tokenss++;
 
