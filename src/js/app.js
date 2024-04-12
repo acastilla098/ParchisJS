@@ -18,6 +18,7 @@ function initialize() {
     dom.set_events();
     dom.createTurnPlayer();
     dom.createBtnReturn();
+    
 }
 
 

@@ -13,7 +13,7 @@ export default class Events{
     }
 
     throu(playerReady){
-
+        
         for (let d = 0; d < this._dices.length; d++) {
 
             this._addition += this._dices[d].throw();

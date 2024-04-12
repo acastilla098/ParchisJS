@@ -117,17 +117,21 @@ console.log(this._divC);
 
     createBtnThrow(){
 
+        let thwoum = document.createElement('b');
+        thwoum.textContent = '¡Pincha y tira!';
+        
         let btnT = document.createElement('img');
 
         btnT.alt = "Cubilete";
         btnT.title = "Cubilete";
         btnT.className = this._CLASSES.UX_IMG;
-        btnT.src = "./../assets/img/cubilete.jpg";
+        btnT.src = "./../assets/img/cubilete.webp";
         btnT.width = 200;
-        btnT.height = 200;
+        btnT.height = 100;
 
         this._ELEMENTS.push(btnT);
 
+        this._ELEMENTS[3].appendChild(thwoum);
         this._ELEMENTS[3].appendChild(btnT);
     }
 

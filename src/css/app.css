@@ -1,35 +1,63 @@
 html, body {  
     margin:0px;  
-    height:100%;  
-  } 
+    height:100%;
+    background-image: url('../../public/assets/img/Captura.PNG'); 
+    background-size: 100%;
+}
+
+h1{
+    text-align: center; font-size: 50px;
+}
+
 .ux-content{
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 .ux-head{
-    flex: 15%; background-color: red;
+    flex: 15%; 
 }
 .ux-body{
-    flex: 70%; display: flex; background-color: black;
+    flex: 70%; display: flex; 
 }
 .ux-footer{
-    flex: 15%; background-color: blue;
+    flex: 15%;  text-align: center; 
 }
+
+.ux-return{
+    text-align: center; margin-top: 50px; width: 200px;height: 50px;  font-size: 30px; font-weight: bold; background-color: white; border: 2px solid #007bff;
+}
+.ux-return:hover {
+    background: #0b7dda; color: white;
+}
+
 .ux-score{
-    flex: 15%; background-color: aquamarine;
+    flex: 15%;
 }
 .ux-dice{
-    flex: 15%; background-color: chartreuse;
+    flex: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+
+.ux-img{
+    text-align: center;
+}
+
 .ux-game{
-    flex: 70%; background-color: darkgreen; justify-content: center;
+    flex: 70%; justify-content: center;
 }
+
 .ux-parchis{
-    position: absolute; top: 25%; left: 35%; transform: translate(-50%, -50%); 
+    position: absolute; top: 25%; left: 38%; transform: translate(-50%, -50%); 
 }
 .ux-turn{
-    
+    font-size: 25px; 
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
 }
 .red{
     width:150px;height:150px;position:absolute ;background:red;top:300px;border-radius:0px 0px 0px 10px;
