@@ -5,7 +5,7 @@ export default class GameComponents{
 
     constructor(params){
 
-        this._params = params;//ConfigRoute
+        this._params = params;
 
         this._colores = ['red','yellow','green','blue'];
 
@@ -21,9 +21,6 @@ export default class GameComponents{
 
         }
     
-    //console.log('Players created: ');
-    //console.log(players);
-    
         return this._players;
 
     }
@@ -38,9 +35,6 @@ export default class GameComponents{
 
 
         }
-
-    //console.log('Dices:');
-    //console.log(dices);
     
         return this._dices;
         

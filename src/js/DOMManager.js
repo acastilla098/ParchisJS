@@ -92,7 +92,7 @@ console.log(this._divC);
 
             if(this._tokenss < this._events.howMuchPieces() ){
                 
-                setTimeout(this.createToken(),1000);
+                this.createToken();
 
             }
 
