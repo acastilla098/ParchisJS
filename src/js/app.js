@@ -17,6 +17,7 @@ function initialize() {
     dom.createBtnThrow();
     dom.set_events();
     dom.createTurnPlayer();
+    dom.createBtnReturn();
 }
 
 

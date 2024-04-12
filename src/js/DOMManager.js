@@ -18,7 +18,15 @@ export default class DOMManager{
             UX_IMG:         'ux-img',
             UX_TOKEN:       'ux-token',
             UX_TURN:        'ux-turn',
-            UX_USER:        'ux-user'
+            UX_USER:        'ux-user',
+            UX_RETURN:      'ux-return',
+            UX_HEAD:        'ux-head',
+            UX_BODY:        'ux-body',
+            UX_FOOTER:      'ux-footer',
+            UX_DICE:        'ux-dice',
+            UX_SCORE:       'ux-score',
+            UX_PARCHIS:     'ux-parchis',
+            UX_GAME:        'ux-game'
         }
     
         this._PIECES = {
@@ -39,9 +47,27 @@ export default class DOMManager{
 
         }
 
-        this._div = document.querySelector(`.${this._CLASSES.UX_CONTENT}`);
+        this._divC = document.querySelector(`.${this._CLASSES.UX_CONTENT}`);
+        this._ELEMENTS.push(this._divC);
+
+        this._div = document.querySelector(`.${this._CLASSES.UX_BODY}`);
         this._ELEMENTS.push(this._div);
-console.log(this._div);
+
+        this._divS = document.querySelector(`.${this._CLASSES.UX_SCORE}`);
+        this._ELEMENTS.push(this._divS);
+        this._div.appendChild(this._divS);
+        
+        this._divG = document.querySelector(`.${this._CLASSES.UX_GAME}`);
+        this._div.appendChild(this._divG);
+        
+        this._divParch = document.querySelector(`.${this._CLASSES.UX_PARCHIS}`);
+        this._divG.appendChild(this._divParch);
+        
+        this._divD = document.querySelector(`.${this._CLASSES.UX_DICE}`);
+        this._ELEMENTS.push(this._divD);
+        this._div.appendChild(this._divD);
+
+console.log(this._divC);
 
         this._valuesP = Object.values(this._PLAYERS);
 
@@ -50,7 +76,7 @@ console.log(this._div);
     set_events(){
         
         document.querySelector(`.${this._CLASSES.UX_IMG}`).addEventListener('click', () => {
-console.log(this._index);
+//console.log(this._index);
             let playerReady = this._events.nextPlayer(this._index);
             
             this._events.throu(playerReady);
@@ -70,9 +96,6 @@ console.log(this._index);
             }
 
             this._index++;
-console.log('Index players: ' + this._index);
-console.log('Values players img: ');
-console.log(this._valuesP);
 
             if (this._index == this._events.howMuchPlayers()) {
                 this._index = 0;
@@ -80,12 +103,6 @@ console.log(this._valuesP);
 
             document.querySelector(`.${this._CLASSES.UX_USER}`).src = this._valuesP[this._index];
         });
-
-
-        /*document.querySelector(`.${this._CLASSES.UX_TOKEN}`).addEventListener('click', () => {
-console.log('Has hecho click en la ficha.');
-            
-        })*/
 
     }
 
@@ -102,7 +119,7 @@ console.log('Has hecho click en la ficha.');
 
         this._ELEMENTS.push(btnT);
 
-        this._ELEMENTS[0].appendChild(btnT);
+        this._ELEMENTS[3].appendChild(btnT);
     }
 
     createToken(){
@@ -123,7 +140,7 @@ console.log('Has hecho click en la ficha.');
         let movve = 0;
 
         tokenImg.addEventListener('click', () => {
-console.log("movve: " + movve);
+
             movve = this._events.moveToken();//Esto luego se gestionará con los div de cada fila
 
             tokenImg.style.left = `${movve}em`;
@@ -161,24 +178,32 @@ console.log('Tokens out: ' + this._tokenss);
         turnPlayer.height = 50;
         turnPlayer.style.position = 'static';
 
-
-        /*turnPlayer.addEventListener('click', () => {
-
-            this._index++;
-            if (this._index == 4) {
-                this._index = 0;
-            }
-//console.log('Index: ' + index);
-            turnPlayer.src = valuesP[index];
-
-        });*/
-
         divP.appendChild(p);
         divP.appendChild(turnPlayer);
 
         this._ELEMENTS.push(divP);
 
-        this._ELEMENTS[0].appendChild(divP);
+        this._ELEMENTS[2].appendChild(divP);
+    }
+
+    createBtnReturn(){
+        let divF = document.querySelector(`.${this._CLASSES.UX_FOOTER}`)
+
+        let btnR = document.createElement('button');
+        btnR.className = this._CLASSES.UX_RETURN;
+        btnR.textContent = 'Return';
+        this._ELEMENTS.push(btnR);
+
+        btnR.addEventListener('click', () => {
+            window.location.href = `index.html`;
+            //window.history.back(); Return de page before but with the same selection
+        })
+
+        this._ELEMENTS.push(divF);
+
+        divF.appendChild(btnR);
+
+        this._ELEMENTS[0].appendChild(divF);
     }
 
 }

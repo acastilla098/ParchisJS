@@ -211,7 +211,16 @@ export default class ConfigRoute{
         return true;
     }
 
+        turnPlayer.addEventListener('click', () => {
 
+            this._index++;
+            if (this._index == 4) {
+                this._index = 0;
+            }
+//console.log('Index: ' + index);
+            turnPlayer.src = valuesP[index];
+
+        });
     
 }
 */

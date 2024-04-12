@@ -41,7 +41,7 @@ console.log(`Addition: ${this._addition}`);
 
         this._clearAddition();
 
-console.log('Move: ' + this._move);
+//console.log('Move: ' + this._move);
 
         return this._move;
 
