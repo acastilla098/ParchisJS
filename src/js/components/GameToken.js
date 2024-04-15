@@ -19,7 +19,7 @@ export default class GameToken{
     }
 
     isMovementAllowed(movement){//boolean
-
+        
     }
 
 }

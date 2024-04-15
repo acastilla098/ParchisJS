@@ -15,6 +15,8 @@ function initialize() {
                             gameComponents.createTokens());
 
     let dom = new DOMManager(events);
+
+    dom.setUp_game();
     
 }
 
