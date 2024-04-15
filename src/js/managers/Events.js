@@ -130,9 +130,10 @@ console.log(this._players[p]);
         return this._pFinish;
     }
 
-    getTurnPlayer(){
+    /*No lo necesitamos, ya que el orden siempre va va ser el mismo
+    getTurnPlayer(){ 
         //return player
-    }
+    }*/
 
     startGame(){
 

@@ -11,6 +11,7 @@ export default class DOMManager{
 
             UX_CONTENT:     'ux-content',
             UX_IMG:         'ux-img',
+            UX_IMGSCORE:    'ux-imgScore',
             UX_IMGANIMATE:  'ux-imgAnimate',
             UX_TOKEN:       'ux-token',
             UX_TURN:        'ux-turn',
@@ -44,6 +45,12 @@ export default class DOMManager{
 
         }
 
+        this._SCORES = {
+            SCORE_1:            './../assets/img/logo1.png',
+            SCORE_2:            './../assets/img/logo2.png',
+            SCORE_3:            './../assets/img/logo3.png'
+        }
+
         this._COLORS = {
 
             DICE_RED:        'diceRed',
@@ -75,6 +82,7 @@ export default class DOMManager{
 
 
         this._valuesP = Object.values(this._PLAYERS);
+        this._valuesS = Object.values(this._SCORES);
 
     }
 
@@ -89,7 +97,6 @@ export default class DOMManager{
     setUp_game(){
         this._createBtnReturn();
         this._createBtnThrow();
-        this._createToken();
         this._createToken();
         this._createTurnPlayer();
         this._createScorePlayer();
@@ -114,7 +121,7 @@ export default class DOMManager{
             btnT.className = 'ux-img';
 
         });
-        btnT.addEventListener('click', () => {console.log('click');this._events.startGame()})
+        btnT.addEventListener('click', () => {this._events.startGame()})
     }
 
     _createBtnThrow(){
@@ -140,19 +147,27 @@ export default class DOMManager{
     _createToken(){
         let valuesPieces = Object.values(this._PIECES);
         let valuesColors = Object.values(this._COLORS);
-        
-        let tokenImg = document.createElement('img');
 
-        tokenImg.className = this._CLASSES.UX_TOKEN;
-        tokenImg.alt = "Icono ficha";
-        tokenImg.title = 'Ficha';
-        tokenImg.src = valuesPieces[0];
+        for(let j = 0; j < this._events._players[0]._pieces.length; j++){
+            for(let i = 0; i <  this._events._players.length; i++){
+                if(i==1&&this._events._players.length==2){
+                    i = 2
+                }
+                let tokenImg = document.createElement('img');
 
-        this._ELEMENTS.push(tokenImg);
+                tokenImg.className = this._CLASSES.UX_TOKEN;
+                tokenImg.alt = "Icono ficha";
+                tokenImg.title = 'Ficha';
+                tokenImg.src = valuesPieces[i];
 
-        let divHome = document.querySelector(`.${valuesColors[0]}`);
+                this._ELEMENTS.push(tokenImg);
 
-        divHome.appendChild(tokenImg);
+                let divHome = document.querySelector(`.${valuesColors[i]}`);
+
+                divHome.appendChild(tokenImg);
+                
+            }
+        }
 
     }
 
@@ -164,7 +179,7 @@ export default class DOMManager{
         turnPlayer.className = this._CLASSES.UX_USER
         turnPlayer.title = 'Jugador';
 
-        return turnPlayer
+        return turnPlayer;
     }
 
     _createTurnPlayer(){
@@ -210,9 +225,32 @@ export default class DOMManager{
 
         divP.appendChild(p);
 
+        this._createPodium(divP)
+
         this._ELEMENTS.push(divP);
 
         this._ELEMENTS[2].appendChild(divP);
+    }
+
+    _createPodium(divP){
+        let divM = document.createElement('div');
+        divM.className = this._CLASSES.UX_PODIUM;
+        for(let j = 0; j<this._events._players.length -1 ;j++){
+            let podiumPlayer = document.createElement('img')
+
+            podiumPlayer.alt = `Jugador${j}`;
+            podiumPlayer.src = this._valuesS[j];
+            podiumPlayer.className = this._CLASSES.UX_IMGSCORE
+            podiumPlayer.title = 'Podio';
+
+            let span = document.createElement('span');
+            span.className = `podiumPlayer${j}`
+            span.textContent = '________'
+
+            divM.appendChild(podiumPlayer)
+            divM.appendChild(span)
+        }
+        divP.appendChild(divM)
     }
 
 }
