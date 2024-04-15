@@ -4,10 +4,10 @@ export default class Dice{
     }
 
     throw() {
-        return this._number = parseInt(Math.random()*6+1);
+        this._number = parseInt(Math.random()*6+1);
     }
 
-    get number(){
+    get getNumber(){
         return this._number;
     }
 }
