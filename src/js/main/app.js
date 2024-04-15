@@ -17,6 +17,8 @@ function initialize() {
     let dom = new DOMManager(events);
 
     dom.setUp_game();
+
+    events.startGame();
     
 }
 
