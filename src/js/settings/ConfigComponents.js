@@ -10,21 +10,23 @@ export default class GameComponents{
 
         this._colores = ['red','yellow','green','blue'];
 
+        this._players = [];
+        this._dices = [];
+
     }
 
     createTokens(){
-        this._tokens = [];
+        let tokens = [];
 
         for (let t = 0; t < this._params.getTokens; t++) {
-            this._tokens[t] = new GameToken();
+            tokens[t] = new GameToken();
         }
 
-        return this._tokens;
+        return tokens;
     }
 
     createPlayers(){
 
-        this._players = [];
 
         for (let j = 0; j < this._params.getNumPlayers; j++) {
 
@@ -38,7 +40,6 @@ export default class GameComponents{
     
     createDices(){
 
-        this._dices = [];
 
         for (let d = 0; d < this._params.getNumDices; d++) {
 

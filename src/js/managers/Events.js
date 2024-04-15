@@ -1,12 +1,12 @@
 export default class Events{
 
-    constructor(players,dices,tokens){
+    constructor(players,dices){
 
         this._players = players;
 
         this._dices = dices;
 
-        this._tokens = tokens;
+        this._pFinish = [];
 
     }
 
@@ -19,10 +19,16 @@ export default class Events{
         return roll;
     }
     
-    move_token(token_id, moves){
-        if (this._tokens[token_id].isMovementAllowed(moves)){
-            this._tokens[token_id].move(moves);
+    move_token(player,token_id, moves){
+
+        if (player._pieces[token_id].isMovementAllowed(moves)){
+
+            player._pieces[token_id].move(moves);
+
         }
+
+console.log('La ficha ' + token_id + ' se mueve: ' + moves + '; posición de la ficha: ' + player._pieces[token_id].getPosition);
+    
     }
 
     _update_ui(){
@@ -30,11 +36,24 @@ export default class Events{
     }
 
     _end_turn(player){
+        player.setEnd = false;
 
-console.log('End: ' + player.getEnd);
 console.log('El jugador ' + player.getColor + ' ha terminado.');
 
-        player.setEnd = true;
+        let eq = 0;
+
+        for (let ind = 0; ind < player._pieces.length; ind++) {
+
+            if (player._pieces[ind].getPosition == player._pieces[0].getPosition) {
+                eq++;
+            }
+        }
+
+        if (eq == 4) {
+            player.setEnd = true;
+        }
+            
+
 console.log('End: ' + player.getEnd);
 
     }
@@ -44,11 +63,18 @@ console.log('End: ' + player.getEnd);
 console.log('El jugador ' + player.getColor + ' va a tirar.');
 
         let rollP = 0;
+
         for (let d = 0; d < this._dices.length; d++) {
+
             rollP += this.throu(this._dices[d]);
+
         }
 
+        let ficha = prompt('Elija que ficha va a mover:');
+
 console.log('Ha sacado una tirada de ' + rollP);
+
+        this.move_token(player,ficha,rollP);
 
     }
 
@@ -88,18 +114,20 @@ console.log('finish: ' + finish);
 
     getWinner(){
 
-        let pFinish = [];
+        //let pFinish = [];
 
         for (let p = 0; p < this._players.length; p++) {
 
           if (this._finish_check(this._players[p].getColor)) {
-//console.log(this._players[p]);
-            pFinish.push(this._players[p]);
+
+console.log(this._players[p]);
+
+            this._pFinish.push(this._players[p]);
 
           }
         }
-//console.log(pFinish);
-        return pFinish[0];
+
+        return this._pFinish;
     }
 
     getTurnPlayer(){
@@ -107,17 +135,20 @@ console.log('finish: ' + finish);
     }
 
     startGame(){
+
         do {
         
             for (let p = 0; p < this._players.length; p++) {
-//console.log(this._players[p]);
-                this._start_turn(this._players[p]);
-                this._end_turn(this._players[p]);
-            }
-            
-        } while (!(this.isFinished()));
 
-console.log('El ganador es: ' + this.getWinner().getColor);
+                this._start_turn(this._players[p]);
+
+                this._end_turn(this._players[p]);
+
+            }
+
+        } while (!(this.isFinished()) || this.getWinner().length <= 3);
+
+console.log('El ganador es: ' + this._pFinish[0].getColor);
         
     }
 }

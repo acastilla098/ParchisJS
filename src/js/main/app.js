@@ -11,14 +11,11 @@ function initialize() {
     let gameComponents = new GameComponents(config);
 
     let events = new Events(gameComponents.createPlayers(), 
-                            gameComponents.createDices(), 
-                            gameComponents.createTokens());
+                            gameComponents.createDices(),);
 
     let dom = new DOMManager(events);
 
     dom.setUp_game();
-
-    events.startGame();
     
 }
 

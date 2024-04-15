@@ -16,10 +16,12 @@ export default class GameToken{
 
     move(increment){
         this._position += increment;
+console.log('Incremento: ' + increment);
+console.log('Posición: ' + this._position);
     }
 
     isMovementAllowed(movement){//boolean
-        
+        return true;
     }
 
 }

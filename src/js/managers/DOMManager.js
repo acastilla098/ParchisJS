@@ -87,32 +87,34 @@ export default class DOMManager{
     }*/
 
     setUp_game(){
-        this._createBtnReturn()
-        this._createBtnThrow()
-        this._createToken()
-        this._createTurnPlayer()
-        this._createScorePlayer()
+        this._createBtnReturn();
+        this._createBtnThrow();
+        this._createToken();
+        this._createToken();
+        this._createTurnPlayer();
+        this._createScorePlayer();
     }
 
     _eventBtnReturn(){
         
         document.querySelector(`.${this._CLASSES.UX_RETURN}`).addEventListener('click', () => {
             window.location.href = `index.html`;
-        })
+        });
 
     }
 
     _eventBtnThrow(btnT){
         btnT.addEventListener('mouseover', () => {
 
-            btnT.className = 'ux-imgAnimate'
+            btnT.className = 'ux-imgAnimate';
 
-        })
+        });
         btnT.addEventListener('mouseout', () => {
 
-            btnT.className = 'ux-img'
+            btnT.className = 'ux-img';
 
-        })
+        });
+        btnT.addEventListener('click', () => {console.log('click');this._events.startGame()})
     }
 
     _createBtnThrow(){
@@ -132,7 +134,7 @@ export default class DOMManager{
 
         this._ELEMENTS[3].appendChild(thwoum);
         this._ELEMENTS[3].appendChild(btnT);
-        this._eventBtnThrow(btnT)
+        this._eventBtnThrow(btnT);
     }
 
     _createToken(){
@@ -143,6 +145,7 @@ export default class DOMManager{
 
         tokenImg.className = this._CLASSES.UX_TOKEN;
         tokenImg.alt = "Icono ficha";
+        tokenImg.title = 'Ficha';
         tokenImg.src = valuesPieces[0];
 
         this._ELEMENTS.push(tokenImg);
@@ -151,7 +154,6 @@ export default class DOMManager{
 
         divHome.appendChild(tokenImg);
 
-        this._tokenss++;
     }
 
     _changeTurnPlayer(number){
@@ -188,6 +190,7 @@ export default class DOMManager{
         let btnR = document.createElement('button');
         btnR.className = this._CLASSES.UX_RETURN;
         btnR.textContent = 'Return';
+        btnR.title = 'Botón de retorno';
         this._ELEMENTS.push(btnR);
 
         this._ELEMENTS.push(divF);
