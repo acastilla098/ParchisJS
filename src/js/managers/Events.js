@@ -23,7 +23,7 @@ export default class Events{
 
         if (player._pieces[token_id].isMovementAllowed(moves)){
 
-            player._pieces[token_id].move(moves);
+            player._pieces[token_id].move(1);
 
         }
 
@@ -114,8 +114,6 @@ console.log('finish: ' + finish);
 
     getWinner(){
 
-        //let pFinish = [];
-
         for (let p = 0; p < this._players.length; p++) {
 
           if (this._finish_check(this._players[p].getColor)) {
@@ -147,7 +145,7 @@ console.log(this._players[p]);
 
             }
 
-        } while (!(this.isFinished()) || this.getWinner().length <= 3);
+        } while (!(this.isFinished()) || this.getWinner().length < this._players.length);
 
 console.log('El ganador es: ' + this._pFinish[0].getColor);
         

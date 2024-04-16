@@ -99,13 +99,15 @@ export default class DOMManager{
         this._createBtnThrow();
         this._createToken();
         this._createTurnPlayer();
-        this._createScorePlayer();
+        this._createPodium();
     }
 
     _eventBtnReturn(){
         
         document.querySelector(`.${this._CLASSES.UX_RETURN}`).addEventListener('click', () => {
+
             window.location.href = `index.html`;
+            
         });
 
     }
@@ -116,12 +118,14 @@ export default class DOMManager{
             btnT.className = 'ux-imgAnimate';
 
         });
+
         btnT.addEventListener('mouseout', () => {
 
             btnT.className = 'ux-img';
 
         });
-        btnT.addEventListener('click', () => {this._events.startGame()})
+
+        btnT.addEventListener('click', () => {this._events.startGame()});
     }
 
     _createBtnThrow(){
@@ -142,6 +146,7 @@ export default class DOMManager{
         this._ELEMENTS[3].appendChild(thwoum);
         this._ELEMENTS[3].appendChild(btnT);
         this._eventBtnThrow(btnT);
+
     }
 
     _createToken(){
@@ -216,39 +221,38 @@ export default class DOMManager{
         this._eventBtnReturn()
     }
 
-    _createScorePlayer(){
+    _createPodium(){
+
         let divP = document.createElement('div');
         divP.className = this._CLASSES.UX_PODIUM;
+
+        this._ELEMENTS.push(divP);
+
+        this._ELEMENTS[2].appendChild(divP);
 
         let p = document.createElement('p');
         p.textContent = 'Marcador';
 
         divP.appendChild(p);
 
-        this._createPodium(divP)
-
-        this._ELEMENTS.push(divP);
-
-        this._ELEMENTS[2].appendChild(divP);
-    }
-
-    _createPodium(divP){
         let divM = document.createElement('div');
         divM.className = this._CLASSES.UX_PODIUM;
+
         for(let j = 0; j<this._events._players.length -1 ;j++){
+
             let podiumPlayer = document.createElement('img')
 
             podiumPlayer.alt = `Jugador${j}`;
             podiumPlayer.src = this._valuesS[j];
-            podiumPlayer.className = this._CLASSES.UX_IMGSCORE
+            podiumPlayer.className = this._CLASSES.UX_IMGSCORE;
             podiumPlayer.title = 'Podio';
 
             let span = document.createElement('span');
-            span.className = `podiumPlayer${j}`
-            span.textContent = '________'
+            span.className = `podiumPlayer${j}`;
+            span.textContent = this._events._pFinish[j]; //'________';
 
-            divM.appendChild(podiumPlayer)
-            divM.appendChild(span)
+            divM.appendChild(podiumPlayer);
+            divM.appendChild(span);
         }
         divP.appendChild(divM)
     }
