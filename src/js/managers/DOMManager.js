@@ -231,17 +231,10 @@ export default class DOMManager{
         let divP = document.createElement('div');
         divP.className = this._CLASSES.UX_PODIUM;
 
-        this._ELEMENTS.push(divP);
-
-        this._ELEMENTS[2].appendChild(divP);
-
         let p = document.createElement('p');
         p.textContent = 'Marcador';
 
         divP.appendChild(p);
-
-        let divM = document.createElement('div');
-        divM.className = this._CLASSES.UX_PODIUM;
 
         for(let j = 0; j<this._events._players.length -1 ;j++){
 
@@ -256,10 +249,13 @@ export default class DOMManager{
             span.className = `podiumPlayer${j}`;
             span.textContent = '________';
 
-            divM.appendChild(podiumPlayer);
-            divM.appendChild(span);
+            divP.appendChild(podiumPlayer);
+            divP.appendChild(span);
         }
-        divP.appendChild(divM)
+
+        this._ELEMENTS.push(divP);
+
+        this._ELEMENTS[2].appendChild(divP);
     }
 
 }

@@ -27,7 +27,7 @@ export default class Events{
 
         }
 
-console.log('La ficha ' + token_id + ' se mueve: ' + moves + '; posición de la ficha: ' + player._pieces[token_id].getPosition);
+console.log('La ficha ' + (parseInt(token_id)+1) + ' se mueve: ' + moves + '; posición de la ficha: ' + player._pieces[token_id].getPosition);
     
     }
 
@@ -70,7 +70,7 @@ console.log('El jugador ' + player.getColor + ' va a tirar.');
 
         }
 
-        let ficha = prompt('Elija que ficha va a mover:');
+        let ficha = prompt('Elija que ficha va a mover:');//La fichas van de 0 a length - 1
 
 console.log('Ha sacado una tirada de ' + rollP);
 

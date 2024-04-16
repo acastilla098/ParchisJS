@@ -1,3 +1,4 @@
 *.pdn
-**/Ludo_Board.*
+Ludo_Board.pdf
+Ludo_Board.svg
 **/.~lock.GDD.odt#
