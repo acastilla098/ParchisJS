@@ -30,7 +30,13 @@ export default class GameComponents{
 
         for (let j = 0; j < this._params.getNumPlayers; j++) {
 
-            this._players[j] = new Player(this._colores[j],this._params.getTokens,this.createTokens());
+            if (this._params.getNumPlayers == 2 && j > 0) {
+                
+                this._players[j] = new Player(this._colores[j+1],this._params.getTokens,this.createTokens());
+
+            } else {
+                this._players[j] = new Player(this._colores[j],this._params.getTokens,this.createTokens());
+            }
 
         }
     

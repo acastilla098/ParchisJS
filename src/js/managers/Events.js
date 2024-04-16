@@ -6,7 +6,7 @@ export default class Events{
 
         this._dices = dices;
 
-        this._pFinish = [];
+        this.pFinish = [];
 
     }
 
@@ -23,7 +23,7 @@ export default class Events{
 
         if (player._pieces[token_id].isMovementAllowed(moves)){
 
-            player._pieces[token_id].move(1);
+            player._pieces[token_id].move(moves);
 
         }
 
@@ -49,7 +49,7 @@ console.log('El jugador ' + player.getColor + ' ha terminado.');
             }
         }
 
-        if (eq == 4) {
+        if (eq == player._pieces.length) {
             player.setEnd = true;
         }
             
@@ -120,12 +120,12 @@ console.log('finish: ' + finish);
 
 console.log(this._players[p]);
 
-            this._pFinish.push(this._players[p]);
+            this.pFinish.push(this._players[p]);
 
           }
         }
 
-        return this._pFinish;
+        return this.pFinish;
     }
 
     /*No lo necesitamos, ya que el orden siempre va va ser el mismo
@@ -147,7 +147,7 @@ console.log(this._players[p]);
 
         } while (!(this.isFinished()) || this.getWinner().length < this._players.length);
 
-console.log('El ganador es: ' + this._pFinish[0].getColor);
+console.log('El ganador es: ' + this.pFinish[0].getColor);
         
     }
 }

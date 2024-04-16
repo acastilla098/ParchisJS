@@ -11,11 +11,15 @@ export default class GameToken{
      * @param {number} box_id
      */
     set setPosition(box_id){
+
         this._position = box_id;
+        
     }
 
     move(increment){
+
         this._position += increment;
+
 console.log('Incremento: ' + increment);
 console.log('Posición: ' + this._position);
     }

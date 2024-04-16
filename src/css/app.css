@@ -7,6 +7,9 @@ html, body {
 
 h1{
     text-align: center; font-size: 50px;
+    animation: jello;
+    animation-duration: 2s;
+    color: rgb(209, 0, 0);
 }
 
 .ux-content{

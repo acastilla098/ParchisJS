@@ -54,6 +54,59 @@ class Dice{
     }
 }
 
+/**FUNCIONAMIENTO PSEUDOCÓDIGO
+ * -START
+ *   MIENTRAS ! Players han terminado {
+ *      
+ *      START TURNO
+ * 
+ *      Player n -> tira los dados
+ * 
+ *      Tirada dados -> devuelve número
+ * 
+ *      SI Se pueden mover fichas
+ * 
+ *          Player n -> selecciona fichaPn a mover
+ * 
+ *      SI NO EXIT;
+ * 
+ *      MIENTRAS ! fichaPn se puede mover {
+ *  
+ *          Player n -> selecciona otra ficha
+ *      
+ *      }
+ * 
+ *      FichaPn posición = número tirada
+ * 
+ *      SI FichaPn ha comido
+ *      
+ *          FichaPn posición += 20
+ * 
+ *      SI FichaPn entra en casa
+ * 
+ *          FichaPn+1 posición += 10
+ * 
+ *      SI fichasPn todas en casa
+ * 
+ *          Player n -> ha terminado la partida
+ * 
+ *      SI NO
+ * 
+ *          Player n -> sigue jugando
+ * 
+ *      n++;
+ * 
+ *      FIN TURNO;
+ *      
+ *   }
+ * 
+ *    SI Players han terminado
+ *      
+ *      EXIT;
+ *  
+ *  -FIN
+ */
+
 /*Prueba para comprobar que carga la clase
     let playerTester = new Player('green', 4);
 console.log('Jugador creado: ' + playerTester);

@@ -128,6 +128,10 @@ export default class DOMManager{
         btnT.addEventListener('click', () => {this._events.startGame()});
     }
 
+    _eventToken(tokenImg){
+        tokenImg.addEventListener('click', () => {});
+    }
+
     _createBtnThrow(){
 
         let thwoum = document.createElement('b');
@@ -161,6 +165,7 @@ export default class DOMManager{
                 let tokenImg = document.createElement('img');
 
                 tokenImg.className = this._CLASSES.UX_TOKEN;
+                tokenImg.id = valuesColors[i] + j;
                 tokenImg.alt = "Icono ficha";
                 tokenImg.title = 'Ficha';
                 tokenImg.src = valuesPieces[i];
@@ -249,7 +254,7 @@ export default class DOMManager{
 
             let span = document.createElement('span');
             span.className = `podiumPlayer${j}`;
-            span.textContent = this._events._pFinish[j]; //'________';
+            span.textContent = '________';
 
             divM.appendChild(podiumPlayer);
             divM.appendChild(span);
