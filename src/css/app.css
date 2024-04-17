@@ -608,7 +608,7 @@ h1{
     top: 1px;
 }
 
-.c2{
+.cs2{
     height: 20px;
     width: 48px;
     position:absolute ;
@@ -617,7 +617,7 @@ h1{
     
 }
 
-.c3{
+.cs3{
     height: 20px;
     width: 50px;
     position:absolute ;
@@ -634,7 +634,7 @@ h1{
     
 }
 
-.c4{
+.cs4{
     height: 20px;
     width: 48px;
     position:absolute ;
@@ -643,7 +643,7 @@ h1{
     
 }
 
-.c5{
+.cs5{
     height: 20px;
     width: 50px;
     position:absolute ;
@@ -651,7 +651,7 @@ h1{
     left:250px;
     
 }
-.c6{
+.cs6{
     height: 23px;
     width: 50px;
     position:absolute ;
@@ -668,7 +668,7 @@ h1{
     
 }
 
-.c7{
+.cs7{
     height: 48px;
     width: 20px;
     position:absolute ;
@@ -677,7 +677,7 @@ h1{
     
 }
 
-.c8{
+.cs8{
     height: 50px;
     width: 20px;
     position:absolute ;
@@ -685,7 +685,7 @@ h1{
     left:86px;
     
 }
-.c9{
+.cs9{
     height: 50px;
     width: 23px;
     position:absolute ;
@@ -702,7 +702,7 @@ h1{
     
 }
 
-.c10{
+.cs10{
     height: 48px;
     width: 20px;
     position:absolute ;
@@ -711,7 +711,7 @@ h1{
     
 }
 
-.c11{
+.cs11{
     height: 50px;
     width: 20px;
     position:absolute ;
@@ -719,7 +719,7 @@ h1{
     left:346px;
     
 }
-.c12{
+.cs12{
     height: 50px;
     width: 23px;
     position:absolute ;
@@ -1085,7 +1085,7 @@ h1{
 }
 .casillas{
     grid-template-columns: repeat(2, 30px);
-    z-index: 2;
+    z-index: 1;
     display: flex;
     justify-content: center;
     align-self: baseline;

@@ -137,7 +137,7 @@ export default class DOMManager{
     _eventToken(tokenImg,player){
         tokenImg.addEventListener('click', () => {
 
-            let pos = this._events.move_token(player, tokenImg.id,10);
+            let pos = this._events.move_token(player, tokenImg.id,2);
 
 console.log(document.querySelector(`.c${pos}`));
 
