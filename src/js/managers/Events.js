@@ -28,7 +28,9 @@ export default class Events{
         }
 
 console.log('La ficha ' + (parseInt(token_id)+1) + ' se mueve: ' + moves + '; posición de la ficha: ' + player._pieces[token_id].getPosition);
-    
+
+        return player._pieces[token_id].getPosition;
+
     }
 
     _update_ui(){

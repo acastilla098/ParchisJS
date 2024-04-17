@@ -24,7 +24,16 @@ console.log('Incremento: ' + increment);
 console.log('Posición: ' + this._position);
     }
 
-    isMovementAllowed(movement){//boolean
+    isMovementAllowed(movement){
+
+        let pos = this._position + movement;
+
+console.log(document.querySelector(`.c${pos}`));
+
+        if (document.querySelector(`.c${pos}`).childElementCount == 2) {
+            return false;
+        }
+
         return true;
     }
 

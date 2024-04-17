@@ -54,6 +54,8 @@ class Dice{
     }
 }
 
+//document.getElementById("myDIV").childElementCount; -> Para saber si un eleemnto está vacío o no
+
 /**FUNCIONAMIENTO PSEUDOCÓDIGO
  * -START
  *   MIENTRAS ! Players han terminado {

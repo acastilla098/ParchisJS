@@ -24,7 +24,9 @@ export default class DOMManager{
             UX_SCORE:       'ux-score',
             UX_PARCHIS:     'ux-parchis',
             UX_GAME:        'ux-game',
-            UX_PODIUM:      'ux-podium'
+            UX_PODIUM:      'ux-podium',
+            UX_CUBE:        'ux-cube',
+            UX_CUBESDICES:  'ux-cubesdices'
         }
     
         this._PIECES = {
@@ -100,6 +102,10 @@ export default class DOMManager{
         this._createToken();
         this._createTurnPlayer();
         this._createPodium();
+        this._createDices();
+
+        console.log(document.querySelector('.ux-content').childElementCount);
+        console.log(document.querySelector('.c10').childElementCount);
     }
 
     _eventBtnReturn(){
@@ -128,8 +134,15 @@ export default class DOMManager{
         btnT.addEventListener('click', () => {this._events.startGame()});
     }
 
-    _eventToken(tokenImg){
-        tokenImg.addEventListener('click', () => {});
+    _eventToken(tokenImg,player){
+        tokenImg.addEventListener('click', () => {
+
+            let pos = this._events.move_token(player, tokenImg.id,10);
+
+console.log(document.querySelector(`.c${pos}`));
+
+            document.querySelector(`.c${pos}`).appendChild(tokenImg);
+        });
     }
 
     _createBtnThrow(){
@@ -153,19 +166,35 @@ export default class DOMManager{
 
     }
 
+    _createDices(){
+        let cube = document.createElement('div');
+        cube.className = this._CLASSES.UX_CUBESDICES
+
+        for(let i = 0;i<this._events._dices.length;i++){
+
+            let img = document.createElement('div')
+            img.className = this._CLASSES.UX_CUBE;
+            cube.appendChild(img)
+        }
+
+        this._ELEMENTS.push(cube);
+
+        this._ELEMENTS[3].appendChild(cube);
+    }
+
     _createToken(){
         let valuesPieces = Object.values(this._PIECES);
         let valuesColors = Object.values(this._COLORS);
 
         for(let j = 0; j < this._events._players[0]._pieces.length; j++){
             for(let i = 0; i <  this._events._players.length; i++){
-                if(i==1&&this._events._players.length==2){
+                if(i==1&&this._events._players.length==2){//Para que al ser dos jugadores coja el rojo y el verde
                     i = 2
                 }
                 let tokenImg = document.createElement('img');
 
                 tokenImg.className = this._CLASSES.UX_TOKEN;
-                tokenImg.id = valuesColors[i] + j;
+                tokenImg.id = j;//valuesColors[i] + j;
                 tokenImg.alt = "Icono ficha";
                 tokenImg.title = 'Ficha';
                 tokenImg.src = valuesPieces[i];
@@ -176,6 +205,7 @@ export default class DOMManager{
 
                 divHome.appendChild(tokenImg);
                 
+                this._eventToken(tokenImg,this._events._players[i]);
             }
         }
 
