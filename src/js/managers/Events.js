@@ -8,6 +8,8 @@ export default class Events{
 
         this.pFinish = [];
 
+        this._turn = 0;
+
     }
 
     throu(dice){
@@ -23,11 +25,16 @@ export default class Events{
 
         if (player._pieces[token_id].isMovementAllowed(moves)){
 
-            player._pieces[token_id].move(moves);
+            if (player._pieces[token_id].getPosition == player.positionInit-1) {
+                player._pieces[token_id].move(-1);
+                player._pieces[token_id].move(0);
+            }else{
+                player._pieces[token_id].move(moves);
+            }
 
         }
 
-console.log('La ficha ' + (parseInt(token_id)+1) + ' se mueve: ' + moves + '; posición de la ficha: ' + player._pieces[token_id].getPosition);
+//console.log('La ficha ' + (parseInt(token_id)+1) + ' se mueve: ' + moves + '; casilla de la ficha: ' + player._pieces[token_id].getPosition);
 
         return player._pieces[token_id].getPosition;
 
@@ -58,11 +65,23 @@ console.log('El jugador ' + player.getColor + ' ha terminado.');
 
 console.log('End: ' + player.getEnd);
 
+        this._turn++;
+
+        if( this._turn == this._players.length ){
+            this._turn = 0;
+        }
+
     }
 
     _start_turn(player){
 
 console.log('El jugador ' + player.getColor + ' va a tirar.');
+
+        /*let color = '';
+        color = player.getColor;
+
+        color = color + '_PLAYER';
+        color = color.toUpperCase();*/
 
         let rollP = 0;
 
@@ -79,6 +98,15 @@ console.log('Ha sacado una tirada de ' + rollP);
         this.move_token(player,ficha,rollP);
 
     }
+        
+            _changeImgTurn(player){
+                let color = player.getColor
+                let url = `./../assets/icons/user-${color}.png`
+                let change = document.querySelector('img')
+                change.removeAttribute('src')
+                change.setAttribute('src',url)
+                console.log("cambio imagen")
+            }
 
     _finish_check(color){
 
@@ -130,26 +158,24 @@ console.log(this._players[p]);
         return this.pFinish;
     }
 
-    /*No lo necesitamos, ya que el orden siempre va va ser el mismo
-    getTurnPlayer(){ 
-        //return player
-    }*/
+    getTurnPlayer(){
+        
+console.log(this._players[this._turn]);
+
+        return this._players[this._turn];
+    }
 
     startGame(){
 
-        do {
-        
-            for (let p = 0; p < this._players.length; p++) {
+        if (!(this.isFinished()) || this.getWinner().length < this._players.length) {
+            
+            this._start_turn(this.getTurnPlayer());
 
-                this._start_turn(this._players[p]);
-
-                this._end_turn(this._players[p]);
-
-            }
-
-        } while (!(this.isFinished()) || this.getWinner().length < this._players.length);
+            this._end_turn(this.getTurnPlayer());
+        }
 
 console.log('El ganador es: ' + this.pFinish[0].getColor);
-        
+
+        return this._turn;
     }
 }

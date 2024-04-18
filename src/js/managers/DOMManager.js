@@ -104,8 +104,6 @@ export default class DOMManager{
         this._createPodium();
         this._createDices();
 
-        console.log(document.querySelector('.ux-content').childElementCount);
-        console.log(document.querySelector('.c10').childElementCount);
     }
 
     _eventBtnReturn(){
@@ -131,15 +129,13 @@ export default class DOMManager{
 
         });
 
-        btnT.addEventListener('click', () => {this._events.startGame()});
+        btnT.addEventListener('click', () => {this._events.startGame();})
     }
 
     _eventToken(tokenImg,player){
         tokenImg.addEventListener('click', () => {
 
             let pos = this._events.move_token(player, tokenImg.id,2);
-
-console.log(document.querySelector(`.c${pos}`));
 
             document.querySelector(`.c${pos}`).appendChild(tokenImg);
         });
@@ -232,7 +228,7 @@ console.log(document.querySelector(`.c${pos}`));
         p.textContent = 'Turno del jugador';
 
         divP.appendChild(p);
-        divP.appendChild(this._changeTurnPlayer(0));
+        divP.appendChild(this._changeTurnPlayer(this._events._turn));
 
         this._ELEMENTS.push(divP);
 
