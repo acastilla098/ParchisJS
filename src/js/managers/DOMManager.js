@@ -129,13 +129,13 @@ export default class DOMManager{
 
         });
 
-        btnT.addEventListener('click', () => {this._events.startGame();})
+        btnT.addEventListener('click', () => {this._events.start();})
     }
 
     _eventToken(tokenImg,player){
         tokenImg.addEventListener('click', () => {
 
-            let pos = this._events.move_token(player, tokenImg.id,2);
+            let pos = this._events.move_token(player, tokenImg.id,this._events.getRoll(player,tokenImg.id));
 
             document.querySelector(`.c${pos}`).appendChild(tokenImg);
         });

@@ -10,6 +10,7 @@ export default class Events{
 
         this._turn = 0;
 
+        this.pFinish.push(this._players[2]);
     }
 
     throu(dice,number){
@@ -28,27 +29,52 @@ export default class Events{
 
         if (player._pieces[token_id].isMovementAllowed(moves)){
 
+            if (player._pieces[token_id].getPosition == player.positionInit) {
+
+                player._pieces[token_id].move(0);
+
+                player.positionInit ++;
+
+            } else {
+
                 player._pieces[token_id].move(moves);
+
+            }
 
         }
 
-
-
-//console.log('La ficha ' + (parseInt(token_id)+1) + ' se mueve: ' + moves + '; casilla de la ficha: ' + player._pieces[token_id].getPosition);
+console.log('La ficha ' + (parseInt(token_id)+1) + ' se mueve: ' + moves + '; casilla de la ficha: ' + player._pieces[token_id].getPosition);
 
         return player._pieces[token_id].getPosition;
 
     }
 
     _update_ui(){
+        this._updateScore()
 
+        this._updateTurn()
+        
+    }
+    
+    _updateTurn(){
         if (this._turn == this._players.length) {
             this._turn = 0;
         }
         
         this._changeImgTurn(this._players[this._turn]);
         
+    }
 
+    _updateScore(){
+        if(this.pFinish.length>0){
+            for(let i = 0; i<this._players.length-1;i++){
+                let change = document.querySelector(`.podiumPlayer${i}`);
+
+                change.textContent = this.pFinish[i].getColor.toUpperCase()
+            }
+
+        }
+        
     }
 
     _end_turn(player){
@@ -72,7 +98,9 @@ console.log('El jugador ' + player.getColor + ' ha terminado.');
 
 console.log('End: ' + player.getEnd);
 
+        
         this._turn++;
+        
 
         if( this._turn == this._players.length ){
             this._turn = 0;
@@ -80,15 +108,9 @@ console.log('End: ' + player.getEnd);
 
     }
 
-    _start_turn(player){
+    _start_turn(player,ficha){
 
-console.log('El jugador ' + player.getColor + ' va a tirar.');
-
-        /*let color = '';
-        color = player.getColor;
-
-        color = color + '_PLAYER';
-        color = color.toUpperCase();*/
+//console.log('El jugador ' + player.getColor + ' va a tirar.');
 
         let rollP = 0;
 
@@ -98,23 +120,33 @@ console.log('El jugador ' + player.getColor + ' va a tirar.');
 
         }
 
-        let ficha = prompt('Elija que ficha va a mover:');//La fichas van de 0 a length - 1
+//console.log('Ha sacado una tirada de ' + rollP);
 
-console.log('Ha sacado una tirada de ' + rollP);
+        //this.move_token(player,ficha,rollP);
 
-        this.move_token(player,ficha,rollP);   
+        return rollP;
+    }
 
+    getRoll(player,ficha){
+
+console.log(this._start_turn(player,ficha));
+
+        return this._start_turn(player,ficha);
     }
         
     _changeImgTurn(player){
         let color = player.getColor;
         let url = `./../assets/icons/user-${color}.png`;
+
         let change = document.querySelector('.ux-user');
+
         change.src = url;
-        console.log("cambio imagen");
+
     }
 
     _finish_check(color){
+
+        this._players[0]._end = true;
 
         for (let p = 0; p < this._players.length; p++) {
 
@@ -165,14 +197,15 @@ console.log(this._players[p]);
     }
 
     getTurnPlayer(){
-        
+
 console.log(this._players[this._turn]);
 
         return this._players[this._turn];
+
     }
 
-    startGame(){
-        
+    start(){
+        //this._players[0].setEnd = true;
 
         if (!(this.isFinished()) || this.getWinner().length < this._players.length) {
             
