@@ -41,12 +41,12 @@ export default class Events{
     }
 
     _update_ui(){
-        
+        this._changeImgTurn(this._players[this._turn+1]);
     }
 
     _end_turn(player){
         player.setEnd = false;
-
+        
 console.log('El jugador ' + player.getColor + ' ha terminado.');
 
         let eq = 0;
@@ -102,9 +102,8 @@ console.log('Ha sacado una tirada de ' + rollP);
             _changeImgTurn(player){
                 let color = player.getColor
                 let url = `./../assets/icons/user-${color}.png`
-                let change = document.querySelector('img')
-                change.removeAttribute('src')
-                change.setAttribute('src',url)
+                let change = document.querySelector('.ux-user')
+                change.src = url;
                 console.log("cambio imagen")
             }
 
@@ -168,6 +167,7 @@ console.log(this._players[this._turn]);
     startGame(){
 
         if (!(this.isFinished()) || this.getWinner().length < this._players.length) {
+            this._update_ui();
             
             this._start_turn(this.getTurnPlayer());
 
