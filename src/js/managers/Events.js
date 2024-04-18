@@ -32,6 +32,8 @@ export default class Events{
 
         }
 
+
+
 //console.log('La ficha ' + (parseInt(token_id)+1) + ' se mueve: ' + moves + '; casilla de la ficha: ' + player._pieces[token_id].getPosition);
 
         return player._pieces[token_id].getPosition;
@@ -40,11 +42,12 @@ export default class Events{
 
     _update_ui(){
 
-        if (this._turn+1 == 4) {
+        if (this._turn == this._players.length) {
             this._turn = 0;
         }
-
-        this._changeImgTurn(this._players[this._turn+1]);   
+        
+        this._changeImgTurn(this._players[this._turn]);
+        
 
     }
 
@@ -79,10 +82,6 @@ console.log('End: ' + player.getEnd);
 
     _start_turn(player){
 
-        if (player._pieces[token_id].getPosition == player.positionInit-1) {
-            player._pieces[token_id].move(0);
-        }
-
 console.log('El jugador ' + player.getColor + ' va a tirar.');
 
         /*let color = '';
@@ -103,16 +102,16 @@ console.log('El jugador ' + player.getColor + ' va a tirar.');
 
 console.log('Ha sacado una tirada de ' + rollP);
 
-        this.move_token(player,ficha,rollP);
+        this.move_token(player,ficha,rollP);   
 
     }
         
     _changeImgTurn(player){
-        let color = player.getColor
-        let url = `./../assets/icons/user-${color}.png`
-        let change = document.querySelector('.ux-user')
+        let color = player.getColor;
+        let url = `./../assets/icons/user-${color}.png`;
+        let change = document.querySelector('.ux-user');
         change.src = url;
-        console.log("cambio imagen")
+        console.log("cambio imagen");
     }
 
     _finish_check(color){
@@ -173,16 +172,18 @@ console.log(this._players[this._turn]);
     }
 
     startGame(){
+        
 
         if (!(this.isFinished()) || this.getWinner().length < this._players.length) {
-            this._update_ui();
             
             this._start_turn(this.getTurnPlayer());
 
             this._end_turn(this.getTurnPlayer());
+
+            this._update_ui();
         }
 
-console.log('El ganador es: ' + this.pFinish[0].getColor);
+//console.log('El ganador es: ' + this.pFinish[0].getColor);
 
         return this._turn;
     }
