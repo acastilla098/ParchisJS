@@ -169,7 +169,7 @@ export default class DOMManager{
         for(let i = 0;i<this._events._dices.length;i++){
 
             let img = document.createElement('div')
-            img.className = this._CLASSES.UX_CUBE;
+            img.className = this._CLASSES.UX_CUBE + i;
             cube.appendChild(img)
         }
 

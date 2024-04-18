@@ -12,11 +12,14 @@ export default class Events{
 
     }
 
-    throu(dice){
+    throu(dice,number){
         let roll = 0;
 
         dice.throw();
         roll = dice.getNumber;
+
+        let change = document.querySelector('.ux-cube'+number)
+        change.textContent = roll
 
         return roll;
     }
@@ -25,12 +28,7 @@ export default class Events{
 
         if (player._pieces[token_id].isMovementAllowed(moves)){
 
-            if (player._pieces[token_id].getPosition == player.positionInit-1) {
-                player._pieces[token_id].move(-1);
-                player._pieces[token_id].move(0);
-            }else{
                 player._pieces[token_id].move(moves);
-            }
 
         }
 
@@ -41,7 +39,13 @@ export default class Events{
     }
 
     _update_ui(){
-        this._changeImgTurn(this._players[this._turn+1]);
+
+        if (this._turn+1 == 4) {
+            this._turn = 0;
+        }
+
+        this._changeImgTurn(this._players[this._turn+1]);   
+
     }
 
     _end_turn(player){
@@ -75,6 +79,10 @@ console.log('End: ' + player.getEnd);
 
     _start_turn(player){
 
+        if (player._pieces[token_id].getPosition == player.positionInit-1) {
+            player._pieces[token_id].move(0);
+        }
+
 console.log('El jugador ' + player.getColor + ' va a tirar.');
 
         /*let color = '';
@@ -87,7 +95,7 @@ console.log('El jugador ' + player.getColor + ' va a tirar.');
 
         for (let d = 0; d < this._dices.length; d++) {
 
-            rollP += this.throu(this._dices[d]);
+            rollP += this.throu(this._dices[d],d);
 
         }
 
@@ -99,13 +107,13 @@ console.log('Ha sacado una tirada de ' + rollP);
 
     }
         
-            _changeImgTurn(player){
-                let color = player.getColor
-                let url = `./../assets/icons/user-${color}.png`
-                let change = document.querySelector('.ux-user')
-                change.src = url;
-                console.log("cambio imagen")
-            }
+    _changeImgTurn(player){
+        let color = player.getColor
+        let url = `./../assets/icons/user-${color}.png`
+        let change = document.querySelector('.ux-user')
+        change.src = url;
+        console.log("cambio imagen")
+    }
 
     _finish_check(color){
 
