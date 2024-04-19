@@ -1,4 +1,3 @@
-
 export default class DOMManager{
 
     constructor(events){
@@ -220,7 +219,6 @@ export default class DOMManager{
     }
 
     _createTurnPlayer(){
-        
 
         let divP = document.createElement('div');
         divP.className = this._CLASSES.UX_TURN;
