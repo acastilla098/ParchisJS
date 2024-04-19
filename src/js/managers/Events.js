@@ -8,16 +8,15 @@ export default class Events{
 
         this._turn = 0;
 
+        this._results = [];
+
     }
 
     throu(dice){
         let roll = 0;
 
-        dice.throw();
-        roll = dice.getNumber;
-
-        /*let change = classs + number;
-        change.textContent = roll*/
+        this._configC.getDices[dice].throw();
+        roll = this._configC.getDices[dice].getNumber;
 
         return roll;
     }
@@ -46,10 +45,6 @@ console.log('La ficha ' + (parseInt(token_id)+1) + ' se mueve: ' + moves + '; ca
         return player._pieces[token_id].getPosition;
 
     }
-
-    /*_update_ui(){
-                
-    }*/
 
     _end_turn(player){
         player.setEnd = false;
@@ -85,8 +80,13 @@ console.log('End: ' + player.getEnd);
 
     }
 
+    returnDices(){
+        return this._results;
+    }
+
     _start_turn(player,ficha){
         let dices = this._configC.getDices;
+        this._results = [];
 
 console.log('El jugador ' + player.getColor + ' va a tirar.');
 
@@ -94,8 +94,11 @@ console.log('El jugador ' + player.getColor + ' va a tirar.');
 
         for (let d = 0; d < this._configC.countDices(); d++) {
 
-            rollP += this.throu(dices[d]);
+            rollP += this._configC.getDices[d].getNumber;
 
+            /*rollP += this.throu(dices[d]);
+            
+            this._results.push(this.throu(dices[d]));*/
         }
 
 //console.log('Ha sacado una tirada de ' + rollP);

@@ -84,10 +84,6 @@ export default class DOMManager{
 
     }
 
-    /*setUp(){
-
-    }*/
-
     setUp_game(){
         this._createBtnReturn();
         this._createBtnThrow();
@@ -123,7 +119,7 @@ export default class DOMManager{
 
         btnT.addEventListener('click', () => {this._events.start();this._changeImgTurn();});
 
-        //btnT.addEventListener('click', () => {this._changeImgTurn();});
+        btnT.addEventListener('click', () => {this._changeDices();});
 
     }
 
@@ -169,6 +165,17 @@ export default class DOMManager{
         this._divD.appendChild(cube);
     }
 
+    _changeDices(){
+
+        for (let d = 0; d < this._events._configC.countDices(); d++) {
+            let roll = this._events.throu(d);
+            let change = document.querySelector('.ux-cube' + d);
+            change.textContent = roll;
+            
+        }
+
+    }
+
     _createToken(){
         let valuesPieces = Object.values(this._PIECES);
         let valuesColors = Object.values(this._COLORS);
@@ -186,7 +193,7 @@ export default class DOMManager{
                 let tokenImg = document.createElement('img');
 
                 tokenImg.className = this._CLASSES.UX_TOKEN;
-                tokenImg.id = j;//valuesColors[i] + j;
+                tokenImg.id = j;
                 tokenImg.alt = "Icono ficha";
                 tokenImg.title = 'Ficha';
                 tokenImg.src = valuesPieces[i];
@@ -196,7 +203,6 @@ export default class DOMManager{
                 divHome.appendChild(tokenImg);
                 
                 this._eventToken(tokenImg,players[i]);
-                //this._changeImgTurn(j);
             }
         }
 
@@ -215,7 +221,17 @@ export default class DOMManager{
     _changeImgTurn(){
         let img = document.querySelector(`.${this._CLASSES.UX_USER}`);
 
-        img.src = this._valuesP[this._events._turn];
+        if (this._events._configC.countPlayers() == 2) {
+
+            let turnos = [0,2];
+            img.src = this._valuesP[turnos[this._events._turn]];
+
+        } else {
+
+            img.src = this._valuesP[this._events._turn];
+
+        }
+
     }
 
     _createTurnPlayer(){
