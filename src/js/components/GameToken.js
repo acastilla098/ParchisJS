@@ -20,7 +20,7 @@ export default class GameToken{
 
         this._position += increment;
 
-        if (this._position > 68) {
+        if (this._position >= 68) {
             this._position = 0 + increment;
         }
 
@@ -39,7 +39,7 @@ console.log('Posición: ' + this._position);
 
         let pos = this._position + movement;
 
-        if (pos > 68) {
+        if (pos >= 68) {
             pos = 0 + movement;
         }
 

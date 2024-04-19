@@ -117,7 +117,7 @@ export default class DOMManager{
 
         });
 
-        btnT.addEventListener('click', () => {this._events.start();this._changeImgTurn();});
+        btnT.addEventListener('click', () => {this._updateScore();this._events.start();this._changeImgTurn();});
 
         btnT.addEventListener('click', () => {this._changeDices();});
 
@@ -243,7 +243,7 @@ export default class DOMManager{
         p.textContent = 'Turno del jugador';
 
         divP.appendChild(p);
-console.log(this._changeTurnPlayer(this._events._turn));
+
         divP.appendChild(this._changeTurnPlayer(this._events._turn));
 
         this._divS.appendChild(divP);
@@ -293,6 +293,17 @@ console.log(this._changeTurnPlayer(this._events._turn));
         }
 
         this._divS.appendChild(divP);
+    }
+
+    _updateScore(){
+
+        if(this._events.countFinishP() <= this._events._configC.countPlayers()){
+            for(let i = 0; i < this._events.countFinishP() - 1;i++){
+                let change = document.querySelector(`.podiumPlayer${i}`);
+                change.textContent = this._events.pFinish[i].getColor.toUpperCase()
+            }
+        }
+        
     }
 
 }

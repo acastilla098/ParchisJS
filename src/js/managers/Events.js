@@ -68,7 +68,7 @@ console.log('El jugador ' + player.getColor + ' ha terminado.');
         }
             
 
-console.log('End: ' + player.getEnd);
+//console.log('End: ' + player.getEnd);
 
         
         this._turn++;
@@ -84,11 +84,9 @@ console.log('End: ' + player.getEnd);
         return this._results;
     }
 
-    _start_turn(player,ficha){
-        let dices = this._configC.getDices;
-        this._results = [];
+    _start_turn(player){
 
-console.log('El jugador ' + player.getColor + ' va a tirar.');
+//console.log('El jugador ' + player.getColor + ' va a tirar.');
 
         let rollP = 0;
 
@@ -96,9 +94,6 @@ console.log('El jugador ' + player.getColor + ' va a tirar.');
 
             rollP += this._configC.getDices[d].getNumber;
 
-            /*rollP += this.throu(dices[d]);
-            
-            this._results.push(this.throu(dices[d]));*/
         }
 
 //console.log('Ha sacado una tirada de ' + rollP);
@@ -108,18 +103,18 @@ console.log('El jugador ' + player.getColor + ' va a tirar.');
         return rollP;
     }
 
-    getRoll(player,ficha){
+    getRoll(){
 
-console.log(this._start_turn(player,ficha));
+//console.log(this._start_turn());
 
-        return this._start_turn(player,ficha);
+        return this._start_turn();
     }
 
     _finish_check(color){
 
         let players = this._configC.getPlayers
 
-        for (let p = 0; p < this._configC.countPlayers; p++) {
+        for (let p = 0; p < this._configC.countPlayers(); p++) {
 
             if (players[p].getColor == color && players[p].getEnd) {
 
@@ -160,17 +155,14 @@ console.log('finish: ' + finish);
         for (let p = 0; p < players.length; p++) {
 
           if (this._finish_check(players[p].getColor)) {
-
-//console.log(this._players[p]);
-
+console.log('getWinner:');
+console.log(this.pFinish);
             this.pFinish.push(players[p]);
 
-          }
+            }
         }
 
-        this._update_ui();
-
-        return this.pFinish;
+        return this.pFinish[0];
     }
 
     countFinishP(){
@@ -180,23 +172,23 @@ console.log('finish: ' + finish);
     getTurnPlayer(){
         let players = this._configC.getPlayers;
 
-console.log(players[this._turn]);
-
         return players[this._turn];
 
     }
 
     start(){
-
+        this.pFinish = [];
+console.log('start:');
+console.log(this.pFinish);
         //this._update_ui();
 
-        if (!(this.isFinished()) || this.countFinishP() < this._configC.countPlayers()) {
+        if (!(this.isFinished()) || this.countFinishP() == this._configC.countPlayers()) {
             
             this._start_turn(this.getTurnPlayer());
 
             this._end_turn(this.getTurnPlayer());
 
-            //this._update_ui();
+            this.getWinner();
         }
 
         return this._turn;
