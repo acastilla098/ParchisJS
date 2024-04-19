@@ -181,9 +181,14 @@ export default class DOMManager{
         let valuesPieces = Object.values(this._PIECES);
         let valuesColors = Object.values(this._COLORS);
 
-        for(let j = 0; j < this._events._players[0]._pieces.length; j++){
-            for(let i = 0; i <  this._events._players.length; i++){
-                if(i==1&&this._events._players.length == 2){//Para que al ser dos jugadores coja el rojo y el verde
+        let players = this._events._configC.getPlayers;
+        let numPlayers = this._events._configC.countPlayers();
+
+        let numPieces = players[0].getNumPieces;
+
+        for(let j = 0; j < numPieces; j++){
+            for(let i = 0; i <  numPlayers; i++){
+                if(i == 1 && numPlayers == 2){//Para que al ser dos jugadores coja el rojo y el verde
                     i = 2
                 }
                 let tokenImg = document.createElement('img');
@@ -200,7 +205,7 @@ export default class DOMManager{
 
                 divHome.appendChild(tokenImg);
                 
-                this._eventToken(tokenImg,this._events._players[i]);
+                this._eventToken(tokenImg,players[i]);
             }
         }
 
@@ -261,7 +266,9 @@ export default class DOMManager{
 
         divP.appendChild(p);
 
-        for(let j = 0; j<this._events._players.length -1 ;j++){
+        let numPlayers = this._events._configC.countPlayers();
+
+        for(let j = 0; j < numPlayers -1 ; j++){
 
             let podiumPlayer = document.createElement('img')
 

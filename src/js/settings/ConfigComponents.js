@@ -10,9 +10,11 @@ export default class GameComponents{
 
         this._colores = ['red','yellow','green','blue'];
 
-        this._players = this.createPlayers();
-        this._dices = this.createDices();
+        this._players = [];
+        this._dices = [];
 
+        this.createPlayers();
+        this.createDices();
     }
 
     get getPlayers(){

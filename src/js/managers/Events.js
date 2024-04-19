@@ -47,34 +47,9 @@ console.log('La ficha ' + (parseInt(token_id)+1) + ' se mueve: ' + moves + '; ca
 
     }
 
-    //CAMBIARLO AL DOM!!!!
-    _update_ui(){
-        this._updateScore()
-
-        this._updateTurn()
-        
-    }
-    
-    _updateTurn(){
-        if (this._turn == this._players.length) {
-            this._turn = 0;
-        }
-        
-        this._changeImgTurn(this._players[this._turn]);
-        
-    }
-
-    _updateScore(){
-        if(this.pFinish.length>0){
-            for(let i = 0; i<this._players.length-1;i++){
-                let change = document.querySelector(`.podiumPlayer${i}`);
-
-                change.textContent = this.pFinish[i].getColor.toUpperCase()
-            }
-
-        }
-        
-    }
+    /*_update_ui(){
+                
+    }*/
 
     _end_turn(player){
         player.setEnd = false;
