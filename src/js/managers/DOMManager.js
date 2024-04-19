@@ -5,8 +5,6 @@ export default class DOMManager{
 
         this._events = events;
 
-        this._ELEMENTS = [];
-
         this._CLASSES = {
 
             UX_CONTENT:     'ux-content',
@@ -62,14 +60,11 @@ export default class DOMManager{
 
         }
 
-        this._divC = document.querySelector(`.${this._CLASSES.UX_CONTENT}`);
-        this._ELEMENTS.push(this._divC);
+        this._divC = document.querySelector(`.${this._CLASSES.UX_CONTENT}`); //0
 
-        this._div = document.querySelector(`.${this._CLASSES.UX_BODY}`);
-        this._ELEMENTS.push(this._div);
+        this._div = document.querySelector(`.${this._CLASSES.UX_BODY}`); //1
 
-        this._divS = document.querySelector(`.${this._CLASSES.UX_SCORE}`);
-        this._ELEMENTS.push(this._divS);
+        this._divS = document.querySelector(`.${this._CLASSES.UX_SCORE}`); //2
         this._div.appendChild(this._divS);
         
         this._divG = document.querySelector(`.${this._CLASSES.UX_GAME}`);
@@ -78,10 +73,8 @@ export default class DOMManager{
         this._divParch = document.querySelector(`.${this._CLASSES.UX_PARCHIS}`);
         this._divG.appendChild(this._divParch);
         
-        this._divD = document.querySelector(`.${this._CLASSES.UX_DICE}`);
-        this._ELEMENTS.push(this._divD);
+        this._divD = document.querySelector(`.${this._CLASSES.UX_DICE}`); //3
         this._div.appendChild(this._divD);
-
 
         this._valuesP = Object.values(this._PLAYERS);
         this._valuesS = Object.values(this._SCORES);
@@ -129,7 +122,10 @@ export default class DOMManager{
 
         });
 
-        btnT.addEventListener('click', () => {this._events.start();})
+        btnT.addEventListener('click', () => {this._events.start();this._changeImgTurn();});
+
+        //btnT.addEventListener('click', () => {this._changeImgTurn();});
+
     }
 
     _eventToken(tokenImg,player){
@@ -140,6 +136,7 @@ export default class DOMManager{
             document.querySelector(`.c${pos}`).appendChild(tokenImg);
         });
     }
+
     _createBtnThrow(){
 
         let thwoum = document.createElement('b');
@@ -153,10 +150,8 @@ export default class DOMManager{
         btnT.src = "./../assets/img/cubilete.webp";
         
 
-        this._ELEMENTS.push(btnT);
-
-        this._ELEMENTS[3].appendChild(thwoum);
-        this._ELEMENTS[3].appendChild(btnT);
+        this._divD.appendChild(thwoum);
+        this._divD.appendChild(btnT);
         this._eventBtnThrow(btnT);
 
     }
@@ -165,16 +160,14 @@ export default class DOMManager{
         let cube = document.createElement('div');
         cube.className = this._CLASSES.UX_CUBESDICES
 
-        for(let i = 0;i<this._events._configC.countDices;i++){
+        for(let i = 0;i<this._events._configC.countDices();i++){
 
             let img = document.createElement('div')
             img.className = this._CLASSES.UX_CUBE + i;
             cube.appendChild(img)
         }
 
-        this._ELEMENTS.push(cube);
-
-        this._ELEMENTS[3].appendChild(cube);
+        this._divD.appendChild(cube);
     }
 
     _createToken(){
@@ -199,13 +192,12 @@ export default class DOMManager{
                 tokenImg.title = 'Ficha';
                 tokenImg.src = valuesPieces[i];
 
-                this._ELEMENTS.push(tokenImg);
-
                 let divHome = document.querySelector(`.${valuesColors[i]}`);
 
                 divHome.appendChild(tokenImg);
                 
                 this._eventToken(tokenImg,players[i]);
+                //this._changeImgTurn(j);
             }
         }
 
@@ -213,13 +205,18 @@ export default class DOMManager{
 
     _changeTurnPlayer(number){
         let turnPlayer = document.createElement('img')
-
         turnPlayer.alt = "Jugador a tirar";
         turnPlayer.src = this._valuesP[number];
         turnPlayer.className = this._CLASSES.UX_USER
         turnPlayer.title = 'Jugador';
 
         return turnPlayer;
+    }
+
+    _changeImgTurn(){
+        let img = document.querySelector(`.${this._CLASSES.UX_USER}`);
+
+        img.src = this._valuesP[this._events._turn];
     }
 
     _createTurnPlayer(){
@@ -232,11 +229,10 @@ export default class DOMManager{
         p.textContent = 'Turno del jugador';
 
         divP.appendChild(p);
+console.log(this._changeTurnPlayer(this._events._turn));
         divP.appendChild(this._changeTurnPlayer(this._events._turn));
 
-        this._ELEMENTS.push(divP);
-
-        this._ELEMENTS[2].appendChild(divP);
+        this._divS.appendChild(divP);
     }
 
     _createBtnReturn(){
@@ -246,13 +242,10 @@ export default class DOMManager{
         btnR.className = this._CLASSES.UX_RETURN;
         btnR.textContent = 'Return';
         btnR.title = 'Botón de retorno';
-        this._ELEMENTS.push(btnR);
-
-        this._ELEMENTS.push(divF);
 
         divF.appendChild(btnR);
 
-        this._ELEMENTS[0].appendChild(divF);
+        this._divC.appendChild(divF);
         this._eventBtnReturn()
     }
 
@@ -285,9 +278,7 @@ export default class DOMManager{
             divP.appendChild(span);
         }
 
-        this._ELEMENTS.push(divP);
-
-        this._ELEMENTS[2].appendChild(divP);
+        this._divS.appendChild(divP);
     }
 
 }

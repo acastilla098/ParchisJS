@@ -10,7 +10,7 @@ export default class Events{
 
     }
 
-    throu(dice,number){
+    throu(dice){
         let roll = 0;
 
         dice.throw();
@@ -94,7 +94,7 @@ console.log('El jugador ' + player.getColor + ' va a tirar.');
 
         for (let d = 0; d < this._configC.countDices(); d++) {
 
-            rollP += this.throu(dices[d],d);
+            rollP += this.throu(dices[d]);
 
         }
 
@@ -110,16 +110,6 @@ console.log('El jugador ' + player.getColor + ' va a tirar.');
 console.log(this._start_turn(player,ficha));
 
         return this._start_turn(player,ficha);
-    }
-        
-    _changeImgTurn(player){
-        let color = player.getColor;
-        let url = `./../assets/icons/user-${color}.png`;
-
-        let change = document.querySelector('.ux-user');
-
-        change.src = url;
-
     }
 
     _finish_check(color){
@@ -195,7 +185,7 @@ console.log(players[this._turn]);
 
     start(){
 
-        this._update_ui();
+        //this._update_ui();
 
         if (!(this.isFinished()) || this.countFinishP() < this._configC.countPlayers()) {
             
@@ -203,7 +193,7 @@ console.log(players[this._turn]);
 
             this._end_turn(this.getTurnPlayer());
 
-            this._update_ui();
+            //this._update_ui();
         }
 
         return this._turn;
