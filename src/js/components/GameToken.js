@@ -28,6 +28,13 @@ console.log('Incremento: ' + increment);
 console.log('Posición: ' + this._position);
     }
 
+    isBlockedBox(casilla){
+        if (casilla) {
+            
+        }
+    }
+
+    //CAMBIAR PARA NO DEPENDER DEL DOM
     isMovementAllowed(movement){
 
         let pos = this._position + movement;
@@ -41,6 +48,17 @@ console.log(document.querySelector(`.c${pos}`));
         if (document.querySelector(`.c${pos}`).childElementCount == 2) {
             return false;
         }
+
+        /**
+         * MIENTRAS ! Casilla bloqueada && index < movement
+         * 
+         *      index = 0
+         *      index++;
+         * 
+         * FIN MIENTRAS
+         * 
+         * RETURN index;
+         */
 
         return true;
     }

@@ -10,9 +10,25 @@ export default class GameComponents{
 
         this._colores = ['red','yellow','green','blue'];
 
-        this._players = [];
-        this._dices = [];
+        this._players = this.createPlayers();
+        this._dices = this.createDices();
 
+    }
+
+    get getPlayers(){
+        return this._players;
+    }
+    
+    get getDices(){
+        return this._dices;
+    }
+
+    countPlayers(){
+        return this._players.length;
+    }
+    
+    countDices(){
+        return this._dices.length;
     }
 
     createTokens(){
@@ -57,4 +73,5 @@ export default class GameComponents{
         return this._dices;
         
     }
+
 }

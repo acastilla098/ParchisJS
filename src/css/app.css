@@ -9,8 +9,8 @@ h1{
     text-align: center; 
     font-size: 50px;
     text-align: center; font-size: 50px;
-    animation: zoomIn;
-    animation-duration: 10s;
+    animation: jello;
+    animation-duration: 2s;
     color: rgb(209, 0, 0);
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: white;
@@ -23,14 +23,17 @@ h1{
 }
 .ux-head{
     flex: 15%; 
+    user-select: none;
 }
 .ux-body{
     flex: 70%; 
-    display: flex; 
+    display: flex;
+    user-select: none;
 }
 .ux-footer{
     flex: 15%;  
     text-align: center; 
+    user-select: none;
 }
 
 .ux-return{

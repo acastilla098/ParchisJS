@@ -10,8 +10,7 @@ function initialize() {
 
     let gameComponents = new ConfigComponents(config);
 
-    let events = new Events(gameComponents.createPlayers(), 
-                            gameComponents.createDices());
+    let events = new Events(gameComponents);
 
     let dom = new DOMManager(events);
 

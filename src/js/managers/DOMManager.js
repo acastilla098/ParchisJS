@@ -140,7 +140,6 @@ export default class DOMManager{
             document.querySelector(`.c${pos}`).appendChild(tokenImg);
         });
     }
-
     _createBtnThrow(){
 
         let thwoum = document.createElement('b');
@@ -166,7 +165,7 @@ export default class DOMManager{
         let cube = document.createElement('div');
         cube.className = this._CLASSES.UX_CUBESDICES
 
-        for(let i = 0;i<this._events._dices.length;i++){
+        for(let i = 0;i<this._events._configC.countDices;i++){
 
             let img = document.createElement('div')
             img.className = this._CLASSES.UX_CUBE + i;
@@ -184,7 +183,7 @@ export default class DOMManager{
 
         for(let j = 0; j < this._events._players[0]._pieces.length; j++){
             for(let i = 0; i <  this._events._players.length; i++){
-                if(i==1&&this._events._players.length==2){//Para que al ser dos jugadores coja el rojo y el verde
+                if(i==1&&this._events._players.length == 2){//Para que al ser dos jugadores coja el rojo y el verde
                     i = 2
                 }
                 let tokenImg = document.createElement('img');
