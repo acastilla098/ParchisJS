@@ -6,24 +6,25 @@ export default class DOMManager{
 
         this._CLASSES = {
 
-            UX_CONTENT:     'ux-content',
-            UX_IMG:         'ux-img',
-            UX_IMGSCORE:    'ux-imgScore',
-            UX_IMGANIMATE:  'ux-imgAnimate',
-            UX_TOKEN:       'ux-token',
-            UX_TURN:        'ux-turn',
-            UX_USER:        'ux-user',
-            UX_RETURN:      'ux-return',
-            UX_HEAD:        'ux-head',
-            UX_BODY:        'ux-body',
-            UX_FOOTER:      'ux-footer',
-            UX_DICE:        'ux-dice',
-            UX_SCORE:       'ux-score',
-            UX_PARCHIS:     'ux-parchis',
-            UX_GAME:        'ux-game',
-            UX_PODIUM:      'ux-podium',
-            UX_CUBE:        'ux-cube',
-            UX_CUBESDICES:  'ux-cubesdices'
+            UX_CONTENT:             'ux-content',
+            UX_IMG:                 'ux-img',
+            UX_IMGSCORE:            'ux-imgScore',
+            UX_IMGANIMATE:          'ux-imgAnimate',
+            UX_TOKEN:               'ux-token',
+            UX_TOKEN_DISABLED:      'ux-token-disabled',
+            UX_TURN:                'ux-turn',
+            UX_USER:                'ux-user',
+            UX_RETURN:              'ux-return',
+            UX_HEAD:                'ux-head',
+            UX_BODY:                'ux-body',
+            UX_FOOTER:              'ux-footer',
+            UX_DICE:                'ux-dice',
+            UX_SCORE:               'ux-score',
+            UX_PARCHIS:             'ux-parchis',
+            UX_GAME:                'ux-game',
+            UX_PODIUM:              'ux-podium',
+            UX_CUBE:                'ux-cube',
+            UX_CUBESDICES:          'ux-cubesdices'
         }
     
         this._PIECES = {
@@ -117,7 +118,12 @@ export default class DOMManager{
 
         });
 
-        btnT.addEventListener('click', () => {this._updateScore();this._events.start();this._changeImgTurn();});
+        btnT.addEventListener('click', () => {
+            this._updateScore();
+            this._events.start();
+            this._changeImgTurn();
+            document.querySelector(`.${this._CLASSES.UX_TOKEN}`).style.pointerEvents = 'all';
+        });
 
         btnT.addEventListener('click', () => {this._changeDices();});
 
@@ -126,6 +132,7 @@ export default class DOMManager{
     _eventToken(tokenImg,player){
         tokenImg.addEventListener('click', () => {
 
+        tokenImg.className = this._CLASSES.UX_TOKEN_DISABLED;
         let players = this._events._configC.getPlayers;
 
             if (player === undefined) {
@@ -139,7 +146,10 @@ export default class DOMManager{
             }
 
             document.querySelector(`.c${pos}`).appendChild(tokenImg);
+
+            tokenImg.className = this._CLASSES.UX_TOKEN;
         });
+        
     }
 
     _createBtnThrow(){

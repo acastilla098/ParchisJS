@@ -154,7 +154,7 @@ console.log('finish: ' + finish);
             }
         }
 
-        return this.pFinish[0];
+        return this.pFinish;
     }
 
     countFinishP(){
@@ -176,6 +176,8 @@ console.log('finish: ' + finish);
             this._start_turn(this.getTurnPlayer());
 
             this._end_turn(this.getTurnPlayer());
+
+            this.getWinner();
 
         }
 
