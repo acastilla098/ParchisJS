@@ -54,6 +54,24 @@ class Dice{
     }
 }
 
+/**Bucle para comprobar la casilla
+ *
+ * MIENTRAS ! Casilla bloqueada && index < movement
+ * 
+ *      index = 0
+ *      index++;
+ * 
+ * FIN MIENTRAS
+ * 
+ * RETURN index;
+ * 
+ * Líneas para llegar a la casilla y ver si hay dos fichas
+ * console.log(document.querySelector(`.c${pos}`));
+ * if (document.querySelector(`.c${pos}`).childElementCount == 2) 
+ *     return false
+ * }
+ */
+
 /**
  * _update_ui(){
         this._updateScore()

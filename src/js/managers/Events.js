@@ -23,8 +23,12 @@ export default class Events{
     
     move_token(player,token_id, moves){
         let pieces = player.getPieces;
+        let posinit = player.positionInit;
+        player.positionInit = posinit;
 
-        if (pieces[token_id].isMovementAllowed(moves)){
+        let index = pieces[token_id].isMovementAllowed(moves);
+
+        if (index != 0){
 
             if (pieces[token_id].getPosition == player.positionInit) {
 
@@ -34,13 +38,13 @@ export default class Events{
 
             } else {
 
-                pieces[token_id].move(moves);
+                pieces[token_id].move(index);
 
             }
 
         }
 
-console.log('La ficha ' + (parseInt(token_id)+1) + ' se mueve: ' + moves + '; casilla de la ficha: ' + player._pieces[token_id].getPosition);
+//console.log('La ficha ' + (parseInt(token_id)+1) + ' se mueve: ' + moves + '; casilla de la ficha: ' + player._pieces[token_id].getPosition);
 
         return player._pieces[token_id].getPosition;
 
@@ -52,7 +56,7 @@ console.log('La ficha ' + (parseInt(token_id)+1) + ' se mueve: ' + moves + '; ca
         let pieces = player.getPieces;
 
         
-console.log('El jugador ' + player.getColor + ' ha terminado.');
+//console.log('El jugador ' + player.getColor + ' ha terminado.');
 
         let eq = 0;
 
@@ -155,8 +159,8 @@ console.log('finish: ' + finish);
         for (let p = 0; p < players.length; p++) {
 
           if (this._finish_check(players[p].getColor)) {
-console.log('getWinner:');
-console.log(this.pFinish);
+//console.log('getWinner:');
+//console.log(this.pFinish);
             this.pFinish.push(players[p]);
 
             }
@@ -178,9 +182,8 @@ console.log(this.pFinish);
 
     start(){
         this.pFinish = [];
-console.log('start:');
-console.log(this.pFinish);
-        //this._update_ui();
+//console.log('start:');
+//console.log(this.pFinish);
 
         if (!(this.isFinished()) || this.countFinishP() == this._configC.countPlayers()) {
             

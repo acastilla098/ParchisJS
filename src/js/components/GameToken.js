@@ -20,7 +20,7 @@ export default class GameToken{
 
         this._position += increment;
 
-        if (this._position >= 68) {
+        if (this._position > 68) {
             this._position = 0 + increment;
         }
 
@@ -29,38 +29,42 @@ console.log('Posición: ' + this._position);
     }
 
     isBlockedBox(casilla){
-        if (casilla) {
-            
+
+        if (casilla < 2) {
+            return true;
         }
+
+        return false;
     }
 
-    //CAMBIAR PARA NO DEPENDER DEL DOM
     isMovementAllowed(movement){
-
         let pos = this._position + movement;
+        let index = this._position;
 
-        if (pos >= 68) {
-            pos = 0 + movement;
+        for (let m = 0; m < movement; m++) {
+            if (index > 68) {
+                index = 1;
+            }
+            
+            if (this.isBlockedBox(index)) {
+                index = 0;
+console.log('Index: ' + index);
+                return index;
+            }
+
+            index++;
         }
 
-console.log(document.querySelector(`.c${pos}`));
+       /* while (!(this.isBlockedBox(index))) {
 
-        if (document.querySelector(`.c${pos}`).childElementCount == 2) {
-            return false;
-        }
+            if (ind > 68) {
+                index = 1;
+            }
 
-        /**
-         * MIENTRAS ! Casilla bloqueada && index < movement
-         * 
-         *      index = 0
-         *      index++;
-         * 
-         * FIN MIENTRAS
-         * 
-         * RETURN index;
-         */
+            index++;
+        }*/
 
-        return true;
+        return index;
     }
 
 }
