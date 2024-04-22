@@ -1,10 +1,11 @@
 export default class GameToken{
     constructor(){
         this._position = 0;
+        this._outHome = false;
     }
 
     get getPosition(){
-        return this._position
+        return this._position;
     }
 
     /**
@@ -13,6 +14,19 @@ export default class GameToken{
     set setPosition(box_id){
 
         this._position = box_id;
+        
+    }
+    
+    get getOutHome(){
+        return this._outHome;
+    }
+
+    /**
+     * @param {boolean} out
+     */
+    set setOutHome(out){
+
+        this._outHome = out;
         
     }
 
@@ -37,7 +51,7 @@ console.log('Posición: ' + this._position);
         return false;
     }
 
-    isMovementAllowed(movement){
+    isMovementAllowed(movement,casilla){
         let pos = this._position + movement;
         let index = this._position;
 
@@ -46,7 +60,7 @@ console.log('Posición: ' + this._position);
                 index = 1;
             }
             
-            if (this.isBlockedBox(index)) {
+            if (this.isBlockedBox(index),casilla) {
                 index = 0;
 console.log('Index: ' + index);
                 return index;

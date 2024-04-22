@@ -21,32 +21,37 @@ export default class Events{
         return roll;
     }
     
-    move_token(player,token_id, moves){
+    move_token(player,token_id){
+
         let pieces = player.getPieces;
         let posinit = player.positionInit;
+        
         player.positionInit = posinit;
+
+        let moves = this.getRoll();
 
         let index = pieces[token_id].isMovementAllowed(moves);
 
         if (index != 0){
+            if (moves === 5 && pieces[token_id].getOutHome == false) {
 
-            if (pieces[token_id].getPosition == player.positionInit) {
+                pieces[token_id].setPosition = posinit;
+                pieces[token_id].setOutHome = true;
 
-                pieces[token_id].move(0);
+                return pieces[token_id].getPosition;
 
-                player.positionInit ++;
+            } else if(pieces[token_id].getOutHome == true){
 
-            } else {
+                pieces[token_id].setPosition = index;
 
-                pieces[token_id].move(index);
+                return pieces[token_id].getPosition;
 
             }
 
         }
+        
 
-//console.log('La ficha ' + (parseInt(token_id)+1) + ' se mueve: ' + moves + '; casilla de la ficha: ' + player._pieces[token_id].getPosition);
-
-        return player._pieces[token_id].getPosition;
+        return 0;
 
     }
 
@@ -55,14 +60,11 @@ export default class Events{
 
         let pieces = player.getPieces;
 
-        
-//console.log('El jugador ' + player.getColor + ' ha terminado.');
-
         let eq = 0;
 
         for (let ind = 0; ind < player.getNumPieces; ind++) {
 
-            if (pieces[ind].getPosition == pieces[0].getPosition) {
+            if (pieces[ind].getPosition == 500) {
                 eq++;
             }
         }
@@ -70,10 +72,6 @@ export default class Events{
         if (eq == player.getNumPieces) {
             player.setEnd = true;
         }
-            
-
-//console.log('End: ' + player.getEnd);
-
         
         this._turn++;
         
@@ -90,8 +88,6 @@ export default class Events{
 
     _start_turn(player){
 
-//console.log('El jugador ' + player.getColor + ' va a tirar.');
-
         let rollP = 0;
 
         for (let d = 0; d < this._configC.countDices(); d++) {
@@ -100,17 +96,10 @@ export default class Events{
 
         }
 
-//console.log('Ha sacado una tirada de ' + rollP);
-
-        //this.move_token(player,ficha,rollP);
-
         return rollP;
     }
 
     getRoll(){
-
-//console.log(this._start_turn());
-
         return this._start_turn();
     }
 
@@ -159,8 +148,7 @@ console.log('finish: ' + finish);
         for (let p = 0; p < players.length; p++) {
 
           if (this._finish_check(players[p].getColor)) {
-//console.log('getWinner:');
-//console.log(this.pFinish);
+
             this.pFinish.push(players[p]);
 
             }
@@ -182,8 +170,6 @@ console.log('finish: ' + finish);
 
     start(){
         this.pFinish = [];
-//console.log('start:');
-//console.log(this.pFinish);
 
         if (!(this.isFinished()) || this.countFinishP() == this._configC.countPlayers()) {
             
@@ -191,7 +177,6 @@ console.log('finish: ' + finish);
 
             this._end_turn(this.getTurnPlayer());
 
-            this.getWinner();
         }
 
         return this._turn;

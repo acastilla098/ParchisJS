@@ -126,7 +126,17 @@ export default class DOMManager{
     _eventToken(tokenImg,player){
         tokenImg.addEventListener('click', () => {
 
-            let pos = this._events.move_token(player, tokenImg.id,this._events.getRoll(player,tokenImg.id));
+        let players = this._events._configC.getPlayers;
+
+            if (player === undefined) {
+                player = players[1];
+            }
+
+            let pos = this._events.move_token(player, tokenImg.id);
+
+            if (pos > 68) {
+                pos -= 68;
+            }
 
             document.querySelector(`.c${pos}`).appendChild(tokenImg);
         });
@@ -201,7 +211,7 @@ export default class DOMManager{
                 let divHome = document.querySelector(`.${valuesColors[i]}`);
 
                 divHome.appendChild(tokenImg);
-                
+
                 this._eventToken(tokenImg,players[i]);
             }
         }
