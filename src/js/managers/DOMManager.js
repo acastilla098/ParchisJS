@@ -122,7 +122,6 @@ export default class DOMManager{
             this._updateScore();
             this._events.start();
             this._changeImgTurn();
-            document.querySelector(`.${this._CLASSES.UX_TOKEN}`).style.pointerEvents = 'all';
         });
 
         btnT.addEventListener('click', () => {this._changeDices();});
@@ -132,7 +131,6 @@ export default class DOMManager{
     _eventToken(tokenImg,player){
         tokenImg.addEventListener('click', () => {
 
-        tokenImg.className = this._CLASSES.UX_TOKEN_DISABLED;
         let players = this._events._configC.getPlayers;
 
             if (player === undefined) {
@@ -147,9 +145,26 @@ export default class DOMManager{
 
             document.querySelector(`.c${pos}`).appendChild(tokenImg);
 
-            tokenImg.className = this._CLASSES.UX_TOKEN;
         });
         
+    }
+
+    _changeStyleTokens(){
+        let divK = document.querySelectorAll(`.${this._CLASSES.UX_TOKEN}`)
+    
+        divK.forEach(function (token) {
+            token.style.pointerEvents = "none"
+        });
+
+    }
+
+    _changeStyleTokensValueColor(value){
+        console.log("holaaa")
+        let valuesColors = Object.values(this._COLORS);
+        let divT = document.getElementsByName(`${valuesColors[value]}`)
+        divT.forEach(function (token) {
+            token.style.pointerEvents = "all"
+        });
     }
 
     _createBtnThrow(){
@@ -216,6 +231,7 @@ export default class DOMManager{
                 tokenImg.id = j;
                 tokenImg.alt = "Icono ficha";
                 tokenImg.title = 'Ficha';
+                tokenImg.name = `${valuesColors[i]}`;
                 tokenImg.src = valuesPieces[i];
 
                 let divHome = document.querySelector(`.${valuesColors[i]}`);
@@ -239,15 +255,18 @@ export default class DOMManager{
     }
 
     _changeImgTurn(){
+        this._changeStyleTokens();
         let img = document.querySelector(`.${this._CLASSES.UX_USER}`);
 
         if (this._events._configC.countPlayers() == 2) {
 
             let turnos = [0,2];
+            this._changeStyleTokensValueColor(turnos[this._events._turn]);
             img.src = this._valuesP[turnos[this._events._turn]];
 
         } else {
 
+            this._changeStyleTokensValueColor(this._events._turn)
             img.src = this._valuesP[this._events._turn];
 
         }

@@ -54,6 +54,18 @@ class Dice{
     }
 }
 
+/**Intento de cambiar la clase de las fichas para no poder seleccionarlas si no te toca
+ * tokenImg.addEventListener('change', () => {
+        tokenImg.className = this._CLASSES.UX_TOKEN;
+console.log(tokenImg.className);  
+    });
+      
+    tokenImg.addEventListener('click', () => {
+        tokenImg.className = this._CLASSES.UX_TOKEN_DISABLED;
+console.log(tokenImg.className);  
+    });
+ */
+
 /**Bucle para comprobar la casilla
  *
  * MIENTRAS ! Casilla bloqueada && index < movement
