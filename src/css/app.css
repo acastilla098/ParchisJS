@@ -9,8 +9,8 @@ h1{
     text-align: center; 
     font-size: 50px;
     text-align: center; font-size: 50px;
-    animation: jello;
-    animation-duration: 2s;
+    animation: zoomIn;
+    animation-duration: 10s;
     color: rgb(209, 0, 0);
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: white;
@@ -151,6 +151,7 @@ h1{
     left: 0; 
     width: 15px; 
     height: 15px;
+    pointer-events: none;
  }
 .ux-user{
     width: 50px; 

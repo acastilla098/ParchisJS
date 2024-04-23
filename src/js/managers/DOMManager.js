@@ -86,13 +86,22 @@ export default class DOMManager{
     }
 
     setUp_game(){
+
         this._createBtnReturn();
         this._createBtnThrow();
         this._createToken();
         this._createTurnPlayer();
         this._createPodium();
         this._createDices();
-
+        console.log(this._events._turn);
+        window.addEventListener('load', (e) => {
+            this._events._turn = 0;
+            console.log(this._events._turn);
+            this._events.start();
+            this._changeDices();
+            this._events._turn = 0;
+console.log(this._events._turn);
+        })
     }
 
     _eventBtnReturn(){
@@ -145,6 +154,7 @@ export default class DOMManager{
 
             document.querySelector(`.c${pos}`).appendChild(tokenImg);
 
+            setTimeout(this._changeStyleTokens,3000);
         });
         
     }
@@ -153,17 +163,22 @@ export default class DOMManager{
         let divK = document.querySelectorAll(`.${this._CLASSES.UX_TOKEN}`)
     
         divK.forEach(function (token) {
+
             token.style.pointerEvents = "none"
+
         });
 
     }
 
     _changeStyleTokensValueColor(value){
-        console.log("holaaa")
         let valuesColors = Object.values(this._COLORS);
+
         let divT = document.getElementsByName(`${valuesColors[value]}`)
+
         divT.forEach(function (token) {
+
             token.style.pointerEvents = "all"
+
         });
     }
 
@@ -233,6 +248,10 @@ export default class DOMManager{
                 tokenImg.title = 'Ficha';
                 tokenImg.name = `${valuesColors[i]}`;
                 tokenImg.src = valuesPieces[i];
+
+                if (i == 0) {
+                    tokenImg.style.pointerEvents = 'all';
+                }
 
                 let divHome = document.querySelector(`.${valuesColors[i]}`);
 
