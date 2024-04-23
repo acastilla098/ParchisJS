@@ -10,9 +10,13 @@ export default class Player {
         this._end = false;
 
         this.positionInit = 0;
+        this.positionEnd = 0;
 
         this.posInit();
         this.setPos();
+
+        this.posEnd();
+        this.setPosEnd()
     }
 
     get getColor(){
@@ -71,6 +75,31 @@ export default class Player {
                 break;
             case 'blue':
                 this.positionInit = 5;
+                break;
+            default:
+                break;
+        }
+    }
+
+    setPosEnd(){
+        for (let p = 0; p < this._pieces.length; p++) {
+            this._pieces[p].setPosition = this.positionEnd;
+        }
+    }
+    
+    posEnd(){
+        switch (this._color) {
+            case 'red':
+                this.positionEnd = 17
+                break;
+            case 'yellow':
+                this.positionEnd = 34;
+                break;
+            case 'green':
+                this.positionEnd = 51;
+                break;
+            case 'blue':
+                this.positionEnd = 68;
                 break;
             default:
                 break;

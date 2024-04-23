@@ -93,14 +93,14 @@ export default class DOMManager{
         this._createTurnPlayer();
         this._createPodium();
         this._createDices();
-        console.log(this._events._turn);
+
         window.addEventListener('load', (e) => {
+
             this._events._turn = 0;
-            console.log(this._events._turn);
             this._events.start();
             this._changeDices();
             this._events._turn = 0;
-console.log(this._events._turn);
+
         })
     }
 
@@ -152,9 +152,12 @@ console.log(this._events._turn);
                 pos -= 68;
             }
 
-            document.querySelector(`.c${pos}`).appendChild(tokenImg);
+            if (document.querySelector(`.c${pos}`).childElementCount < 2) {
 
-            setTimeout(this._changeStyleTokens,3000);
+                document.querySelector(`.c${pos}`).appendChild(tokenImg);
+                
+            }
+
         });
         
     }
@@ -186,6 +189,8 @@ console.log(this._events._turn);
 
         let thwoum = document.createElement('b');
         thwoum.textContent = '¡Pincha y tira!';
+        let m = document.createElement('b');
+        m.textContent = '(Cambio de turno automático)';
         
         let btnT = document.createElement('img');
 
@@ -196,6 +201,7 @@ console.log(this._events._turn);
         
 
         this._divD.appendChild(thwoum);
+        this._divD.appendChild(m);
         this._divD.appendChild(btnT);
         this._eventBtnThrow(btnT);
 
