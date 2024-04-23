@@ -20,37 +20,39 @@ export default class Events{
 
         return roll;
     }
+
+    getPosBefore(player,token_id){
+        let pieces = player.getPieces;
+        return pieces[token_id].getPosition;
+    }
     
     move_token(player,token_id){
 
         let pieces = player.getPieces;
         let posinit = player.positionInit;
         
-        player.positionInit = posinit;
-
         let moves = this.getRoll();
 
-        let index = pieces[token_id].isMovementAllowed(moves);
+        let index = pieces[token_id].getPosition + moves
 
-        if (index != 0){
-            if (moves === 5 && pieces[token_id].getOutHome == false) {
+        if(index > 68){
+            index = index-68;
+        }
 
-                pieces[token_id].setPosition = posinit;
-                pieces[token_id].setOutHome = true;
+        if (moves === 5 && pieces[token_id].getOutHome == false) {
 
-                return pieces[token_id].getPosition;
+            pieces[token_id].setPosition = posinit;
+            pieces[token_id].setOutHome = true;
 
-            } else if(pieces[token_id].getOutHome == true){
+            return pieces[token_id].getPosition;
 
-                pieces[token_id].setPosition = index;
+        } else if(pieces[token_id].getOutHome == true){
 
-                return pieces[token_id].getPosition;
+            pieces[token_id].setPosition = index;
 
-            }
+            return pieces[token_id].getPosition;
 
         }
-        
-        return 0;
 
     }
 

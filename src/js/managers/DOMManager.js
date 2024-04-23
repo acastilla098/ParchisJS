@@ -139,25 +139,34 @@ export default class DOMManager{
 
     _eventToken(tokenImg,player){
         tokenImg.addEventListener('click', () => {
-
-        let players = this._events._configC.getPlayers;
-
-            if (player === undefined) {
-                player = players[1];
-            }
-
-            let pos = this._events.move_token(player, tokenImg.id);
-
-            if (pos > 68) {
-                pos -= 68;
-            }
-
-            if (document.querySelector(`.c${pos}`).childElementCount < 2) {
-
-                document.querySelector(`.c${pos}`).appendChild(tokenImg);
-                
-            }
-
+            let players = this._events._configC.getPlayers;
+            let checkTokens = true;
+            let pos = 0;
+    
+                if (player === undefined) {
+                    player = players[1];
+                }
+    
+                for (let i = 1;  i <= this._events.getRoll() ;i++) {
+    
+                    let j = player.getPieces[tokenImg.id].getPosition + i
+    
+                    if (j > 68) {
+                        j = j - 68;
+                    }
+    
+                    let x = document.querySelector(`.c${j}`).childElementCount 
+                    if(!player.getPieces[tokenImg.id].isMovementAllowed(x)){
+                        checkTokens = false;
+                    }
+    
+                }
+    
+                if(checkTokens==true){
+                    pos = this._events.move_token(player, tokenImg.id);
+                    document.querySelector(`.c${pos}`).appendChild(tokenImg);
+                }
+            
         });
         
     }

@@ -42,43 +42,12 @@ console.log('Incremento: ' + increment);
 console.log('Posición: ' + this._position);
     }
 
-    isBlockedBox(casilla){
-
+    isMovementAllowed(casilla){
         if (casilla < 2) {
             return true;
         }
 
         return false;
-    }
-
-    isMovementAllowed(movement,casilla){
-        let pos = this._position + movement;
-        let index = this._position;
-
-        for (let m = 0; m < movement; m++) {
-            if (index > 68) {
-                index = 1;
-            }
-            
-            if (this.isBlockedBox(index),casilla) {
-                index = 0;
-console.log('Index: ' + index);
-                return index;
-            }
-
-            index++;
-        }
-
-       /* while (!(this.isBlockedBox(index))) {
-
-            if (ind > 68) {
-                index = 1;
-            }
-
-            index++;
-        }*/
-
-        return index;
     }
 
 }

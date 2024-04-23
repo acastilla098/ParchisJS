@@ -1,4 +1,3 @@
-
 export default class Player {
 
     constructor(color,numPieces,pieces){
