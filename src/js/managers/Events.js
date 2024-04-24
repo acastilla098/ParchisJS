@@ -43,12 +43,14 @@ export default class Events{
 
             pieces[token_id].setPosition = posinit;
             pieces[token_id].setOutHome = true;
+            console.log(pieces[token_id].getPosition);
 
             return -100;
 
         } else if(pieces[token_id].getOutHome == true){
 
             pieces[token_id].setPosition = index;
+            console.log(pieces[token_id].getPosition);
 
             return pieces[token_id].getPosition;
 
@@ -78,7 +80,7 @@ export default class Events{
         this._turn++;
         
 
-        if( this._turn == this._configC.countPlayers() ){
+        if( this._turn >= this._configC.countPlayers() ){
             this._turn = 0;
         }
 

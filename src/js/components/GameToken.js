@@ -5,6 +5,19 @@ export default class GameToken{
         this._inEnd = false;
     }
 
+    get getInEnd(){
+        return this._inEnd;
+    }
+
+    /**
+     * @param {boolean} end
+     */
+    set setInEnd(end){
+
+        this._inEnd = end;
+        
+    }
+
     get getPosition(){
         return this._position;
     }
@@ -30,19 +43,6 @@ export default class GameToken{
         this._outHome = out;
         
     }
-    
-    get getInEnd(){
-        return this._inEnd;
-    }
-
-    /**
-     * @param {boolean} end
-     */
-    set setInEnd(end){
-
-        this._inEnd = end;
-        
-    }
 
     move(increment){
 
@@ -55,6 +55,7 @@ export default class GameToken{
 console.log('Incremento: ' + increment);
 console.log('Posición: ' + this._position);
     }
+
 
     isMovementAllowed(casilla){
         if (casilla < 2) {

@@ -143,39 +143,46 @@ export default class DOMManager{
         let players = this._events._configC.getPlayers;
         let checkTokens = true;
         let pos = 0;
-        let posOrigin = player.getPieces[tokenImg.id].getPosition
+        let posOrigin = player.getPieces[tokenImg.id].getPosition;
 
             if (player === undefined) {
                 player = players[1];
             }
 
             for (let i = 1;  i <= this._events.getRoll() ;i++) {
-                if(player.getpositionEnd == player.getPieces[tokenImg.id].getPosition + 1 || player.getPieces[tokenImg.id].getInEnd == true){
-console.log(player.getPieces[tokenImg.id].getPosition)
-console.log("entrando a linea final");
-                    this._checkBoxLast(i + 1, this._events.getRoll(), player, tokenImg)
+                if(player.getPositionEnd == player.getPieces[tokenImg.id].getPosition || player.getPieces[tokenImg.id].getInEnd == true){
+
+                    console.log("entrando a linea final");
+                    this._checkBoxLast(i, this._events.getRoll(), player, tokenImg);
+
                     break;
                 }
 
-                let j = player.getPieces[tokenImg.id].getPosition + 1
+                let j = player.getPieces[tokenImg.id].getPosition + 1;
 
                 if (j > 68) {
                     j = j - 68;
                 }
 
-                let x = document.querySelector(`.c${j}`).childElementCount 
+                let x = document.querySelector(`.c${j}`).childElementCount;
+
                 if(!player.getPieces[tokenImg.id].isMovementAllowed(x)){
-console.log("movimiento no permitido");
+                    console.log("movimiento no permitido");
                     checkTokens = false;
                 }
 
                 pos = this._events.move_token(player, tokenImg.id);
+
                 if(pos == -100){
-                    if(player.getPieces[tokenImg.id].isMovementAllowed(document.querySelector(`.c${player.getpositionInit}`).childElementCount )){
-                        document.querySelector(`.c${player.getpositionInit}`).appendChild(tokenImg);
+
+                    if(player.getPieces[tokenImg.id].isMovementAllowed(document.querySelector(`.c${player.getPositionInit}`).childElementCount )){
+
+                        document.querySelector(`.c${player.getPositionInit}`).appendChild(tokenImg);
+
                     }else{
-                        player.getPieces[tokenImg.id].setPosition = 0
-                        player.getPieces[tokenImg.id].setOutHome = false
+
+                        player.getPieces[tokenImg.id].setPosition = 0;
+                        player.getPieces[tokenImg.id].setOutHome = false;
                         
                     }
                     break
@@ -185,9 +192,12 @@ console.log("movimiento no permitido");
             }
             
             if(checkTokens == false){
-console.log("reseteo de ficha");
-                player.getPieces[tokenImg.id].setInEnd = false
-                player.getPieces[tokenImg.id].setPosition = posOrigin
+
+                console.log("reseteo de ficha");
+
+                player.getPieces[tokenImg.id].setInEnd = false;
+                player.getPieces[tokenImg.id].setPosition = posOrigin;
+
                 document.querySelector(`.c${posOrigin}`).appendChild(tokenImg);
             }
           
@@ -196,9 +206,9 @@ console.log("reseteo de ficha");
     }
 
     _checkBoxLast(value, throu, player, tokenImg){
-        let cont = 0
+        let cont = 0;
         let checkTokens = true;
-        if(value < throu && player.getPieces[tokenImg.id].getInEnd == false){
+        if(value <= throu && player.getPieces[tokenImg.id].getInEnd == false){
 
             player.getPieces[tokenImg.id].setInEnd = true;
             player.getPieces[tokenImg.id].setPosition = 0;
@@ -208,29 +218,35 @@ console.log("reseteo de ficha");
 
         for (let i = value ;  i <= throu ;i++) {
             
-            let j = player.getPieces[tokenImg.id].getPosition + 1
+            let j = player.getPieces[tokenImg.id].getPosition + 1;
 
-            if (j > 7) {
-                j = j - 7;
+            if (j > 7 && player.getPieces[tokenImg.id].getInEnd == true) {
+                let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
+                div.style.pointerEvents = 'none';
+                div.removeAttribute("name");
             }
-console.log(j)
-console.log(document.querySelector(`.${player.getColor}${j}`))
 
-            let x = document.querySelector(`.${player.getColor}${j}`).childElementCount 
+            let x = document.querySelector(`.${player.getColor}${j}`).childElementCount;
             
             if(!player.getPieces[tokenImg.id].isMovementAllowed(x)){
                 checkTokens = false;
             }
 
-            cont++
-            console.log(cont)
+            cont++;
+            console.log(cont);
         }
         
+        
         if(checkTokens==true){
-console.log(player.getPieces[tokenImg.id].getPosition);
+
+            console.log(cont);
+            console.log(player.getPieces[tokenImg.id].getPosition);
+
             player.getPieces[tokenImg.id].setPosition = player.getPieces[tokenImg.id].getPosition + cont;
-console.log(player.getPieces[tokenImg.id].getPosition);
-            document.querySelector(`.${player.getColor}${cont}`).appendChild(tokenImg);
+
+            console.log(player.getPieces[tokenImg.id].getPosition);
+            
+            document.querySelector(`.${player.getColor}${player.getPieces[tokenImg.id].getPosition}`).appendChild(tokenImg);
         
         }
     }
