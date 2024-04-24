@@ -139,36 +139,100 @@ export default class DOMManager{
 
     _eventToken(tokenImg,player){
         tokenImg.addEventListener('click', () => {
-            let players = this._events._configC.getPlayers;
-            let checkTokens = true;
-            let pos = 0;
-    
-                if (player === undefined) {
-                    player = players[1];
+
+        let players = this._events._configC.getPlayers;
+        let checkTokens = true;
+        let pos = 0;
+        let posOrigin = player.getPieces[tokenImg.id].getPosition
+
+            if (player === undefined) {
+                player = players[1];
+            }
+
+            for (let i = 1;  i <= this._events.getRoll() ;i++) {
+                if(player.getpositionEnd == player.getPieces[tokenImg.id].getPosition + 1 || player.getPieces[tokenImg.id].getInEnd == true){
+console.log(player.getPieces[tokenImg.id].getPosition)
+console.log("entrando a linea final");
+                    this._checkBoxLast(i + 1, this._events.getRoll(), player, tokenImg)
+                    break;
                 }
-    
-                for (let i = 1;  i <= this._events.getRoll() ;i++) {
-    
-                    let j = player.getPieces[tokenImg.id].getPosition + i
-    
-                    if (j > 68) {
-                        j = j - 68;
+
+                let j = player.getPieces[tokenImg.id].getPosition + 1
+
+                if (j > 68) {
+                    j = j - 68;
+                }
+
+                let x = document.querySelector(`.c${j}`).childElementCount 
+                if(!player.getPieces[tokenImg.id].isMovementAllowed(x)){
+console.log("movimiento no permitido");
+                    checkTokens = false;
+                }
+
+                pos = this._events.move_token(player, tokenImg.id);
+                if(pos == -100){
+                    if(player.getPieces[tokenImg.id].isMovementAllowed(document.querySelector(`.c${player.getpositionInit}`).childElementCount )){
+                        document.querySelector(`.c${player.getpositionInit}`).appendChild(tokenImg);
+                    }else{
+                        player.getPieces[tokenImg.id].setPosition = 0
+                        player.getPieces[tokenImg.id].setOutHome = false
+                        
                     }
-    
-                    let x = document.querySelector(`.c${j}`).childElementCount 
-                    if(!player.getPieces[tokenImg.id].isMovementAllowed(x)){
-                        checkTokens = false;
-                    }
-    
+                    break
                 }
-    
-                if(checkTokens==true){
-                    pos = this._events.move_token(player, tokenImg.id);
-                    document.querySelector(`.c${pos}`).appendChild(tokenImg);
-                }
+                document.querySelector(`.c${pos}`).appendChild(tokenImg);
+
+            }
             
+            if(checkTokens == false){
+console.log("reseteo de ficha");
+                player.getPieces[tokenImg.id].setInEnd = false
+                player.getPieces[tokenImg.id].setPosition = posOrigin
+                document.querySelector(`.c${posOrigin}`).appendChild(tokenImg);
+            }
+          
         });
         
+    }
+
+    _checkBoxLast(value, throu, player, tokenImg){
+        let cont = 0
+        let checkTokens = true;
+        if(value < throu && player.getPieces[tokenImg.id].getInEnd == false){
+
+            player.getPieces[tokenImg.id].setInEnd = true;
+            player.getPieces[tokenImg.id].setPosition = 0;
+
+        }
+        
+
+        for (let i = value ;  i <= throu ;i++) {
+            
+            let j = player.getPieces[tokenImg.id].getPosition + 1
+
+            if (j > 7) {
+                j = j - 7;
+            }
+console.log(j)
+console.log(document.querySelector(`.${player.getColor}${j}`))
+
+            let x = document.querySelector(`.${player.getColor}${j}`).childElementCount 
+            
+            if(!player.getPieces[tokenImg.id].isMovementAllowed(x)){
+                checkTokens = false;
+            }
+
+            cont++
+            console.log(cont)
+        }
+        
+        if(checkTokens==true){
+console.log(player.getPieces[tokenImg.id].getPosition);
+            player.getPieces[tokenImg.id].setPosition = player.getPieces[tokenImg.id].getPosition + cont;
+console.log(player.getPieces[tokenImg.id].getPosition);
+            document.querySelector(`.${player.getColor}${cont}`).appendChild(tokenImg);
+        
+        }
     }
 
     _changeStyleTokens(){

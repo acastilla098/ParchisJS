@@ -33,7 +33,7 @@ export default class Events{
         
         let moves = this.getRoll();
 
-        let index = pieces[token_id].getPosition + moves
+        let index = pieces[token_id].getPosition + 1
 
         if(index > 68){
             index = index-68;
@@ -44,7 +44,7 @@ export default class Events{
             pieces[token_id].setPosition = posinit;
             pieces[token_id].setOutHome = true;
 
-            return pieces[token_id].getPosition;
+            return -100;
 
         } else if(pieces[token_id].getOutHome == true){
 
@@ -53,6 +53,7 @@ export default class Events{
             return pieces[token_id].getPosition;
 
         }
+        
 
     }
 

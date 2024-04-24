@@ -15,7 +15,14 @@ export default class Player {
         this.setPos();
 
         this.posEnd();
-        this.setPosEnd()
+    }
+
+    get getPositionInit(){
+        return this.positionInit;
+    }
+    
+    get getPositionEnd(){
+        return this.positionEnd;
     }
 
     get getColor(){
@@ -77,12 +84,6 @@ export default class Player {
                 break;
             default:
                 break;
-        }
-    }
-
-    setPosEnd(){
-        for (let p = 0; p < this._pieces.length; p++) {
-            this._pieces[p].setPosition = this.positionEnd;
         }
     }
     

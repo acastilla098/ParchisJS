@@ -2,6 +2,7 @@ export default class GameToken{
     constructor(){
         this._position = 0;
         this._outHome = false;
+        this._inEnd = false;
     }
 
     get getPosition(){
@@ -27,6 +28,19 @@ export default class GameToken{
     set setOutHome(out){
 
         this._outHome = out;
+        
+    }
+    
+    get getInEnd(){
+        return this._inEnd;
+    }
+
+    /**
+     * @param {boolean} end
+     */
+    set setInEnd(end){
+
+        this._inEnd = end;
         
     }
 
