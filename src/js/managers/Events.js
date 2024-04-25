@@ -13,7 +13,7 @@ export default class Events{
     }
 
     goHome(player){
-        return  player.getPositionInit();
+        return  player.getPositionInit;
     }
 
     getPlayerSelected(color){
@@ -74,7 +74,6 @@ console.log(suma);
                 pieces[token_id].setPosition = posinit;
                 pieces[token_id].setOutHome = true;
                 console.log(pieces[token_id].getPosition);
-                this._results = [];
 
                 return -100;
 
@@ -82,30 +81,11 @@ console.log(suma);
 
                 pieces[token_id].setPosition = index;
                 console.log(pieces[token_id].getPosition);
-                this._results = [];
 
                 return pieces[token_id].getPosition;
 
             }
-        }
-
-        /*if (moves === 5 && pieces[token_id].getOutHome == false) {
-
-            pieces[token_id].setPosition = posinit;
-            pieces[token_id].setOutHome = true;
-            console.log(pieces[token_id].getPosition);
-
-            return -100;
-
-        } else if(pieces[token_id].getOutHome == true){
-
-            pieces[token_id].setPosition = index;
-            console.log(pieces[token_id].getPosition);
-
-            return pieces[token_id].getPosition;
-
-        }*/
-        
+        }        
 
     }
 
@@ -159,58 +139,59 @@ console.log(suma);
         return this._start_turn();
     }
 
-    _finish_check(){
-        let pFinish = 0;;
+    _allTokensEnd(player){
+        let tfin = 0;
 
-        let players = this._configC.getPlayers
-
-        for (let p = 0; p < this._configC.countPlayers(); p++) {
-
-            if (players[p].getEnd) {
-
-                pFinish++;
-            }            
+        for (let t = 0; t < player.getNumPieces; t++) {
+            if (player.getPieces[t].getFinish) {
+                tfin++;
+            }
         }
 
-        return pFinish;
+        if (tfin == player.getNumPieces) {
+            player.setEnd = true;
+            return true;
+        }
+
+        return false;
+    }
+
+    _finish_check(player){
+
+        if (this._allTokensEnd(player)) {
+            this.pFinish.push(player);
+            return true;
+        }
+
+        return false;
     }
 
     isFinished(){
 
-        let finish = false;
+        let finish = 0;
 
         let players = this._configC.getPlayers;
 
         players.forEach(player => {
 
-            if (this._finish_check(player.getColor)) {
+            if (this._finish_check(player)) {
 
-                finish = true;
-
-            }else{
-
-                finish = false;
+                finish++;
             }
         });
 
-console.log('finish: ' + finish);
+        if (finish == this._configC.countPlayers()) {
+            return true;
+        }
 
-        return finish;
+        return false;
     }
 
     getWinner(){
+        return this.pFinish[0];
+    }
 
-        let players = this._configC.getPlayers;
-
-        for (let p = 0; p < players.length; p++) {
-
-          if (this._finish_check(players[p].getColor)) {
-
-            this.pFinish.push(players[p]);
-
-            }
-        }
-
+    getPodium(){
         return this.pFinish;
     }
 

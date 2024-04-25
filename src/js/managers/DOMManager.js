@@ -128,12 +128,11 @@ export default class DOMManager{
         });
 
         btnT.addEventListener('click', () => {
-            this._updateScore();
             this._events.start();
             this._changeImgTurn();
         });
 
-        btnT.addEventListener('click', () => {this._changeDices();});
+        btnT.addEventListener('click', () => {this._changeDices();this._updateScore();});
 
     }
 
@@ -149,11 +148,12 @@ export default class DOMManager{
                 player = players[1];
             }
 
-            for (let i = 1;  i <= this._events.getRoll() ;i++) {
+            for (let i = 1;  i <= this._events.getSumResults() ;i++) {
+
                 if(player.getPositionEnd == player.getPieces[tokenImg.id].getPosition || player.getPieces[tokenImg.id].getInEnd == true){
 
                     console.log("entrando a linea final");
-                    this._checkBoxLast(i, this._events.getRoll(), player, tokenImg);
+                    this._checkBoxLast(i, this._events.getSumResults(), player, tokenImg);
 
                     break;
                 }
@@ -200,11 +200,15 @@ export default class DOMManager{
 
                 document.querySelector(`.c${posOrigin}`).appendChild(tokenImg);
             } else {
-                //this._changeStyleTokens();
+                let eat = false;
 
                 if (document.querySelector(`.c${player.getPieces[tokenImg.id].getPosition}`).childElementCount == 2) {
                     let casilla = document.querySelector(`.c${player.getPieces[tokenImg.id].getPosition}`);
-                    this._eatToken(casilla,tokenImg);
+                    eat = this._eatToken(casilla,tokenImg);
+                }
+
+                if (!eat) {
+                    this._changeStyleTokens();
                 }
             }
           
@@ -247,15 +251,17 @@ export default class DOMManager{
         
         if(checkTokens==true){
 
-            console.log(cont);
-            console.log(player.getPieces[tokenImg.id].getPosition);
-
             player.getPieces[tokenImg.id].setPosition = player.getPieces[tokenImg.id].getPosition + cont;
-
-            console.log(player.getPieces[tokenImg.id].getPosition);
-            
-            document.querySelector(`.${player.getColor}${player.getPieces[tokenImg.id].getPosition}`).appendChild(tokenImg);
-        
+    
+            if (player.getPieces[tokenImg.id].getPosition >= 8  && player.getPieces[tokenImg.id].getInEnd == true) {
+                let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
+                div.style.pointerEvents = 'none';
+                div.removeAttribute("name");
+            } else {
+                document.querySelector(`.${player.getColor}${player.getPieces[tokenImg.id].getPosition}`).appendChild(tokenImg);
+            }
+    
+           
         }
     }
 
@@ -292,7 +298,15 @@ export default class DOMManager{
             player.getPieces[tokenEnemy.id].setOutHome = false;
             
 console.log('Dos fichas diferentes');
+
+            let res = this._events.returnDices();
+            for (let r = 0; r < res.length; r++) {
+                res[r] = 10;                
+            }
+            return true;
         }
+
+        return false;
     }
 
     _changeStyleTokens(){
@@ -494,10 +508,10 @@ console.log('Dos fichas diferentes');
 
     _updateScore(){
 
-        if(this._events.countFinishP() <= this._events._configC.countPlayers()){
-            for(let i = 0; i < this._events.countFinishP() - 1;i++){
+        if(this._events.countFinishP() < this._events._configC.countPlayers()){
+            for(let i = 0; i < this._events.countFinishP();i++){
                 let change = document.querySelector(`.podiumPlayer${i}`);
-                change.textContent = this._events.pFinish[i].getColor.toUpperCase()
+                change.textContent = this._events.pFinish[i].getColor.toUpperCase();
             }
         }
         
