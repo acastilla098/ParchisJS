@@ -164,7 +164,7 @@ export default class DOMManager{
                     j = j - 68;
                 }
 
-                let x = document.querySelector(`.c${j}`).childElementCount;
+                let x = document.querySelector(`.c${j}`).childElementCount;//Casilla a la que llega
 
                 if(!player.getPieces[tokenImg.id].isMovementAllowed(x)){
                     console.log("movimiento no permitido");
@@ -199,6 +199,13 @@ export default class DOMManager{
                 player.getPieces[tokenImg.id].setPosition = posOrigin;
 
                 document.querySelector(`.c${posOrigin}`).appendChild(tokenImg);
+            } else {
+                this._changeStyleTokens();
+
+                if (document.querySelector(`.c${player.getPieces[tokenImg.id].getPosition}`).childElementCount == 2) {
+                    let casilla = document.querySelector(`.c${player.getPieces[tokenImg.id].getPosition}`);
+                    this._eatToken(casilla,tokenImg);
+                }
             }
           
         });
@@ -248,6 +255,42 @@ export default class DOMManager{
             
             document.querySelector(`.${player.getColor}${player.getPieces[tokenImg.id].getPosition}`).appendChild(tokenImg);
         
+        }
+    }
+
+    _eatToken(casilla,tokenImg){
+        if (casilla.firstElementChild.name != tokenImg.name) {
+            let player;
+
+            let tokenEnemy = casilla.firstElementChild;
+            let colorToken = tokenEnemy.name;
+
+            switch (colorToken) {
+                case 'diceRed':
+                    document.querySelector(`.diceRed`).appendChild(tokenEnemy);
+                    player = this._events.getPlayerSelected('red');
+                    break;
+                case 'diceYellow':
+                    document.querySelector(`.diceYellow`).appendChild(tokenEnemy);
+                    player = this._events.getPlayerSelected('yellow');
+                    break;
+                case 'diceGreen':
+                    document.querySelector(`.diceGreen`).appendChild(tokenEnemy);
+                    player = this._events.getPlayerSelected('green');
+                    break;
+                case 'diceBlue':
+                    document.querySelector(`.diceBlue`).appendChild(tokenEnemy);
+                    player = this._events.getPlayerSelected('blue');
+                    break;
+            
+                default:
+                    break;
+            }
+            
+            player.getPieces[tokenEnemy.id].setPosition = this._events.goHome(player);
+            player.getPieces[tokenEnemy.id].setOutHome = false;
+            
+console.log('Dos fichas diferentes');
         }
     }
 

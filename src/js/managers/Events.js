@@ -12,11 +12,29 @@ export default class Events{
 
     }
 
+    goHome(player){
+        return  player.getPositionInit;
+    }
+
+    getPlayerSelected(color){
+        let players = this._configC.getPlayers;
+        let player;
+
+        for (let p = 0; p < players.length; p++) {
+            if (players[p].getColor == color) {
+                player = players[p];
+            }
+        }
+
+        return player;
+    }
+
     throu(dice){
         let roll = 0;
 
         this._configC.getDices[dice].throw();
         roll = this._configC.getDices[dice].getNumber;
+        this._results.push(roll);
 
         return roll;
     }
@@ -31,7 +49,8 @@ export default class Events{
         let pieces = player.getPieces;
         let posinit = player.positionInit;
         
-        let moves = this.getRoll();
+        //let moves = this.getRoll();
+        let nums = this.returnDices();
 
         let index = pieces[token_id].getPosition + 1
 
@@ -39,7 +58,25 @@ export default class Events{
             index = index-68;
         }
 
-        if (moves === 5 && pieces[token_id].getOutHome == false) {
+        for (let d = 0; d < nums.length; d++) {
+            if (nums[d] === 5 && pieces[token_id].getOutHome == false) {
+                pieces[token_id].setPosition = posinit;
+                pieces[token_id].setOutHome = true;
+                console.log(pieces[token_id].getPosition);
+
+                return -100;
+
+            } else if(pieces[token_id].getOutHome == true){
+
+                pieces[token_id].setPosition = index;
+                console.log(pieces[token_id].getPosition);
+
+                return pieces[token_id].getPosition;
+
+            }
+        }
+
+        /*if (moves === 5 && pieces[token_id].getOutHome == false) {
 
             pieces[token_id].setPosition = posinit;
             pieces[token_id].setOutHome = true;
@@ -54,7 +91,7 @@ export default class Events{
 
             return pieces[token_id].getPosition;
 
-        }
+        }*/
         
 
     }
