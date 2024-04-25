@@ -13,7 +13,7 @@ export default class Events{
     }
 
     goHome(player){
-        return  player.getPositionInit;
+        return  player.getPositionInit();
     }
 
     getPlayerSelected(color){
@@ -43,14 +43,25 @@ export default class Events{
         let pieces = player.getPieces;
         return pieces[token_id].getPosition;
     }
+
+    getSumResults(){
+        let suma = 0;
+console.log(this._results);
+        for (let r = 0; r < this._results.length; r++) {
+console.log(this._results[r]);
+            suma += this._results[r];            
+        }
+console.log(suma);
+        return suma;
+    }
     
     move_token(player,token_id){
 
         let pieces = player.getPieces;
         let posinit = player.positionInit;
-        
         //let moves = this.getRoll();
         let nums = this.returnDices();
+        let sum = this.getSumResults();
 
         let index = pieces[token_id].getPosition + 1
 
@@ -59,10 +70,11 @@ export default class Events{
         }
 
         for (let d = 0; d < nums.length; d++) {
-            if (nums[d] === 5 && pieces[token_id].getOutHome == false) {
+            if ((nums[d] == 5 || sum == 5) && pieces[token_id].getOutHome == false) {
                 pieces[token_id].setPosition = posinit;
                 pieces[token_id].setOutHome = true;
                 console.log(pieces[token_id].getPosition);
+                this._results = [];
 
                 return -100;
 
@@ -70,6 +82,7 @@ export default class Events{
 
                 pieces[token_id].setPosition = index;
                 console.log(pieces[token_id].getPosition);
+                this._results = [];
 
                 return pieces[token_id].getPosition;
 
@@ -121,6 +134,8 @@ export default class Events{
             this._turn = 0;
         }
 
+        this._results = [];
+
     }
 
     returnDices(){
@@ -144,19 +159,20 @@ export default class Events{
         return this._start_turn();
     }
 
-    _finish_check(color){
+    _finish_check(){
+        let pFinish = 0;;
 
         let players = this._configC.getPlayers
 
         for (let p = 0; p < this._configC.countPlayers(); p++) {
 
-            if (players[p].getColor == color && players[p].getEnd) {
+            if (players[p].getEnd) {
 
-                return true;
+                pFinish++;
             }            
         }
 
-        return false;
+        return pFinish;
     }
 
     isFinished(){

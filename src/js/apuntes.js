@@ -54,6 +54,19 @@ class Dice{
     }
 }
 
+
+
+/*if (moves === 5 && pieces[token_id].getOutHome == false) {
+    pieces[token_id].setPosition = posinit;
+    pieces[token_id].setOutHome = true;
+    console.log(pieces[token_id].getPosition);
+    return -100;
+} else if(pieces[token_id].getOutHome == true){
+    pieces[token_id].setPosition = index;
+    console.log(pieces[token_id].getPosition);
+    return pieces[token_id].getPosition;
+}*/
+
 /**Intento de cambiar la clase de las fichas para no poder seleccionarlas si no te toca
  * tokenImg.addEventListener('change', () => {
         tokenImg.className = this._CLASSES.UX_TOKEN;

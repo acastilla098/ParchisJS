@@ -3,6 +3,7 @@ export default class GameToken{
         this._position = 0;
         this._outHome = false;
         this._inEnd = false;
+        this._finish = false;
     }
 
     get getInEnd(){
@@ -15,6 +16,19 @@ export default class GameToken{
     set setInEnd(end){
 
         this._inEnd = end;
+        
+    }
+    
+    get getFinish(){
+        return this._finish;
+    }
+
+    /**
+     * @param {boolean} fin
+     */
+    set setFinish(fin){
+
+        this._finish = fin;
         
     }
 

@@ -200,7 +200,7 @@ export default class DOMManager{
 
                 document.querySelector(`.c${posOrigin}`).appendChild(tokenImg);
             } else {
-                this._changeStyleTokens();
+                //this._changeStyleTokens();
 
                 if (document.querySelector(`.c${player.getPieces[tokenImg.id].getPosition}`).childElementCount == 2) {
                     let casilla = document.querySelector(`.c${player.getPieces[tokenImg.id].getPosition}`);
@@ -229,6 +229,7 @@ export default class DOMManager{
 
             if (j > 7 && player.getPieces[tokenImg.id].getInEnd == true) {
                 let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
+                player.getPieces[tokenImg.id].setFinish = true;
                 div.style.pointerEvents = 'none';
                 div.removeAttribute("name");
             }
