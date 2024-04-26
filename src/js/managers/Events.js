@@ -46,12 +46,11 @@ export default class Events{
 
     getSumResults(){
         let suma = 0;
-console.log(this._results);
+
         for (let r = 0; r < this._results.length; r++) {
-console.log(this._results[r]);
             suma += this._results[r];            
         }
-console.log(suma);
+
         return suma;
     }
     
@@ -73,14 +72,14 @@ console.log(suma);
             if ((nums[d] == 5 || sum == 5) && pieces[token_id].getOutHome == false) {
                 pieces[token_id].setPosition = posinit;
                 pieces[token_id].setOutHome = true;
-                console.log(pieces[token_id].getPosition);
+                //console.log(pieces[token_id].getPosition);
 
                 return -100;
 
             } else if(pieces[token_id].getOutHome == true){
 
                 pieces[token_id].setPosition = index;
-                console.log(pieces[token_id].getPosition);
+                //console.log(pieces[token_id].getPosition);
 
                 return pieces[token_id].getPosition;
 
@@ -90,21 +89,12 @@ console.log(suma);
     }
 
     _end_turn(player){
-        player.setEnd = false;
+        //player.setEnd = false;
 
-        let pieces = player.getPieces;
-
-        let eq = 0;
-
-        for (let ind = 0; ind < player.getNumPieces; ind++) {
-
-            if (pieces[ind].getPosition == 500) {
-                eq++;
-            }
-        }
-
-        if (eq == player.getNumPieces) {
+        if (this._allTokensEnd(player)) {
             player.setEnd = true;
+        } else {
+            player.setEnd = false;
         }
         
         this._turn++;
@@ -139,6 +129,10 @@ console.log(suma);
         return this._start_turn();
     }
 
+    addPFinish(player){
+        this.pFinish.push(player);
+    }
+
     _allTokensEnd(player){
         let tfin = 0;
 
@@ -159,7 +153,6 @@ console.log(suma);
     _finish_check(player){
 
         if (this._allTokensEnd(player)) {
-            this.pFinish.push(player);
             return true;
         }
 
@@ -207,9 +200,11 @@ console.log(suma);
     }
 
     start(){
-        this.pFinish = [];
+        if (!(this.countFinishP() > 0)) {
+            this.pFinish = [];
+        }
 
-        if (!(this.isFinished()) || this.countFinishP() == this._configC.countPlayers()) {
+        if (!(this.isFinished()) || this.countFinishP() == this._configC.countPlayers() - 1) {
             
             this._start_turn(this.getTurnPlayer());
 

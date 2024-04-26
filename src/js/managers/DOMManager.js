@@ -4,6 +4,8 @@ export default class DOMManager{
 
         this._events = events;
 
+        this._podium = 0;
+
         this._CLASSES = {
 
             UX_CONTENT:             'ux-content',
@@ -100,6 +102,7 @@ export default class DOMManager{
             this._events.start();
             this._changeDices();
             this._events._turn = 0;
+            this._podium = 0;
 
         })
     }
@@ -132,11 +135,15 @@ export default class DOMManager{
             this._changeImgTurn();
         });
 
-        btnT.addEventListener('click', () => {this._changeDices();this._updateScore();});
+        btnT.addEventListener('click', () => {
+            this._changeDices();
+            //this._updateScore();
+        });
 
     }
 
     _eventToken(tokenImg,player){
+
         tokenImg.addEventListener('click', () => {
 
         let players = this._events._configC.getPlayers;
@@ -208,11 +215,13 @@ export default class DOMManager{
                 }
 
                 if (!eat) {
-                    this._changeStyleTokens();
+                    //this._changeStyleTokens();
                 }
             }
           
         });
+
+        tokenImg.addEventListener('click', () => {this._updateScore(player)});
         
     }
 
@@ -228,7 +237,7 @@ export default class DOMManager{
         
 
         for (let i = value ;  i <= throu ;i++) {
-            
+            console.log(this._podium);            
             let j = player.getPieces[tokenImg.id].getPosition + 1;
 
             if (j > 7 && player.getPieces[tokenImg.id].getInEnd == true) {
@@ -245,7 +254,7 @@ export default class DOMManager{
             }
 
             cont++;
-            console.log(cont);
+            //console.log(cont);
         }
         
         
@@ -256,6 +265,7 @@ export default class DOMManager{
             if (player.getPieces[tokenImg.id].getPosition >= 8  && player.getPieces[tokenImg.id].getInEnd == true) {
                 let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
                 div.style.pointerEvents = 'none';
+                player.setEnd = true;
                 div.removeAttribute("name");
             } else {
                 document.querySelector(`.${player.getColor}${player.getPieces[tokenImg.id].getPosition}`).appendChild(tokenImg);
@@ -506,14 +516,21 @@ console.log('Dos fichas diferentes');
         this._divS.appendChild(divP);
     }
 
-    _updateScore(){
+    _updateScore(player){
 
-        if(this._events.countFinishP() < this._events._configC.countPlayers()){
+        if (player.getEnd) {
+            let change = document.querySelector(`.podiumPlayer${this._podium}`);
+            this._podium++;
+            change.textContent = player.getColor.toUpperCase();   
+        }
+
+
+        /*if(this._events.countFinishP() <= this._events._configC.countPlayers() - 1){
             for(let i = 0; i < this._events.countFinishP();i++){
                 let change = document.querySelector(`.podiumPlayer${i}`);
                 change.textContent = this._events.pFinish[i].getColor.toUpperCase();
             }
-        }
+        }*/
         
     }
 
