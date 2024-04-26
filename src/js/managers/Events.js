@@ -175,12 +175,9 @@ console.log(player.getEnd == true);
             if (this._finish_check(players[p])) {
                 finish++;
                 ps.push(players[p]);
-//console.log(finish);
             }            
         }
         this.pFinish = ps;
-
-//console.log(finish);
 
         if (finish == this._configC.countPlayers() - 1) {
 console.log('Finish');
