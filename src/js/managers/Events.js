@@ -6,6 +6,8 @@ export default class Events{
 
         this.pFinish = [];
 
+        this.finish = 0;
+
         this._turn = 0;
 
         this._results = [];
@@ -96,9 +98,8 @@ export default class Events{
         } else {
             player.setEnd = false;
         }
-        
+
         this._turn++;
-        
 
         if( this._turn >= this._configC.countPlayers() ){
             this._turn = 0;
@@ -137,6 +138,7 @@ export default class Events{
         let tfin = 0;
 
         for (let t = 0; t < player.getNumPieces; t++) {
+console.log('Ficha: '+player.getPieces[t].getFinish);
             if (player.getPieces[t].getFinish) {
                 tfin++;
             }
@@ -151,8 +153,11 @@ export default class Events{
     }
 
     _finish_check(player){
-
-        if (this._allTokensEnd(player)) {
+console.log(this.pFinish);
+console.log(this._allTokensEnd(player));
+console.log(player.getEnd == true);
+        if (this._allTokensEnd(player) && player.getEnd == true) {
+            //this.addPFinish(player);
             return true;
         }
 
@@ -160,20 +165,25 @@ export default class Events{
     }
 
     isFinished(){
-
         let finish = 0;
+        let ps = [];
 
         let players = this._configC.getPlayers;
+        let numPlayers = this._configC.countPlayers();
 
-        players.forEach(player => {
-
-            if (this._finish_check(player)) {
-
+        for (let p = 0; p < numPlayers; p++) {
+            if (this._finish_check(players[p])) {
                 finish++;
-            }
-        });
+                ps.push(players[p]);
+//console.log(finish);
+            }            
+        }
+        this.pFinish = ps;
 
-        if (finish == this._configC.countPlayers()) {
+//console.log(finish);
+
+        if (finish == this._configC.countPlayers() - 1) {
+console.log('Finish');
             return true;
         }
 
@@ -200,11 +210,11 @@ export default class Events{
     }
 
     start(){
-        if (!(this.countFinishP() > 0)) {
-            this.pFinish = [];
-        }
 
-        if (!(this.isFinished()) || this.countFinishP() == this._configC.countPlayers() - 1) {
+        let finish = this.isFinished();
+console.log(finish);
+console.log(this.countFinishP() == this._configC.countPlayers() - 1);
+        if (finish == false || !(this.countFinishP() == this._configC.countPlayers() - 1)) {
             
             this._start_turn(this.getTurnPlayer());
 
@@ -212,6 +222,9 @@ export default class Events{
 
             this.getWinner();
 
+        }else{
+            alert('Fin de la partida');
+            return 0;
         }
 
         return this._turn;

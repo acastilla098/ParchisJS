@@ -133,11 +133,12 @@ export default class DOMManager{
         btnT.addEventListener('click', () => {
             this._events.start();
             this._changeImgTurn();
+            this._updateScore();
         });
 
         btnT.addEventListener('click', () => {
             this._changeDices();
-            //this._updateScore();
+            this._updateScore();
         });
 
     }
@@ -221,7 +222,7 @@ export default class DOMManager{
           
         });
 
-        tokenImg.addEventListener('click', () => {this._updateScore(player)});
+        tokenImg.addEventListener('click', () => {this._updateScore();});
         
     }
 
@@ -243,12 +244,16 @@ export default class DOMManager{
             if (j > 7 && player.getPieces[tokenImg.id].getInEnd == true) {
                 let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
                 player.getPieces[tokenImg.id].setFinish = true;
+console.log('Set finis fichas: ' + player.getPieces[tokenImg.id].setFinish);
                 div.style.pointerEvents = 'none';
                 div.removeAttribute("name");
             }
 
-            let x = document.querySelector(`.${player.getColor}${j}`).childElementCount;
-            
+            let x = 0;
+            if (j <= 7) {
+                x = document.querySelector(`.${player.getColor}${j}`).childElementCount;   
+            }
+
             if(!player.getPieces[tokenImg.id].isMovementAllowed(x)){
                 checkTokens = false;
             }
@@ -265,13 +270,33 @@ export default class DOMManager{
             if (player.getPieces[tokenImg.id].getPosition >= 8  && player.getPieces[tokenImg.id].getInEnd == true) {
                 let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
                 div.style.pointerEvents = 'none';
-                player.setEnd = true;
+                //player.setEnd = true;
                 div.removeAttribute("name");
+                player.getPieces[tokenImg.id].setFinish = true;
+console.log('Dentro2');
+                //player.setEnd = true;
+                ///this._updateScore(player);
+
+                /*let pod = this._events.getPodium();
+
+                if (!pod.includes(player) && player.getEnd == true) {
+                    this._events.addPFinish(player);   
+                }*/
             } else {
                 document.querySelector(`.${player.getColor}${player.getPieces[tokenImg.id].getPosition}`).appendChild(tokenImg);
             }
     
            
+        } else {
+console.log('Dentro');
+            //player.setEnd = true;
+            //this._updateScore(player);
+
+            /*let pod = this._events.getPodium();
+
+            if (!pod.includes(player)) {
+                this._events.addPFinish(player);   
+            }*/
         }
     }
 
@@ -516,21 +541,14 @@ console.log('Dos fichas diferentes');
         this._divS.appendChild(divP);
     }
 
-    _updateScore(player){
+    _updateScore(){
 
-        if (player.getEnd) {
-            let change = document.querySelector(`.podiumPlayer${this._podium}`);
-            this._podium++;
-            change.textContent = player.getColor.toUpperCase();   
-        }
-
-
-        /*if(this._events.countFinishP() <= this._events._configC.countPlayers() - 1){
+        if(this._events.countFinishP() <= this._events._configC.countPlayers() - 1){
             for(let i = 0; i < this._events.countFinishP();i++){
                 let change = document.querySelector(`.podiumPlayer${i}`);
                 change.textContent = this._events.pFinish[i].getColor.toUpperCase();
             }
-        }*/
+        }
         
     }
 
