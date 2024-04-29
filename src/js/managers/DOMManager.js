@@ -143,6 +143,15 @@ export default class DOMManager{
             this._updateScore();
         });
 
+        btnT.addEventListener('click',() => {
+
+            let players = this._events._configC.getPlayers;
+
+            if (players[this._events._turn].getEnd == true) {
+                alert(`El jugador ${players[this._events._turn].getColor.toUpperCase()} ha terminado, por favor presione al cubilete para pasar el turno.`);
+            }
+
+        });
     }
 
     _eventToken(tokenImg,player){
@@ -163,7 +172,6 @@ export default class DOMManager{
 
                 if(player.getPositionEnd == player.getPieces[tokenImg.id].getPosition || player.getPieces[tokenImg.id].getInEnd == true){
 
-console.log("entrando a linea final");
                     this._checkBoxLast(i, this._events.getSumResults(), player, tokenImg);
 
                     break;
@@ -178,8 +186,9 @@ console.log("entrando a linea final");
                 let x = document.querySelector(`.c${j}`).childElementCount;//Casilla a la que llega
 
                 if(!player.getPieces[tokenImg.id].isMovementAllowed(x)){
-console.log("movimiento no permitido");
+
                     checkTokens = false;
+
                 }
 
                 pos = this._events.move_token(player, tokenImg.id);
@@ -210,12 +219,15 @@ console.log("movimiento no permitido");
                 player.getPieces[tokenImg.id].setPosition = posOrigin;
 
                 document.querySelector(`.c${posOrigin}`).appendChild(tokenImg);
+
             } else {
                 let eat = false;
 
                 if (document.querySelector(`.c${player.getPieces[tokenImg.id].getPosition}`).childElementCount == 2) {
+
                     let casilla = document.querySelector(`.c${player.getPieces[tokenImg.id].getPosition}`);
                     eat = this._eatToken(casilla,tokenImg);
+
                 }
 
                 if (!eat) {
@@ -230,8 +242,10 @@ console.log("movimiento no permitido");
     }
 
     _checkBoxLast(value, throu, player, tokenImg){
+
         let cont = 0;
         let checkTokens = true;
+
         if(value <= throu && player.getPieces[tokenImg.id].getInEnd == false){
 
             player.getPieces[tokenImg.id].setInEnd = true;
@@ -241,18 +255,21 @@ console.log("movimiento no permitido");
         
 
         for (let i = value ;  i <= throu ;i++) {
-            console.log(this._podium);            
+
             let j = player.getPieces[tokenImg.id].getPosition + 1;
 
             if (j > 7 && player.getPieces[tokenImg.id].getInEnd == true) {
+
                 let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
                 player.getPieces[tokenImg.id].setFinish = true;
 
                 div.style.pointerEvents = 'none';
                 div.removeAttribute("name");
+
             }
 
             let x = 0;
+
             if (j <= 7) {
                 x = document.querySelector(`.${player.getColor}${j}`).childElementCount;   
             }
@@ -270,9 +287,12 @@ console.log("movimiento no permitido");
             player.getPieces[tokenImg.id].setPosition = player.getPieces[tokenImg.id].getPosition + cont;
     
             if (player.getPieces[tokenImg.id].getPosition >= 8  && player.getPieces[tokenImg.id].getInEnd == true) {
+
                 let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
+
                 div.style.pointerEvents = 'none';
                 div.removeAttribute("name");
+
                 player.getPieces[tokenImg.id].setFinish = true;
 
             } else {
@@ -286,11 +306,11 @@ console.log("movimiento no permitido");
     _eatToken(casilla,tokenImg){
 
         if (this._saves.includes(casilla.className)) {
-            console.log('Casilla Save');
             return false;
         }
         
         if (casilla.firstElementChild.name != tokenImg.name) {
+
             let player;
 
             let tokenEnemy = casilla.firstElementChild;
@@ -313,20 +333,19 @@ console.log("movimiento no permitido");
                     document.querySelector(`.diceBlue`).appendChild(tokenEnemy);
                     player = this._events.getPlayerSelected('blue');
                     break;
-            
                 default:
                     break;
             }
             
             player.getPieces[tokenEnemy.id].setPosition = this._events.goHome(player);
             player.getPieces[tokenEnemy.id].setOutHome = false;
-            
-console.log('Dos fichas diferentes');
 
             let res = this._events.returnDices();
+
             for (let r = 0; r < res.length; r++) {
                 res[r] = 10;                
             }
+
             return true;
         }
 
@@ -334,6 +353,7 @@ console.log('Dos fichas diferentes');
     }
 
     _changeStyleTokens(){
+
         let divK = document.querySelectorAll(`.${this._CLASSES.UX_TOKEN}`)
     
         divK.forEach(function (token) {
@@ -345,6 +365,7 @@ console.log('Dos fichas diferentes');
     }
 
     _changeStyleTokensValueColor(value){
+
         let valuesColors = Object.values(this._COLORS);
 
         let divT = document.getElementsByName(`${valuesColors[value]}`)
@@ -360,6 +381,7 @@ console.log('Dos fichas diferentes');
 
         let thwoum = document.createElement('b');
         thwoum.textContent = '¡Pincha y tira!';
+
         let m = document.createElement('b');
         m.textContent = '(Cambio de turno automático)';
         
@@ -395,8 +417,10 @@ console.log('Dos fichas diferentes');
     _changeDices(){
 
         for (let d = 0; d < this._events._configC.countDices(); d++) {
+
             let roll = this._events.throu(d);
             let change = document.querySelector('.ux-cube' + d);
+
             change.textContent = roll;
             
         }
@@ -404,6 +428,7 @@ console.log('Dos fichas diferentes');
     }
 
     _createToken(){
+
         let valuesPieces = Object.values(this._PIECES);
         let valuesColors = Object.values(this._COLORS);
 
@@ -413,10 +438,13 @@ console.log('Dos fichas diferentes');
         let numPieces = players[0].getNumPieces;
 
         for(let j = 0; j < numPieces; j++){
+
             for(let i = 0; i <  numPlayers; i++){
+
                 if(i == 1 && numPlayers == 2){
                     i = 2
                 }
+
                 let tokenImg = document.createElement('img');
 
                 tokenImg.className = this._CLASSES.UX_TOKEN;
@@ -446,7 +474,9 @@ console.log('Dos fichas diferentes');
     }
 
     _changeTurnPlayer(number){
+
         let turnPlayer = document.createElement('img')
+
         turnPlayer.alt = "Jugador a tirar";
         turnPlayer.src = this._valuesP[number];
         turnPlayer.className = this._CLASSES.UX_USER
@@ -456,6 +486,7 @@ console.log('Dos fichas diferentes');
     }
 
     _changeImgTurn(){
+
         this._changeStyleTokens();
         let img = document.querySelector(`.${this._CLASSES.UX_USER}`);
 
@@ -490,9 +521,10 @@ console.log('Dos fichas diferentes');
     }
 
     _createBtnReturn(){
-        let divF = document.querySelector(`.${this._CLASSES.UX_FOOTER}`)
 
+        let divF = document.querySelector(`.${this._CLASSES.UX_FOOTER}`)
         let btnR = document.createElement('button');
+
         btnR.className = this._CLASSES.UX_RETURN;
         btnR.textContent = 'Return';
         btnR.title = 'Botón de retorno';
@@ -525,6 +557,7 @@ console.log('Dos fichas diferentes');
             podiumPlayer.title = 'Podio';
 
             let span = document.createElement('span');
+
             span.className = `podiumPlayer${j}`;
             span.textContent = '________';
 
@@ -538,9 +571,13 @@ console.log('Dos fichas diferentes');
     _updateScore(){
 
         if(this._events.countFinishP() <= this._events._configC.countPlayers() - 1){
+
             for(let i = 0; i < this._events.countFinishP();i++){
+
                 let change = document.querySelector(`.podiumPlayer${i}`);
+                
                 change.textContent = this._events.pFinish[i].getColor.toUpperCase();
+
             }
         }
         

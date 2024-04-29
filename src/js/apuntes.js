@@ -1,3 +1,8 @@
+/**DAVID
+ * 10:10
+ * 10:20
+ * 10:50
+ */
 class Player{
     constructor(color,numPieces){
         this.color = color;

@@ -69,7 +69,6 @@ export default class GameComponents{
 
             this._dices[d] = new Dice();
 
-
         }
     
         return this._dices;

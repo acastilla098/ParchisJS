@@ -1,4 +1,7 @@
-*.pdn
-Ludo_Board.pdf
-Ludo_Board.svg
+public/docs/Ludo_Board.svg
 **/.~lock.GDD.odt#
+src/js/apuntes.js
+public/docs/Ludo_Board.pdf
+public/docs/placeholder.pdn
+public/html/crear-partida.html
+public/html/table-1.html

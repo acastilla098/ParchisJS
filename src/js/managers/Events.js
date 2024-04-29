@@ -19,13 +19,16 @@ export default class Events{
     }
 
     getPlayerSelected(color){
+
         let players = this._configC.getPlayers;
         let player;
 
         for (let p = 0; p < players.length; p++) {
+
             if (players[p].getColor == color) {
                 player = players[p];
             }
+
         }
 
         return player;
@@ -42,7 +45,9 @@ export default class Events{
     }
 
     getPosBefore(player,token_id){
+
         let pieces = player.getPieces;
+
         return pieces[token_id].getPosition;
     }
 
@@ -71,7 +76,9 @@ export default class Events{
         }
 
         for (let d = 0; d < nums.length; d++) {
+
             if ((nums[d] == 5 || sum == 5) && pieces[token_id].getOutHome == false) {
+
                 pieces[token_id].setPosition = posinit;
                 pieces[token_id].setOutHome = true;
 
@@ -142,6 +149,7 @@ export default class Events{
         }
 
         if (tfin == player.getNumPieces) {
+
             player.setEnd = true;
             return true;
         }
@@ -166,10 +174,14 @@ export default class Events{
         let numPlayers = this._configC.countPlayers();
 
         for (let p = 0; p < numPlayers; p++) {
+
             if (this._finish_check(players[p])) {
+
                 finish++;
                 ps.push(players[p]);
-            }            
+                
+            }
+
         }
         this.pFinish = ps;
 

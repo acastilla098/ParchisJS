@@ -63,12 +63,15 @@ export default class Player {
     }
 
     setPos(){
+
         for (let p = 0; p < this._pieces.length; p++) {
             this._pieces[p].setPosition = this.positionInit;
         }
+
     }
 
     posInit(){
+
         switch (this._color) {
             case 'red':
                 this.positionInit = 22;
@@ -85,9 +88,11 @@ export default class Player {
             default:
                 break;
         }
+        
     }
     
     posEnd(){
+
         switch (this._color) {
             case 'red':
                 this.positionEnd = 17
@@ -104,5 +109,6 @@ export default class Player {
             default:
                 break;
         }
+
     }
 }
