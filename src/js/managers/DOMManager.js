@@ -146,9 +146,14 @@ export default class DOMManager{
 
         btnT.addEventListener('click',() => {
 
-            let players = this._events._configC.getPlayers;
+           let players = this._events._configC.getPlayers;
 
-            if (players[this._events._turn].getEnd == true) {
+           if (players[this._events._turn].getEnd == true) {
+
+           //let players = this._events._configC.getPlayers;
+
+            //if (gameManager.currentPlayesHasFinishedTurn()) {
+
                 alert(`El jugador ${players[this._events._turn].getColor.toUpperCase()} ha terminado, por favor presione al cubilete para pasar el turno.`);
 
                 let video = document.createElement('VIDEO');
@@ -157,49 +162,6 @@ export default class DOMManager{
                 video.autoplay = true;
                 video.loop = true;
                 video.width = '80';
-
-                let valuesColors = Object.values(this._COLORS);
-                let div = document.querySelector(`.${valuesColors[this._events._turn]}`);
-                div.className = valuesColors[this._events._turn] + '2';
-
-                div.appendChild(video);
-
-                let dado0 = document.querySelector('.ux-cube0');
-                let dado1 = document.querySelector('.ux-cube1');
-
-                dado0.style.alignContent = 'center';
-                dado0.textContent = 'THE';
-                dado0.style.fontSize = '40px';
-                dado1.style.alignContent = 'center';
-                dado1.textContent = 'END';
-                dado1.style.fontSize = '40px';
-            }else{
-                let video = document.querySelector(`.${this._CLASSES.UX_VIDEO}`);
-
-                if (video != null) {
-                    video.remove();
-                }
-                
-            }
-
-        });
-    }
-
-    _eventBtnThrowFinal(btnT){
-        btnT.addEventListener('click',() => {
-
-            let players = this._events._configC.getPlayers;
-
-            if (players[this._events._turn].getEnd == true) {
-                alert(`El jugador ${players[this._events._turn].getColor.toUpperCase()} ha terminado, por favor presione al cubilete para pasar el turno.`);
-
-                let video = document.createElement('VIDEO');
-                video.className = this._CLASSES.UX_VIDEO;
-                video.src = './../assets/videos/gandalf.mp4';
-                video.autoplay = true;
-                video.loop = true;
-                video.width = '80';
-                video.heigth = '80';
 
                 let valuesColors = Object.values(this._COLORS);
                 let div = document.querySelector(`.${valuesColors[this._events._turn]}`);
@@ -357,6 +319,8 @@ export default class DOMManager{
         
         
         if(checkTokens==true){
+
+            //token.increasePosition(count);
 
             player.getPieces[tokenImg.id].setPosition = player.getPieces[tokenImg.id].getPosition + cont;
     

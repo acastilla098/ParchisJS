@@ -70,11 +70,8 @@ export default class GameToken{
 
 
     isMovementAllowed(casilla){
-        if (casilla < 2) {
-            return true;
-        }
 
-        return false;
+        return casilla < 2;
     }
 
 }

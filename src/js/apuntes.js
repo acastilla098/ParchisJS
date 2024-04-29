@@ -4,6 +4,8 @@
  * 10:50 llegada
  * 12:00 salida
  * 13:00 llegada
+ * 13:30 salida
+ * 14:00 comida
  */
 class Player{
     constructor(color,numPieces){
