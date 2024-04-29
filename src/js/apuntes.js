@@ -1,7 +1,9 @@
 /**DAVID
- * 10:10
- * 10:20
- * 10:50
+ * 10:10 llegada
+ * 10:20 salida
+ * 10:50 llegada
+ * 12:00 salida
+ * 13:00 llegada
  */
 class Player{
     constructor(color,numPieces){

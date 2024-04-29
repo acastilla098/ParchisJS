@@ -163,6 +163,11 @@ h1{
     animation-iteration-count: infinite;
 }
 
+.ux-video{
+    display: flex;
+    align-self: center;
+}
+
 .red{
     width:150px;
     height:148px;
@@ -258,6 +263,58 @@ h1{
     display: grid;
     grid-template-columns: repeat(2, 30px);
     grid-template-rows: repeat(2, 30px);
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+.diceRed2{
+    width:80px;
+    height:80px;
+    position:absolute ;
+    background:rgb(228, 115, 115);
+    border-radius:10px;
+    left:35px;
+    top:35px;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+.diceBlue2{
+    width:80px;
+    height:80px;
+    position:absolute ;
+    background:rgb(115, 115, 209);
+    border-radius:10px;
+    left:35px;
+    top:35px;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+.diceGreen2{
+    width:80px;
+    height:80px;
+    position:absolute ;
+    background:rgb(163, 245, 163);
+    border-radius:10px;
+    left:35px;
+    top:35px;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+.diceYellow2{
+    width:80px;
+    height:80px;
+    position:absolute ;
+    background:rgb(240, 240, 141);
+    border-radius:10px;
+    left:35px;
+    top:35px;
     justify-items: center;
     align-items: center;
     justify-content: center;

@@ -179,7 +179,7 @@ export default class Events{
 
                 finish++;
                 ps.push(players[p]);
-                
+
             }
 
         }
@@ -226,6 +226,7 @@ export default class Events{
 
         }else{
             alert('Fin de la partida');
+            this.getTurnPlayer().setEnd = true;
             return 0;
         }
 

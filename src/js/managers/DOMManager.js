@@ -28,7 +28,8 @@ export default class DOMManager{
             UX_GAME:                'ux-game',
             UX_PODIUM:              'ux-podium',
             UX_CUBE:                'ux-cube',
-            UX_CUBESDICES:          'ux-cubesdices'
+            UX_CUBESDICES:          'ux-cubesdices',
+            UX_VIDEO:               'ux-video'
         }
     
         this._PIECES = {
@@ -149,6 +150,79 @@ export default class DOMManager{
 
             if (players[this._events._turn].getEnd == true) {
                 alert(`El jugador ${players[this._events._turn].getColor.toUpperCase()} ha terminado, por favor presione al cubilete para pasar el turno.`);
+
+                let video = document.createElement('VIDEO');
+                video.className = this._CLASSES.UX_VIDEO;
+                video.src = './../assets/videos/gandalf.mp4';
+                video.autoplay = true;
+                video.loop = true;
+                video.width = '80';
+
+                let valuesColors = Object.values(this._COLORS);
+                let div = document.querySelector(`.${valuesColors[this._events._turn]}`);
+                div.className = valuesColors[this._events._turn] + '2';
+
+                div.appendChild(video);
+
+                let dado0 = document.querySelector('.ux-cube0');
+                let dado1 = document.querySelector('.ux-cube1');
+
+                dado0.style.alignContent = 'center';
+                dado0.textContent = 'THE';
+                dado0.style.fontSize = '40px';
+                dado1.style.alignContent = 'center';
+                dado1.textContent = 'END';
+                dado1.style.fontSize = '40px';
+            }else{
+                let video = document.querySelector(`.${this._CLASSES.UX_VIDEO}`);
+
+                if (video != null) {
+                    video.remove();
+                }
+                
+            }
+
+        });
+    }
+
+    _eventBtnThrowFinal(btnT){
+        btnT.addEventListener('click',() => {
+
+            let players = this._events._configC.getPlayers;
+
+            if (players[this._events._turn].getEnd == true) {
+                alert(`El jugador ${players[this._events._turn].getColor.toUpperCase()} ha terminado, por favor presione al cubilete para pasar el turno.`);
+
+                let video = document.createElement('VIDEO');
+                video.className = this._CLASSES.UX_VIDEO;
+                video.src = './../assets/videos/gandalf.mp4';
+                video.autoplay = true;
+                video.loop = true;
+                video.width = '80';
+                video.heigth = '80';
+
+                let valuesColors = Object.values(this._COLORS);
+                let div = document.querySelector(`.${valuesColors[this._events._turn]}`);
+                div.className = valuesColors[this._events._turn] + '2';
+
+                div.appendChild(video);
+
+                let dado0 = document.querySelector('.ux-cube0');
+                let dado1 = document.querySelector('.ux-cube1');
+
+                dado0.style.alignContent = 'center';
+                dado0.textContent = 'THE';
+                dado0.style.fontSize = '40px';
+                dado1.style.alignContent = 'center';
+                dado1.textContent = 'END';
+                dado1.style.fontSize = '40px';
+            }else{
+                let video = document.querySelector(`.${this._CLASSES.UX_VIDEO}`);
+
+                if (video != null) {
+                    video.remove();
+                }
+                
             }
 
         });
@@ -231,7 +305,7 @@ export default class DOMManager{
                 }
 
                 if (!eat) {
-                    //this._changeStyleTokens();
+                    this._changeStyleTokens();
                 }
             }
           
@@ -420,6 +494,7 @@ export default class DOMManager{
 
             let roll = this._events.throu(d);
             let change = document.querySelector('.ux-cube' + d);
+            change.style.fontSize = '60px';
 
             change.textContent = roll;
             
@@ -575,7 +650,7 @@ export default class DOMManager{
             for(let i = 0; i < this._events.countFinishP();i++){
 
                 let change = document.querySelector(`.podiumPlayer${i}`);
-                
+
                 change.textContent = this._events.pFinish[i].getColor.toUpperCase();
 
             }
