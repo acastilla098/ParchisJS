@@ -644,6 +644,7 @@ h1{
     height: 20px;
     width: 48px;
     position:absolute ;
+    background: #7373d1;
     top:86px;
     left:152px;
     
@@ -679,6 +680,7 @@ h1{
     height: 20px;
     width: 50px;
     position:absolute ;
+    background: #f0f08d;
     top:346px;
     left:250px;
     
@@ -713,6 +715,7 @@ h1{
     height: 50px;
     width: 20px;
     position:absolute ;
+    background: #e47373;
     top:250px;
     left:86px;
     
@@ -738,6 +741,7 @@ h1{
     height: 48px;
     width: 20px;
     position:absolute ;
+    background: #a3f5a3;
     top:152px;
     left:346px;
     

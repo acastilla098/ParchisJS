@@ -38,20 +38,8 @@ export default class ConfigRoute{
     _getUrlParams () {
 
         this._queryString = window.location.search;
-
-        /*if () {
-
-            alert('Parametros incorrectos, parametros por defecto');
-            this._numPlayers = 4;
-            this._numDices = 1;
-            this._tokens = 4;
-            
-        }else{*/
         
         return new URLSearchParams(this._queryString);
-        
-        //}
-        
     }
 
 

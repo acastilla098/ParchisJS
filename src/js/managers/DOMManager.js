@@ -6,6 +6,8 @@ export default class DOMManager{
 
         this._podium = 0;
 
+        this._saves = ['casillas c12','casillas c17','casillas c29','casillas c34','casillas c46','casillas c51','casillas c63','casillas c65'];
+
         this._CLASSES = {
 
             UX_CONTENT:             'ux-content',
@@ -150,6 +152,7 @@ export default class DOMManager{
         let players = this._events._configC.getPlayers;
         let checkTokens = true;
         let pos = 0;
+
         let posOrigin = player.getPieces[tokenImg.id].getPosition;
 
             if (player === undefined) {
@@ -160,7 +163,7 @@ export default class DOMManager{
 
                 if(player.getPositionEnd == player.getPieces[tokenImg.id].getPosition || player.getPieces[tokenImg.id].getInEnd == true){
 
-                    console.log("entrando a linea final");
+console.log("entrando a linea final");
                     this._checkBoxLast(i, this._events.getSumResults(), player, tokenImg);
 
                     break;
@@ -175,7 +178,7 @@ export default class DOMManager{
                 let x = document.querySelector(`.c${j}`).childElementCount;//Casilla a la que llega
 
                 if(!player.getPieces[tokenImg.id].isMovementAllowed(x)){
-                    console.log("movimiento no permitido");
+console.log("movimiento no permitido");
                     checkTokens = false;
                 }
 
@@ -244,7 +247,7 @@ export default class DOMManager{
             if (j > 7 && player.getPieces[tokenImg.id].getInEnd == true) {
                 let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
                 player.getPieces[tokenImg.id].setFinish = true;
-console.log('Set finis fichas: ' + player.getPieces[tokenImg.id].setFinish);
+
                 div.style.pointerEvents = 'none';
                 div.removeAttribute("name");
             }
@@ -259,7 +262,6 @@ console.log('Set finis fichas: ' + player.getPieces[tokenImg.id].setFinish);
             }
 
             cont++;
-            //console.log(cont);
         }
         
         
@@ -270,37 +272,24 @@ console.log('Set finis fichas: ' + player.getPieces[tokenImg.id].setFinish);
             if (player.getPieces[tokenImg.id].getPosition >= 8  && player.getPieces[tokenImg.id].getInEnd == true) {
                 let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
                 div.style.pointerEvents = 'none';
-                //player.setEnd = true;
                 div.removeAttribute("name");
                 player.getPieces[tokenImg.id].setFinish = true;
-console.log('Dentro2');
-                //player.setEnd = true;
-                ///this._updateScore(player);
 
-                /*let pod = this._events.getPodium();
-
-                if (!pod.includes(player) && player.getEnd == true) {
-                    this._events.addPFinish(player);   
-                }*/
             } else {
                 document.querySelector(`.${player.getColor}${player.getPieces[tokenImg.id].getPosition}`).appendChild(tokenImg);
             }
     
            
-        } else {
-console.log('Dentro');
-            //player.setEnd = true;
-            //this._updateScore(player);
-
-            /*let pod = this._events.getPodium();
-
-            if (!pod.includes(player)) {
-                this._events.addPFinish(player);   
-            }*/
-        }
+        } 
     }
 
     _eatToken(casilla,tokenImg){
+
+        if (this._saves.includes(casilla.className)) {
+            console.log('Casilla Save');
+            return false;
+        }
+        
         if (casilla.firstElementChild.name != tokenImg.name) {
             let player;
 
@@ -425,7 +414,7 @@ console.log('Dos fichas diferentes');
 
         for(let j = 0; j < numPieces; j++){
             for(let i = 0; i <  numPlayers; i++){
-                if(i == 1 && numPlayers == 2){//Para que al ser dos jugadores coja el rojo y el verde
+                if(i == 1 && numPlayers == 2){
                     i = 2
                 }
                 let tokenImg = document.createElement('img');
@@ -445,7 +434,12 @@ console.log('Dos fichas diferentes');
 
                 divHome.appendChild(tokenImg);
 
-                this._eventToken(tokenImg,players[i]);
+                if (i == 2 && numPlayers == 2) {
+                    this._eventToken(tokenImg,players[1]);    
+                }else{
+                    this._eventToken(tokenImg,players[i]);
+                }
+
             }
         }
 

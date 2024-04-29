@@ -60,7 +60,7 @@ export default class Events{
 
         let pieces = player.getPieces;
         let posinit = player.positionInit;
-        //let moves = this.getRoll();
+
         let nums = this.returnDices();
         let sum = this.getSumResults();
 
@@ -74,14 +74,12 @@ export default class Events{
             if ((nums[d] == 5 || sum == 5) && pieces[token_id].getOutHome == false) {
                 pieces[token_id].setPosition = posinit;
                 pieces[token_id].setOutHome = true;
-                //console.log(pieces[token_id].getPosition);
 
                 return -100;
 
             } else if(pieces[token_id].getOutHome == true){
 
                 pieces[token_id].setPosition = index;
-                //console.log(pieces[token_id].getPosition);
 
                 return pieces[token_id].getPosition;
 
@@ -91,7 +89,6 @@ export default class Events{
     }
 
     _end_turn(player){
-        //player.setEnd = false;
 
         if (this._allTokensEnd(player)) {
             player.setEnd = true;
@@ -138,7 +135,7 @@ export default class Events{
         let tfin = 0;
 
         for (let t = 0; t < player.getNumPieces; t++) {
-console.log('Ficha: '+player.getPieces[t].getFinish);
+
             if (player.getPieces[t].getFinish) {
                 tfin++;
             }
@@ -153,11 +150,8 @@ console.log('Ficha: '+player.getPieces[t].getFinish);
     }
 
     _finish_check(player){
-console.log(this.pFinish);
-console.log(this._allTokensEnd(player));
-console.log(player.getEnd == true);
+
         if (this._allTokensEnd(player) && player.getEnd == true) {
-            //this.addPFinish(player);
             return true;
         }
 
@@ -180,7 +174,7 @@ console.log(player.getEnd == true);
         this.pFinish = ps;
 
         if (finish == this._configC.countPlayers() - 1) {
-console.log('Finish');
+
             return true;
         }
 
@@ -209,8 +203,7 @@ console.log('Finish');
     start(){
 
         let finish = this.isFinished();
-console.log(finish);
-console.log(this.countFinishP() == this._configC.countPlayers() - 1);
+
         if (finish == false || !(this.countFinishP() == this._configC.countPlayers() - 1)) {
             
             this._start_turn(this.getTurnPlayer());

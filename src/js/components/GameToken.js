@@ -66,8 +66,6 @@ export default class GameToken{
             this._position = 0 + increment;
         }
 
-console.log('Incremento: ' + increment);
-console.log('Posición: ' + this._position);
     }
 
 
