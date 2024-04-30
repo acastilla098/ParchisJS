@@ -1,11 +1,15 @@
 /**DAVID
- * 10:10 llegada
- * 10:20 salida
- * 10:50 llegada
- * 12:00 salida
- * 13:00 llegada
- * 13:30 salida
- * 14:00 comida
+ * ----------29/04---------
+ * 10:10 -> llegada
+ * 10:20 -> salida
+ * 10:50 -> llegada
+ * 12:00 -> salida
+ * 13:00 -> llegada
+ * 13:30 -> salida
+ * 14:00 -> comida
+ * --------30/04-----------
+ * Falta
+ * --------02/05-----------
  */
 class Player{
     constructor(color,numPieces){

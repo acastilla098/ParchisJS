@@ -1,4 +1,3 @@
-
 export default class Events{
 
     constructor(configC){
@@ -20,7 +19,7 @@ export default class Events{
 
         this._NUMBERS = {
             GM_LASTBOX: 68,
-            GM_ONE:   1,
+            GM_ONE:   1, 
             GM_DICEOUTHOME:   5,
             GM_GETOUTHOME: -100,
             GM_ZERO:    0
@@ -117,6 +116,22 @@ export default class Events{
         return (dice == this._NUMBERS.GM_DICEOUTHOME || sum == this._NUMBERS.GM_DICEOUTHOME) && !(this.getToken(token).isOutHome);
     }
 
+    checkIfOutHomeOrMove(posinit, sum, token, index){
+        if (this.canExitHomeNotOutHome(nums[d],sum,token)) {
+
+            this.setPosToken(token,posinit);
+            this.setOutToken(token,true);
+
+            return this._NUMBERS.GM_GETOUTHOME;
+
+        } else if(this.getToken(token).isOutHome){
+
+            this.setPosToken(token,index);
+
+            return this.getPosToken(token);
+        }
+    }
+
     move_token(player,token_id){
 
         let posinit = player.givePositionInit;
@@ -132,19 +147,8 @@ export default class Events{
 
         for (let d = this._NUMBERS.GM_ZERO; d < nums.length; d++) {
 
-            if (this.canExitHomeNotOutHome(nums[d],sum,token_id)) {
+            return this.checkIfOutHomeOrMove(posinit, sum, token_id, index);
 
-                this.setPosToken(token_id,posinit);
-                this.setOutToken(token_id,true);
-
-                return this._NUMBERS.GM_GETOUTHOME;
-
-            } else if(this.getToken(token_id).isOutHome){
-
-                this.setPosToken(token_id,index);
-
-                return this.getPosToken(token_id);
-            }
         }        
 
     }
