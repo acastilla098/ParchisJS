@@ -17,48 +17,48 @@ export default class Player {
         this.posEnd();
     }
 
-    get getPositionInit(){
+    get positionInit(){
         return this.positionInit;
     }
     
-    get getPositionEnd(){
+    get positionEnd(){
         return this.positionEnd;
     }
 
-    get getColor(){
+    get whatColor(){
         return this._color;
     }
 
-    get getNumPieces(){
+    get numPieces(){
         return this._numPieces;
     }
 
-    get getPieces(){
+    get yourPieces(){
         return this._pieces;
     }
 
-    get getEnd(){
+    get hasEnd(){
         return this._end;
     }
 
     /**
      * @param {number} np
      */
-    set setNumPieces(np){
+    set numPieces(np){
         this._numPieces = np;
     }
 
     /**
      * @param {array} p
      */
-    set setPieces(p){
+    set yourPieces(p){
         this._pieces = p;
     }
 
     /**
      * @param {boolean} end
      */
-    set setEnd(end){
+    set hasEnd(end){
         this._end = end;
     }
 

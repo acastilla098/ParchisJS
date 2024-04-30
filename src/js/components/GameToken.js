@@ -6,53 +6,53 @@ export default class GameToken{
         this._finish = false;
     }
 
-    get getInEnd(){
+    get isInEnd(){
         return this._inEnd;
     }
 
     /**
      * @param {boolean} end
      */
-    set setInEnd(end){
+    set isInEnd(end){
 
         this._inEnd = end;
         
     }
     
-    get getFinish(){
+    get isFinish(){
         return this._finish;
     }
 
     /**
      * @param {boolean} fin
      */
-    set setFinish(fin){
+    set isFinish(fin){
 
         this._finish = fin;
         
     }
 
-    get getPosition(){
+    get whatPosition(){
         return this._position;
     }
 
     /**
      * @param {number} box_id
      */
-    set setPosition(box_id){
+    set whatPosition(box_id){
 
         this._position = box_id;
         
     }
     
-    get getOutHome(){
+    get isOutHome(){
         return this._outHome;
     }
 
     /**
      * @param {boolean} out
      */
-    set setOutHome(out){
+    set isOutHome(out){
 
         this._outHome = out;
         

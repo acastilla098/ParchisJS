@@ -1,5 +1,5 @@
 import DOMManager from "../managers/DOMManager.js";
-import Events from "../managers/Events.js";
+import GameManager from "../managers/GameManager.js";
 import ConfigComponents from "../settings/ConfigComponents.js";
 import ConfigRoute from "../settings/ConfigRoute.js";
 
@@ -10,9 +10,9 @@ function initialize() {
 
     let gameComponents = new ConfigComponents(config);
 
-    let events = new Events(gameComponents);
+    let gameManager = new GameManager(gameComponents);
 
-    let dom = new DOMManager(events);
+    let dom = new DOMManager(gameManager);
 
     dom.setUp_game();
     

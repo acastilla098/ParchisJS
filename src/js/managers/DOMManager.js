@@ -1,8 +1,14 @@
 export default class DOMManager{
 
-    constructor(events){
+    constructor(gameManager){
 
-        this._events = events;
+        this._num2 = 2;
+
+        this._endTable = 68;
+
+        this._limitFin = 7;
+
+        this._gameManager = gameManager;
 
         this._podium = 0;
 
@@ -101,10 +107,10 @@ export default class DOMManager{
 
         window.addEventListener('load', (e) => {
 
-            this._events._turn = 0;
-            this._events.start();
+            this._gameManager._turn = 0;
+            this._gameManager.start();
             this._changeDices();
-            this._events._turn = 0;
+            this._gameManager._turn = 0;
             this._podium = 0;
 
         })
@@ -134,7 +140,7 @@ export default class DOMManager{
         });
 
         btnT.addEventListener('click', () => {
-            this._events.start();
+            this._gameManager.start();
             this._changeImgTurn();
             this._updateScore();
         });
@@ -146,15 +152,15 @@ export default class DOMManager{
 
         btnT.addEventListener('click',() => {
 
-           let players = this._events._configC.getPlayers;
+           let player = this._gameManager.getTurnPlayer();
 
-           if (players[this._events._turn].getEnd == true) {
+           if (player.getEnd == true) {
 
-           //let players = this._events._configC.getPlayers;
+           //let players = this._gameManager._configC.getPlayers;
 
             //if (gameManager.currentPlayesHasFinishedTurn()) {
 
-                alert(`El jugador ${players[this._events._turn].getColor.toUpperCase()} ha terminado, por favor presione al cubilete para pasar el turno.`);
+                alert(`El jugador ${players[this._gameManager._turn].getColor.toUpperCase()} ha terminado, por favor presione al cubilete para pasar el turno.`);
 
                 let video = document.createElement('VIDEO');
                 video.className = this._CLASSES.UX_VIDEO;
@@ -164,8 +170,8 @@ export default class DOMManager{
                 video.width = '80';
 
                 let valuesColors = Object.values(this._COLORS);
-                let div = document.querySelector(`.${valuesColors[this._events._turn]}`);
-                div.className = valuesColors[this._events._turn] + '2';
+                let div = document.querySelector(`.${valuesColors[this._gameManager._turn]}`);
+                div.className = valuesColors[this._gameManager._turn] + '2';
 
                 div.appendChild(video);
 
@@ -194,7 +200,7 @@ export default class DOMManager{
 
         tokenImg.addEventListener('click', () => {
 
-        let players = this._events._configC.getPlayers;
+        let players = this._gameManager._configC.getPlayers;
         let checkTokens = true;
         let pos = 0;
 
@@ -204,22 +210,23 @@ export default class DOMManager{
                 player = players[1];
             }
 
-            for (let i = 1;  i <= this._events.getSumResults() ;i++) {
+            for (let i = 1;  i <= this._gameManager.getSumResults() ;i++) {
 
                 if(player.getPositionEnd == player.getPieces[tokenImg.id].getPosition || player.getPieces[tokenImg.id].getInEnd == true){
 
-                    this._checkBoxLast(i, this._events.getSumResults(), player, tokenImg);
+                    this._checkBoxLast(i, this._gameManager.getSumResults(), player, tokenImg);
 
                     break;
                 }
 
                 let j = player.getPieces[tokenImg.id].getPosition + 1;
 
-                if (j > 68) {
-                    j = j - 68;
+                if (j > this._endTable) {
+                    j -= this._endTable;
                 }
 
-                let x = document.querySelector(`.c${j}`).childElementCount;//Casilla a la que llega
+                //Casilla a la que llega
+                let x = document.querySelector(`.c${j}`).childElementCount;
 
                 if(!player.getPieces[tokenImg.id].isMovementAllowed(x)){
 
@@ -227,7 +234,7 @@ export default class DOMManager{
 
                 }
 
-                pos = this._events.move_token(player, tokenImg.id);
+                pos = this._gameManager.move_token(player, tokenImg.id);
 
                 if(pos == -100){
 
@@ -294,7 +301,7 @@ export default class DOMManager{
 
             let j = player.getPieces[tokenImg.id].getPosition + 1;
 
-            if (j > 7 && player.getPieces[tokenImg.id].getInEnd == true) {
+            if (j > this._limitFin && player.getPieces[tokenImg.id].getInEnd) {
 
                 let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
                 player.getPieces[tokenImg.id].setFinish = true;
@@ -306,7 +313,7 @@ export default class DOMManager{
 
             let x = 0;
 
-            if (j <= 7) {
+            if (j <= this._limitFin) {
                 x = document.querySelector(`.${player.getColor}${j}`).childElementCount;   
             }
 
@@ -357,28 +364,28 @@ export default class DOMManager{
             switch (colorToken) {
                 case 'diceRed':
                     document.querySelector(`.diceRed`).appendChild(tokenEnemy);
-                    player = this._events.getPlayerSelected('red');
+                    player = this._gameManager.getPlayerSelected('red');
                     break;
                 case 'diceYellow':
                     document.querySelector(`.diceYellow`).appendChild(tokenEnemy);
-                    player = this._events.getPlayerSelected('yellow');
+                    player = this._gameManager.getPlayerSelected('yellow');
                     break;
                 case 'diceGreen':
                     document.querySelector(`.diceGreen`).appendChild(tokenEnemy);
-                    player = this._events.getPlayerSelected('green');
+                    player = this._gameManager.getPlayerSelected('green');
                     break;
                 case 'diceBlue':
                     document.querySelector(`.diceBlue`).appendChild(tokenEnemy);
-                    player = this._events.getPlayerSelected('blue');
+                    player = this._gameManager.getPlayerSelected('blue');
                     break;
                 default:
                     break;
             }
             
-            player.getPieces[tokenEnemy.id].setPosition = this._events.goHome(player);
+            player.getPieces[tokenEnemy.id].setPosition = this._gameManager.goHome(player);
             player.getPieces[tokenEnemy.id].setOutHome = false;
 
-            let res = this._events.returnDices();
+            let res = this._gameManager.returnDices();
 
             for (let r = 0; r < res.length; r++) {
                 res[r] = 10;                
@@ -442,7 +449,7 @@ export default class DOMManager{
         let cube = document.createElement('div');
         cube.className = this._CLASSES.UX_CUBESDICES
 
-        for(let i = 0;i<this._events._configC.countDices();i++){
+        for(let i = 0;i<this._gameManager._configC.countDices();i++){
 
             let img = document.createElement('div')
             img.className = this._CLASSES.UX_CUBE + i;
@@ -454,9 +461,9 @@ export default class DOMManager{
 
     _changeDices(){
 
-        for (let d = 0; d < this._events._configC.countDices(); d++) {
+        for (let d = 0; d < this._gameManager._configC.countDices(); d++) {
 
-            let roll = this._events.throu(d);
+            let roll = this._gameManager.throu(d);
             let change = document.querySelector('.ux-cube' + d);
             change.style.fontSize = '60px';
 
@@ -471,8 +478,8 @@ export default class DOMManager{
         let valuesPieces = Object.values(this._PIECES);
         let valuesColors = Object.values(this._COLORS);
 
-        let players = this._events._configC.getPlayers;
-        let numPlayers = this._events._configC.countPlayers();
+        let players = this._gameManager._configC.getPlayers;
+        let numPlayers = this._gameManager._configC.countPlayers();
 
         let numPieces = players[0].getNumPieces;
 
@@ -529,16 +536,16 @@ export default class DOMManager{
         this._changeStyleTokens();
         let img = document.querySelector(`.${this._CLASSES.UX_USER}`);
 
-        if (this._events._configC.countPlayers() == 2) {
+        if (this._gameManager._configC.countPlayers() == 2) {
 
             let turnos = [0,2];
-            this._changeStyleTokensValueColor(turnos[this._events._turn]);
-            img.src = this._valuesP[turnos[this._events._turn]];
+            this._changeStyleTokensValueColor(turnos[this._gameManager._turn]);
+            img.src = this._valuesP[turnos[this._gameManager._turn]];
 
         } else {
 
-            this._changeStyleTokensValueColor(this._events._turn)
-            img.src = this._valuesP[this._events._turn];
+            this._changeStyleTokensValueColor(this._gameManager._turn)
+            img.src = this._valuesP[this._gameManager._turn];
 
         }
 
@@ -554,7 +561,7 @@ export default class DOMManager{
 
         divP.appendChild(p);
 
-        divP.appendChild(this._changeTurnPlayer(this._events._turn));
+        divP.appendChild(this._changeTurnPlayer(this._gameManager._turn));
 
         this._divS.appendChild(divP);
     }
@@ -584,7 +591,7 @@ export default class DOMManager{
 
         divP.appendChild(p);
 
-        let numPlayers = this._events._configC.countPlayers();
+        let numPlayers = this._gameManager._configC.countPlayers();
 
         for(let j = 0; j < numPlayers -1 ; j++){
 
@@ -609,13 +616,13 @@ export default class DOMManager{
 
     _updateScore(){
 
-        if(this._events.countFinishP() <= this._events._configC.countPlayers() - 1){
+        if(this._gameManager.countFinishP() <= this._gameManager._configC.countPlayers() - 1){
 
-            for(let i = 0; i < this._events.countFinishP();i++){
+            for(let i = 0; i < this._gameManager.countFinishP();i++){
 
                 let change = document.querySelector(`.podiumPlayer${i}`);
 
-                change.textContent = this._events.pFinish[i].getColor.toUpperCase();
+                change.textContent = this._gameManager.pFinish[i].getColor.toUpperCase();
 
             }
         }

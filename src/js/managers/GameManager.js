@@ -1,4 +1,4 @@
-export default class Events{
+export default class GameManager{
 
     constructor(configC){
 
@@ -11,6 +11,10 @@ export default class Events{
         this._turn = 0;
 
         this._results = [];
+
+        this._endTable = 68;
+
+        this._numExit = 5;
 
     }
 
@@ -71,13 +75,13 @@ export default class Events{
 
         let index = pieces[token_id].getPosition + 1
 
-        if(index > 68){
-            index = index-68;
+        if(index > this._endTable){
+            index -= this._endTable;
         }
 
         for (let d = 0; d < nums.length; d++) {
 
-            if ((nums[d] == 5 || sum == 5) && pieces[token_id].getOutHome == false) {
+            if ((nums[d] == this._numExit || sum == this._numExit) && pieces[token_id].getOutHome == false) {
 
                 pieces[token_id].setPosition = posinit;
                 pieces[token_id].setOutHome = true;

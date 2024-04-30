@@ -17,11 +17,11 @@ export default class GameComponents{
         this.createDices();
     }
 
-    get getPlayers(){
+    get givePlayers(){
         return this._players;
     }
     
-    get getDices(){
+    get giveDices(){
         return this._dices;
     }
 
@@ -36,7 +36,7 @@ export default class GameComponents{
     createTokens(){
         let tokens = [];
 
-        for (let t = 0; t < this._params.getTokens; t++) {
+        for (let t = 0; t < this._params.giveTokens; t++) {
             tokens[t] = new GameToken();
         }
 
@@ -46,14 +46,14 @@ export default class GameComponents{
     createPlayers(){
 
 
-        for (let j = 0; j < this._params.getNumPlayers; j++) {
+        for (let j = 0; j < this._params.howMuchPlayers; j++) {
 
-            if (this._params.getNumPlayers == 2 && j > 0) {
+            if (this._params.howMuchPlayers == 2 && j > 0) {
                 
-                this._players[j] = new Player(this._colores[j+1],this._params.getTokens,this.createTokens());
+                this._players[j] = new Player(this._colores[j+1],this._params.giveTokens,this.createTokens());
 
             } else {
-                this._players[j] = new Player(this._colores[j],this._params.getTokens,this.createTokens());
+                this._players[j] = new Player(this._colores[j],this._params.giveTokens,this.createTokens());
             }
 
         }
@@ -65,7 +65,7 @@ export default class GameComponents{
     createDices(){
 
 
-        for (let d = 0; d < this._params.getNumDices; d++) {
+        for (let d = 0; d < this._params.howMuchDices; d++) {
 
             this._dices[d] = new Dice();
 

@@ -20,17 +20,17 @@ export default class ConfigRoute{
     }
 
 
-    get getNumPlayers() {
+    get howMuchPlayers() {
         return this._numPlayers;
     }
     
 
-    get getNumDices() {
+    get howMuchDices() {
         return this._numDices;
     }
     
 
-    get getTokens() {
+    get giveTokens() {
         return this._tokens;
     }
 
