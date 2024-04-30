@@ -27,30 +27,28 @@ export default class Events{
 
     }
 
-    getToken(token){
-        let pieces = this.getTurnPlayer().yourPieces;
+    getTurnPieces(){
+        return this.getTurnPlayer().yourPieces;
+    }
 
-        return pieces[token];
+    getToken(token_id){
+        let pieces = this.getTurnPieces();
+
+        return pieces[token_id];
     }
     
-    getPosToken(token){
+    getPosToken(token_id){
         let pieces = this.getTurnPlayer().yourPieces;
 
-        return pieces[token].whatPosition;
+        return pieces[token_id].whatPosition;
     }
 
-    setPosToken(token, pos){
-        let token = this.getToken(token);
-
+    setPosToken(token_id, pos){
+        let token = this.getToken(token_id);
         token.setPosition = pos;
     }
 
-    setOutToken(token,bol){
-        let token = this.getToken(token);
-        token.isOutHome = bol;
-    }
-
-    goHome(player){
+    backHome(player){
         return  player.givePositionInit;
     }
 
@@ -108,19 +106,25 @@ export default class Events{
         return suma;
     }
 
-    arriveBox(token){
-        return this.getToken(token).whatPosition + this._NUMBERS.GM_ONE;
+    arriveBox(token_id){
+        return this.getPosToken(token_id) + this._NUMBERS.GM_ONE;
     }
     
     canExitHomeNotOutHome(dice, sum, token){
         return (dice == this._NUMBERS.GM_DICEOUTHOME || sum == this._NUMBERS.GM_DICEOUTHOME) && !(this.getToken(token).isOutHome);
     }
 
+    setExitCase(token_id,pos,bol){
+        let token = this.getToken(token_id);
+
+        this.setPosToken(token_id,pos);
+        token.isOutHome = bol;
+    }
+
     checkIfOutHomeOrMove(posinit, sum, token, index){
         if (this.canExitHomeNotOutHome(nums[d],sum,token)) {
 
-            this.setPosToken(token,posinit);
-            this.setOutToken(token,true);
+            this.setExitCase(token,posinit,true);
 
             return this._NUMBERS.GM_GETOUTHOME;
 

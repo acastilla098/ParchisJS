@@ -37,6 +37,10 @@ export default class ConfigRoute{
     get howMuchDices() {
         return this._numDices;
     }
+
+    get howMuchTokens() {
+        return this._tokens.length;
+    }
     
 
     get giveTokens() {

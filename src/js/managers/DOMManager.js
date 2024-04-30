@@ -2,17 +2,22 @@ export default class DOMManager{
 
     constructor(gameManager){
 
-        this._num2 = 2;
-
-        this._endTable = 68;
-
-        this._limitFin = 7;
-
         this._gameManager = gameManager;
 
         this._podium = 0;
 
         this._saves = ['casillas c12','casillas c17','casillas c29','casillas c34','casillas c46','casillas c51','casillas c63','casillas c65'];
+
+        this._NUMBERS = {
+            DOM_LAST_BOX:        68,
+            DOM_LIMIT_END:      7,
+            DOM_GET_OUT_HOME:     -100,
+            DOM_ONE:            1,
+            DOM_ZERO:           0,
+            DOM_TWO:            2,
+            DOM_TEN:            10,
+            DOM_NUM_PLAYERS:    this._gameManager._configC.countPlayers(),
+        }
 
         this._CLASSES = {
 
@@ -34,8 +39,34 @@ export default class DOMManager{
             UX_GAME:                'ux-game',
             UX_PODIUM:              'ux-podium',
             UX_CUBE:                'ux-cube',
+            UX_CUBE0:                'ux-cube0',
+            UX_CUBE1:                'ux-cube1',
             UX_CUBESDICES:          'ux-cubesdices',
             UX_VIDEO:               'ux-video'
+        }
+
+        this._SOURCES = {
+            SR_VIDEO:       './../assets/videos/gandalf.mp4',
+            SR_CUBILETE:    './../assets/img/cubilete.webp',
+        }
+
+        this._STRINGS = {
+            ST_INDEX:           'index.html',
+            ST_WIDTH_VIDEO:     '80',
+            ST_TWO:             '2',
+            ST_CENTER:          'center',
+            ST_THE:             'THE',
+            ST_END:             'END',
+            ST_SIZE40:          '40Px',
+            ST_SIZE60:          '60Px',
+            ST_NONE:            'none',
+            ST_ALL:             'all',
+            ST_NAME:            'name',
+            ST_DICE_FINISHED:   'diceFinish',
+            ST_RED:             'red',
+            ST_YELLOW:          'yellow',
+            ST_GREEN:           'green',
+            ST_BLUE:            'blue',
         }
     
         this._PIECES = {
@@ -71,11 +102,11 @@ export default class DOMManager{
 
         }
 
-        this._divC = document.querySelector(`.${this._CLASSES.UX_CONTENT}`); //0
+        this._divC = document.querySelector(`.${this._CLASSES.UX_CONTENT}`);
 
-        this._div = document.querySelector(`.${this._CLASSES.UX_BODY}`); //1
+        this._div = document.querySelector(`.${this._CLASSES.UX_BODY}`);
 
-        this._divS = document.querySelector(`.${this._CLASSES.UX_SCORE}`); //2
+        this._divS = document.querySelector(`.${this._CLASSES.UX_SCORE}`);
         this._div.appendChild(this._divS);
         
         this._divG = document.querySelector(`.${this._CLASSES.UX_GAME}`);
@@ -84,11 +115,12 @@ export default class DOMManager{
         this._divParch = document.querySelector(`.${this._CLASSES.UX_PARCHIS}`);
         this._divG.appendChild(this._divParch);
         
-        this._divD = document.querySelector(`.${this._CLASSES.UX_DICE}`); //3
+        this._divD = document.querySelector(`.${this._CLASSES.UX_DICE}`);
         this._div.appendChild(this._divD);
 
         this._valuesP = Object.values(this._PLAYERS);
         this._valuesS = Object.values(this._SCORES);
+        this._valuesColors = Object.values(this._COLORS);
 
     }
 
@@ -107,11 +139,11 @@ export default class DOMManager{
 
         window.addEventListener('load', (e) => {
 
-            this._gameManager._turn = 0;
+            this._gameManager._turn = this._NUMBERS.DOM_ZERO;
             this._gameManager.start();
             this._changeDices();
-            this._gameManager._turn = 0;
-            this._podium = 0;
+            this._gameManager._turn = this._NUMBERS.DOM_ZERO;
+            this._podium = this._NUMBERS.DOM_ZERO;
 
         })
     }
@@ -120,7 +152,7 @@ export default class DOMManager{
         
         document.querySelector(`.${this._CLASSES.UX_RETURN}`).addEventListener('click', () => {
 
-            window.location.href = `index.html`;
+            window.location.href = this._STRINGS.ST_INDEX;
             
         });
 
@@ -129,13 +161,13 @@ export default class DOMManager{
     _eventBtnThrow(btnT){
         btnT.addEventListener('mouseover', () => {
 
-            btnT.className = 'ux-imgAnimate';
+            btnT.className = this._CLASSES.UX_IMGANIMATE;
 
         });
 
         btnT.addEventListener('mouseout', () => {
 
-            btnT.className = 'ux-img';
+            btnT.className = this._CLASSES.UX_IMG;
 
         });
 
@@ -164,26 +196,26 @@ export default class DOMManager{
 
                 let video = document.createElement('VIDEO');
                 video.className = this._CLASSES.UX_VIDEO;
-                video.src = './../assets/videos/gandalf.mp4';
+                video.src = this._SOURCES.SR_VIDEO;
                 video.autoplay = true;
                 video.loop = true;
-                video.width = '80';
+                video.width = this._STRINGS.ST_WIDTH_VIDEO;
 
                 let valuesColors = Object.values(this._COLORS);
                 let div = document.querySelector(`.${valuesColors[this._gameManager._turn]}`);
-                div.className = valuesColors[this._gameManager._turn] + '2';
+                div.className = valuesColors[this._gameManager._turn] + this._STRINGS.ST_TWO;
 
                 div.appendChild(video);
 
-                let dado0 = document.querySelector('.ux-cube0');
-                let dado1 = document.querySelector('.ux-cube1');
+                let dado0 = document.querySelector(`.${this._CLASSES.UX_CUBE0}`);
+                let dado1 = document.querySelector(`.${this._CLASSES.UX_CUBE1}`);
 
-                dado0.style.alignContent = 'center';
-                dado0.textContent = 'THE';
-                dado0.style.fontSize = '40px';
-                dado1.style.alignContent = 'center';
-                dado1.textContent = 'END';
-                dado1.style.fontSize = '40px';
+                dado0.style.alignContent = this._STRINGS.ST_CENTER;
+                dado0.textContent = this._STRINGS.ST_THE;
+                dado0.style.fontSize = this._STRINGS.ST_SIZE40;
+                dado1.style.alignContent = this._STRINGS.ST_CENTER;
+                dado1.textContent = this._STRINGS.ST_END;
+                dado1.style.fontSize = this._STRINGS.ST_SIZE40;
             }else{
                 let video = document.querySelector(`.${this._CLASSES.UX_VIDEO}`);
 
@@ -202,15 +234,15 @@ export default class DOMManager{
 
         let players = this._gameManager._configC.getPlayers;
         let checkTokens = true;
-        let pos = 0;
+        let pos = this._NUMBERS.DOM_ZERO;
 
         let posOrigin = player.getPieces[tokenImg.id].getPosition;
 
             if (player === undefined) {
-                player = players[1];
+                player = players[this._NUMBERS.DOM_ONE];
             }
 
-            for (let i = 1;  i <= this._gameManager.getSumResults() ;i++) {
+            for (let i = this._NUMBERS.DOM_ONE;  i <= this._gameManager.getSumResults() ;i++) {
 
                 if(player.getPositionEnd == player.getPieces[tokenImg.id].getPosition || player.getPieces[tokenImg.id].getInEnd == true){
 
@@ -219,10 +251,10 @@ export default class DOMManager{
                     break;
                 }
 
-                let j = player.getPieces[tokenImg.id].getPosition + 1;
+                let j = player.getPieces[tokenImg.id].getPosition + this._NUMBERS.DOM_ONE;
 
-                if (j > this._endTable) {
-                    j -= this._endTable;
+                if (j > this._NUMBERS.DOM_LAST_BOX) {
+                    j -= this._NUMBERS.DOM_LAST_BOX;
                 }
 
                 //Casilla a la que llega
@@ -236,7 +268,7 @@ export default class DOMManager{
 
                 pos = this._gameManager.move_token(player, tokenImg.id);
 
-                if(pos == -100){
+                if(pos == this._NUMBERS.DOM_GET_OUT_HOME){
 
                     if(player.getPieces[tokenImg.id].isMovementAllowed(document.querySelector(`.c${player.getPositionInit}`).childElementCount )){
 
@@ -244,7 +276,7 @@ export default class DOMManager{
 
                     }else{
 
-                        player.getPieces[tokenImg.id].setPosition = 0;
+                        player.getPieces[tokenImg.id].setPosition = this._NUMBERS.DOM_ZERO;
                         player.getPieces[tokenImg.id].setOutHome = false;
                         
                     }
@@ -266,7 +298,7 @@ export default class DOMManager{
             } else {
                 let eat = false;
 
-                if (document.querySelector(`.c${player.getPieces[tokenImg.id].getPosition}`).childElementCount == 2) {
+                if (document.querySelector(`.c${player.getPieces[tokenImg.id].getPosition}`).childElementCount == this._NUMBERS.DOM_TWO) {
 
                     let casilla = document.querySelector(`.c${player.getPieces[tokenImg.id].getPosition}`);
                     eat = this._eatToken(casilla,tokenImg);
@@ -286,34 +318,34 @@ export default class DOMManager{
 
     _checkBoxLast(value, throu, player, tokenImg){
 
-        let cont = 0;
+        let cont = this._NUMBERS.DOM_ZERO;
         let checkTokens = true;
 
         if(value <= throu && player.getPieces[tokenImg.id].getInEnd == false){
 
             player.getPieces[tokenImg.id].setInEnd = true;
-            player.getPieces[tokenImg.id].setPosition = 0;
+            player.getPieces[tokenImg.id].setPosition = this._NUMBERS.DOM_ZERO;
 
         }
         
 
         for (let i = value ;  i <= throu ;i++) {
 
-            let j = player.getPieces[tokenImg.id].getPosition + 1;
+            let j = player.getPieces[tokenImg.id].getPosition + this._NUMBERS.DOM_ONE;
 
-            if (j > this._limitFin && player.getPieces[tokenImg.id].getInEnd) {
+            if (j > this._NUMBERS.DOM_LIMIT_END && player.getPieces[tokenImg.id].getInEnd) {
 
                 let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
                 player.getPieces[tokenImg.id].setFinish = true;
 
-                div.style.pointerEvents = 'none';
-                div.removeAttribute("name");
+                div.style.pointerEvents = this._STRINGS.ST_NONE;
+                div.removeAttribute(this._STRINGS.ST_NAME);
 
             }
 
-            let x = 0;
+            let x = this._NUMBERS.DOM_ZERO;
 
-            if (j <= this._limitFin) {
+            if (j <= this._NUMBERS.DOM_LIMIT_END) {
                 x = document.querySelector(`.${player.getColor}${j}`).childElementCount;   
             }
 
@@ -331,17 +363,17 @@ export default class DOMManager{
 
             player.getPieces[tokenImg.id].setPosition = player.getPieces[tokenImg.id].getPosition + cont;
     
-            if (player.getPieces[tokenImg.id].getPosition >= 8  && player.getPieces[tokenImg.id].getInEnd == true) {
+            if (player.getPieces[tokenImg.id].getPosition >= this._NUMBERS.DOM_LIMIT_END + this._NUMBERS.DOM_ONE  && player.getPieces[tokenImg.id].getInEnd) {
 
-                let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
+                let div = document.querySelector(`.${this._STRINGS.ST_DICE_FINISHED}${player.getColor}`).appendChild(tokenImg);
 
-                div.style.pointerEvents = 'none';
-                div.removeAttribute("name");
+                div.style.pointerEvents = this._STRINGS.ST_NONE;
+                div.removeAttribute(this._STRINGS.ST_NAME);
 
-                player.getPieces[tokenImg.id].setFinish = true;
+                player.yourPieces[tokenImg.id].isFinish = true;
 
             } else {
-                document.querySelector(`.${player.getColor}${player.getPieces[tokenImg.id].getPosition}`).appendChild(tokenImg);
+                document.querySelector(`.${player.whatColor}${player.yourPieces[tokenImg.id].whatPosition}`).appendChild(tokenImg);
             }
     
            
@@ -362,33 +394,33 @@ export default class DOMManager{
             let colorToken = tokenEnemy.name;
 
             switch (colorToken) {
-                case 'diceRed':
-                    document.querySelector(`.diceRed`).appendChild(tokenEnemy);
-                    player = this._gameManager.getPlayerSelected('red');
+                case this._COLORS.DICE_RED:
+                    document.querySelector(`.${this._COLORS.DICE_RED}`).appendChild(tokenEnemy);
+                    player = this._gameManager.getPlayerSelected(this._STRINGS.ST_RED);
                     break;
-                case 'diceYellow':
-                    document.querySelector(`.diceYellow`).appendChild(tokenEnemy);
-                    player = this._gameManager.getPlayerSelected('yellow');
+                case this._COLORS.DICE_YELLOW:
+                    document.querySelector(`.${this._COLORS.DICE_YELLOW}`).appendChild(tokenEnemy);
+                    player = this._gameManager.getPlayerSelected(this._STRINGS.ST_YELLOW);
                     break;
-                case 'diceGreen':
-                    document.querySelector(`.diceGreen`).appendChild(tokenEnemy);
-                    player = this._gameManager.getPlayerSelected('green');
+                case this._COLORS.DICE_GREEN:
+                    document.querySelector(`.${this._COLORS.DICE_GREEN}`).appendChild(tokenEnemy);
+                    player = this._gameManager.getPlayerSelected(this._STRINGS.ST_GREEN);
                     break;
-                case 'diceBlue':
-                    document.querySelector(`.diceBlue`).appendChild(tokenEnemy);
-                    player = this._gameManager.getPlayerSelected('blue');
+                case this._COLORS.DICE_BLUE:
+                    document.querySelector(`.${this._COLORS.DICE_BLUE}`).appendChild(tokenEnemy);
+                    player = this._gameManager.getPlayerSelected(this._STRINGS.ST_BLUE);
                     break;
                 default:
                     break;
             }
             
-            player.getPieces[tokenEnemy.id].setPosition = this._gameManager.goHome(player);
-            player.getPieces[tokenEnemy.id].setOutHome = false;
+            this._gameManager.setPosToken(tokenEnemy.id,this._gameManager.backHome(player));
+            this._gameManager.getToken(tokenEnemy.id).setOutHome = false;
 
-            let res = this._gameManager.returnDices();
+            let res = this._gameManager.returnTrhows();
 
-            for (let r = 0; r < res.length; r++) {
-                res[r] = 10;                
+            for (let r = this._NUMBERS.DOM_ZERO; r < res.length; r++) {
+                res[r] = this._NUMBERS.DOM_TEN;
             }
 
             return true;
@@ -403,7 +435,7 @@ export default class DOMManager{
     
         divK.forEach(function (token) {
 
-            token.style.pointerEvents = "none"
+            token.style.pointerEvents = this._STRINGS.ST_NONE;
 
         });
 
@@ -411,13 +443,11 @@ export default class DOMManager{
 
     _changeStyleTokensValueColor(value){
 
-        let valuesColors = Object.values(this._COLORS);
-
-        let divT = document.getElementsByName(`${valuesColors[value]}`)
+        let divT = document.getElementsByName(`${this._valuesColors[value]}`)
 
         divT.forEach(function (token) {
 
-            token.style.pointerEvents = "all"
+            token.style.pointerEvents = this._STRINGS.ST_ALL;
 
         });
     }
@@ -431,18 +461,20 @@ export default class DOMManager{
         m.textContent = '(Cambio de turno automático)';
         
         let btnT = document.createElement('img');
-
-        btnT.alt = "Cubilete";
-        btnT.title = "Cubilete";
-        btnT.className = this._CLASSES.UX_IMG;
-        btnT.src = "./../assets/img/cubilete.webp";
-        
+        this._setAttributesBtnThrow(btnT);
 
         this._divD.appendChild(thwoum);
         this._divD.appendChild(m);
         this._divD.appendChild(btnT);
         this._eventBtnThrow(btnT);
 
+    }
+
+    _setAttributesBtnThrow(btnT){
+        btnT.alt = "Cubilete";
+        btnT.title = "Cubilete";
+        btnT.className = this._CLASSES.UX_IMG;
+        btnT.src = this._SOURCES.SR_CUBILETE;
     }
 
     _createDices(){
@@ -464,8 +496,8 @@ export default class DOMManager{
         for (let d = 0; d < this._gameManager._configC.countDices(); d++) {
 
             let roll = this._gameManager.throu(d);
-            let change = document.querySelector('.ux-cube' + d);
-            change.style.fontSize = '60px';
+            let change = document.querySelector(`.${this._CLASSES.UX_CUBE}` + d);
+            change.style.fontSize = this._STRINGS.ST_SIZE60;
 
             change.textContent = roll;
             
@@ -473,78 +505,88 @@ export default class DOMManager{
 
     }
 
+    thereAreTwoPlayers(i){
+        return i == this._NUMBERS.DOM_ONE && this._NUMBERS.DOM_NUM_PLAYERS == this._NUMBERS.DOM_TWO
+    }
+
+    _getNumPieces(){
+        let players = this._gameManager._configC.getPlayers;
+        
+        return players[0].getNumPieces;
+    }
+
     _createToken(){
 
-        let valuesPieces = Object.values(this._PIECES);
-        let valuesColors = Object.values(this._COLORS);
+        for(let j = this._NUMBERS.DOM_ZERO; j < this._getNumPieces(); j++){
 
-        let players = this._gameManager._configC.getPlayers;
-        let numPlayers = this._gameManager._configC.countPlayers();
+            for(let i = 0; i <  this._NUMBERS.DOM_NUM_PLAYERS; i++){
 
-        let numPieces = players[0].getNumPieces;
-
-        for(let j = 0; j < numPieces; j++){
-
-            for(let i = 0; i <  numPlayers; i++){
-
-                if(i == 1 && numPlayers == 2){
-                    i = 2
-                }
-
-                let tokenImg = document.createElement('img');
-
-                tokenImg.className = this._CLASSES.UX_TOKEN;
-                tokenImg.id = j;
-                tokenImg.alt = "Icono ficha";
-                tokenImg.title = 'Ficha';
-                tokenImg.name = `${valuesColors[i]}`;
-                tokenImg.src = valuesPieces[i];
-
-                if (i == 0) {
-                    tokenImg.style.pointerEvents = 'all';
-                }
-
-                let divHome = document.querySelector(`.${valuesColors[i]}`);
-
-                divHome.appendChild(tokenImg);
-
-                if (i == 2 && numPlayers == 2) {
-                    this._eventToken(tokenImg,players[1]);    
+                if(this.thereAreTwoPlayers(i)){
+                    i = this._NUMBERS.DOM_TWO;
+                    this._eventToken(tokenImg,players[this._NUMBERS.DOM_ONE]);
                 }else{
                     this._eventToken(tokenImg,players[i]);
                 }
 
+                let tokenImg = document.createElement('img');
+
+                this._setAttributesTokenImg(tokenImg,j,i);
+
+                if (i == this._NUMBERS.DOM_ZERO) {
+                    tokenImg.style.pointerEvents = this._STRINGS.ST_ALL;
+                }
+
+                let divHome = document.querySelector(`.${this._valuesColors[i]}`);
+
+                divHome.appendChild(tokenImg);
             }
         }
 
+    }
+
+    _setAttributesTokenImg(tokenImg,x,y){
+        tokenImg.className = this._CLASSES.UX_TOKEN;
+        tokenImg.id = x;
+        tokenImg.alt = "Icono ficha";
+        tokenImg.title = 'Ficha';
+        tokenImg.name = `${valuesColors[y]}`;
+        tokenImg.src = valuesPieces[y];
     }
 
     _changeTurnPlayer(number){
 
         let turnPlayer = document.createElement('img')
 
+        _setAttributesTurnPlayer(turnPlayer,number);
+
+        return turnPlayer;
+    }
+
+    _setAttributesTurnPlayer(turnPlayer,number){
         turnPlayer.alt = "Jugador a tirar";
         turnPlayer.src = this._valuesP[number];
         turnPlayer.className = this._CLASSES.UX_USER
         turnPlayer.title = 'Jugador';
-
-        return turnPlayer;
     }
 
     _changeImgTurn(){
 
         this._changeStyleTokens();
+
         let img = document.querySelector(`.${this._CLASSES.UX_USER}`);
 
-        if (this._gameManager._configC.countPlayers() == 2) {
+        if (this._NUMBERS.DOM_NUM_PLAYERS == this._NUMBERS.DOM_TWO) {
 
-            let turnos = [0,2];
+            let turnos = [this._NUMBERS.DOM_ZERO,this._NUMBERS.DOM_TWO];
+
             this._changeStyleTokensValueColor(turnos[this._gameManager._turn]);
+
             img.src = this._valuesP[turnos[this._gameManager._turn]];
 
         } else {
 
             this._changeStyleTokensValueColor(this._gameManager._turn)
+
             img.src = this._valuesP[this._gameManager._turn];
 
         }
@@ -571,14 +613,18 @@ export default class DOMManager{
         let divF = document.querySelector(`.${this._CLASSES.UX_FOOTER}`)
         let btnR = document.createElement('button');
 
-        btnR.className = this._CLASSES.UX_RETURN;
-        btnR.textContent = 'Return';
-        btnR.title = 'Botón de retorno';
+        this._setAttributesBtnReturn(btnR);
 
         divF.appendChild(btnR);
 
         this._divC.appendChild(divF);
         this._eventBtnReturn()
+    }
+
+    _setAttributesBtnReturn(btnR){
+        btnR.className = this._CLASSES.UX_RETURN;
+        btnR.textContent = 'Return';
+        btnR.title = 'Botón de retorno';
     }
 
     _createPodium(){
@@ -591,34 +637,40 @@ export default class DOMManager{
 
         divP.appendChild(p);
 
-        let numPlayers = this._gameManager._configC.countPlayers();
-
-        for(let j = 0; j < numPlayers -1 ; j++){
+        for(let j = this._NUMBERS.DOM_ZERO; j < this._NUMBERS.DOM_NUM_PLAYERS - this._NUMBERS.DOM_ONE; j++){
 
             let podiumPlayer = document.createElement('img')
 
-            podiumPlayer.alt = `Jugador${j}`;
-            podiumPlayer.src = this._valuesS[j];
-            podiumPlayer.className = this._CLASSES.UX_IMGSCORE;
-            podiumPlayer.title = 'Podio';
-
-            let span = document.createElement('span');
-
-            span.className = `podiumPlayer${j}`;
-            span.textContent = '________';
+            this._setAttributesPodium(podiumPlayer,j);
 
             divP.appendChild(podiumPlayer);
-            divP.appendChild(span);
+            divP.appendChild(this._createSpan());
         }
 
         this._divS.appendChild(divP);
     }
 
+    _setAttributesPodium(podium,j){
+        podium.alt = `Jugador${j}`;
+        podium.src = this._valuesS[j];
+        podium.className = this._CLASSES.UX_IMGSCORE;
+        podium.title = 'Podio';
+    }
+
+    _createSpan(){
+        let span = document.createElement('span');
+
+        span.className = `podiumPlayer${j}`;
+        span.textContent = '________';
+
+        return span;
+    }
+
     _updateScore(){
 
-        if(this._gameManager.countFinishP() <= this._gameManager._configC.countPlayers() - 1){
+        if(this._gameManager.countFinishP() <= this._gameManager._configC.countPlayers() - this._NUMBERS.DOM_ONE){
 
-            for(let i = 0; i < this._gameManager.countFinishP();i++){
+            for(let i = this._NUMBERS.DOM_ZERO; i < this._gameManager.countFinishP();i++){
 
                 let change = document.querySelector(`.podiumPlayer${i}`);
 
