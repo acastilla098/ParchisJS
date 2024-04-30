@@ -4,6 +4,15 @@ export default class ConfigRoute{
 
     constructor() {
 
+        this._NUMBERSPARAMS={
+            CR_DICEUNITONE: 1,
+            CR_DICEUNITTWO: 2,
+            CR_PLAYERUNITTWO:  2,
+            CR_PLAYERUNITFOUR:  4,
+            CR_TOKENUNITMIN:    1,
+            CR_TOKENUNITMAX:4   
+        }
+
         this._numPlayers = '';
 
         this._numDices = '';
@@ -53,9 +62,9 @@ export default class ConfigRoute{
 
     _resolveDices(_urlParams){
 
-        if (!(this._urlParams.get('diceUnit') == 2 || this._urlParams.get('diceUnit') == 1)) {
+        if (!(this._urlParams.get('diceUnit') == this._NUMBERSPARAMS.CR_DICEUNITTWO || this._urlParams.get('diceUnit') == this._NUMBERSPARAMS.CR_DICEUNITONE)) {
 
-            return 1;
+            return this._NUMBERSPARAMS.CR_DICEUNITONE;
 
         }
 
@@ -65,9 +74,9 @@ export default class ConfigRoute{
 
     _resolvePlayers(_urlParams){
 
-        if (!(this._urlParams.get('playerUnit') == 4 || this._urlParams.get('playerUnit') == 2)) {
+        if (!(this._urlParams.get('playerUnit') == this._NUMBERSPARAMS.CR_PLAYERUNITFOUR || this._urlParams.get('playerUnit') == this._NUMBERSPARAMS.CR_PLAYERUNITTWO)) {
 
-            return 4;
+            return this._NUMBERSPARAMS.CR_PLAYERUNITFOUR;
 
         }
 
@@ -77,9 +86,9 @@ export default class ConfigRoute{
 
     _resolveTokens(_urlParams){
 
-        if (!(this._urlParams.get('tokenUnit') >= 1 && this._urlParams.get('tokenUnit') < 5)) {
+        if (!(this._urlParams.get('tokenUnit') >= this._NUMBERSPARAMS.CR_TOKENUNITMIN && this._urlParams.get('tokenUnit') <= this._NUMBERSPARAMS.CR_TOKENUNITMAX)) {
 
-            return 4;
+            return this._NUMBERSPARAMS.CR_TOKENUNITMAX;
 
         }
 

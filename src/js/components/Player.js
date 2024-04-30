@@ -1,6 +1,11 @@
 export default class Player {
 
     constructor(color,numPieces,pieces){
+
+        this._NUMBER = {
+            P_ZERO: 0   
+        }
+
         this._color = color;
 
         this._numPieces = numPieces;
@@ -8,13 +13,33 @@ export default class Player {
 
         this._end = false;
 
-        this.positionInit = 0;
-        this.positionEnd = 0;
+        this.positionInit = this._NUMBER.P_ZERO;
+        this.positionEnd = this._NUMBER.P_ZERO;
 
         this.posInit();
         this.setPos();
 
         this.posEnd();
+
+        this._NUMBERSPOSITIONS = {
+            P_POSTINITBLUE:  5,
+            P_POSTINITRED:  22,
+            P_POSTINITYELLOW:  39,
+            P_POSTINITGREEN:  56,
+
+            P_POSTLASTBLUE:  68,
+            P_POSTLASTRED:  17,
+            P_POSTLASTYELLOW:  34,
+            P_POSTLASTGREEN:  51,
+        }
+        
+        this._COLORSPLAYERS = {
+            P_COLORRED: 'red',
+            P_COLORBLUE: 'blue',
+            P_COLORGREEN: 'green',
+            P_COLORYELLOW: 'yellow',
+        }
+
     }
 
     get positionInit(){
@@ -64,7 +89,7 @@ export default class Player {
 
     setPos(){
 
-        for (let p = 0; p < this._pieces.length; p++) {
+        for (let p = this._NUMBER.P_ZERO; p < this._pieces.length; p++) {
             this._pieces[p].setPosition = this.positionInit;
         }
 
@@ -73,17 +98,17 @@ export default class Player {
     posInit(){
 
         switch (this._color) {
-            case 'red':
-                this.positionInit = 22;
+            case this._COLORSPLAYERS.P_COLORRED:
+                this.positionInit = this._NUMBERSPOSITIONS.P_POSTINITRED;
                 break;
-            case 'yellow':
-                this.positionInit = 39;
+            case this._COLORSPLAYERS.P_COLORYELLOW:
+                this.positionInit = this._NUMBERSPOSITIONS.P_POSTINITYELLOW;
                 break;
-            case 'green':
-                this.positionInit = 56;
+            case this._COLORSPLAYERS.P_COLORGREEN:
+                this.positionInit = this._NUMBERSPOSITIONS.P_POSTINITGREEN;
                 break;
-            case 'blue':
-                this.positionInit = 5;
+            case this._COLORSPLAYERS.P_COLORBLUE:
+                this.positionInit = this._NUMBERSPOSITIONS.P_POSTINITBLUE;
                 break;
             default:
                 break;
@@ -94,17 +119,17 @@ export default class Player {
     posEnd(){
 
         switch (this._color) {
-            case 'red':
-                this.positionEnd = 17
+            case this._COLORSPLAYERS.P_COLORRED:
+                this.positionEnd = this._NUMBERSPOSITIONS.P_POSTLASTRED;
                 break;
-            case 'yellow':
-                this.positionEnd = 34;
+            case this._COLORSPLAYERS.P_COLORYELLOW:
+                this.positionEnd = this._NUMBERSPOSITIONS.P_POSTLASTYELLOW;
                 break;
-            case 'green':
-                this.positionEnd = 51;
+            case this._COLORSPLAYERS.P_COLORGREEN:
+                this.positionEnd = this._NUMBERSPOSITIONS.P_POSTLASTGREEN;
                 break;
-            case 'blue':
-                this.positionEnd = 68;
+            case this._COLORSPLAYERS.P_COLORBLUE:
+                this.positionEnd = this._NUMBERSPOSITIONS.P_POSTLASTBLUE;
                 break;
             default:
                 break;

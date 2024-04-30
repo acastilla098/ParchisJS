@@ -1,6 +1,13 @@
 export default class GameToken{
     constructor(){
-        this._position = 0;
+
+        this._NUMBERS = {
+            GT_ZERO:    0,
+            GT_MAXTOKENINBOX:   2,
+            GT_LASTBOX: 68
+        }
+
+        this._position = this._NUMBERS.GT_ZERO;
         this._outHome = false;
         this._inEnd = false;
         this._finish = false;
@@ -62,8 +69,8 @@ export default class GameToken{
 
         this._position += increment;
 
-        if (this._position > 68) {
-            this._position = 0 + increment;
+        if (this._position > this._NUMBERS.GT_LASTBOX) {
+            this._position = this._NUMBERS.GT_ZERO + increment;
         }
 
     }
@@ -71,7 +78,7 @@ export default class GameToken{
 
     isMovementAllowed(casilla){
 
-        return casilla < 2;
+        return casilla < this._NUMBERS.GT_MAXTOKENINBOX;
     }
 
 }

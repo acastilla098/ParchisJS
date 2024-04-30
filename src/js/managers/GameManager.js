@@ -1,4 +1,5 @@
-export default class GameManager{
+
+export default class Events{
 
     constructor(configC){
 
@@ -12,25 +13,56 @@ export default class GameManager{
 
         this._results = [];
 
-        this._endTable = 68;
+        this._CHANGEABLES = {
+            GM_PLAYERS: this._configC.givePlayers,
+            GM_COUNTPLAYERS:    this._configC.countPlayers()
+        }
 
-        this._numExit = 5;
+        this._NUMBERS = {
+            GM_LASTBOX: 68,
+            GM_ONE:   1,
+            GM_DICEOUTHOME:   5,
+            GM_GETOUTHOME: -100,
+            GM_ZERO:    0
+        }
 
     }
 
+    getToken(token){
+        let pieces = this.getTurnPlayer().yourPieces;
+
+        return pieces[token];
+    }
+    
+    getPosToken(token){
+        let pieces = this.getTurnPlayer().yourPieces;
+
+        return pieces[token].whatPosition;
+    }
+
+    setPosToken(token, pos){
+        let token = this.getToken(token);
+
+        token.setPosition = pos;
+    }
+
+    setOutToken(token,bol){
+        let token = this.getToken(token);
+        token.isOutHome = bol;
+    }
+
     goHome(player){
-        return  player.getPositionInit;
+        return  player.givePositionInit;
     }
 
     getPlayerSelected(color){
 
-        let players = this._configC.getPlayers;
         let player;
 
-        for (let p = 0; p < players.length; p++) {
+        for (let p = this._NUMBERS.GM_ZERO; p < this._CHANGEABLES.GM_COUNTPLAYERS; p++) {
 
-            if (players[p].getColor == color) {
-                player = players[p];
+            if (this._CHANGEABLES.GM_PLAYERS[p].whatColor == color) {
+                player = this._CHANGEABLES.GM_PLAYERS[p];
             }
 
         }
@@ -38,62 +70,80 @@ export default class GameManager{
         return player;
     }
 
-    throu(dice){
-        let roll = 0;
+    getDices(){
+        return this._configC.giveDices;
+    }
+    
+    getThisDice(d){
+        let dices = this.getDices();
 
-        this._configC.getDices[dice].throw();
-        roll = this._configC.getDices[dice].getNumber;
+        return dices[d];
+    }
+
+    throu(dice){
+        let roll = this._NUMBERS.GM_ZERO;
+
+        this.getThisDice(dice).throw();
+
+        roll = this.getThisDice(dice).getNumber;
+
         this._results.push(roll);
 
         return roll;
     }
 
-    getPosBefore(player,token_id){
+    getPosBefore(token_id){
 
-        let pieces = player.getPieces;
-
-        return pieces[token_id].getPosition;
+        return this.getToken(token_id).whatPosition;
     }
 
     getSumResults(){
-        let suma = 0;
+        let suma = this._NUMBERS.GM_ZERO;
 
-        for (let r = 0; r < this._results.length; r++) {
-            suma += this._results[r];            
+        for (let r = this._NUMBERS.GM_ZERO; r < this.returnQuantityThrows(); r++) {
+
+            suma += this.returnThisThrows(r);
+
         }
 
         return suma;
     }
+
+    arriveBox(token){
+        return this.getToken(token).whatPosition + this._NUMBERS.GM_ONE;
+    }
     
+    canExitHomeNotOutHome(dice, sum, token){
+        return (dice == this._NUMBERS.GM_DICEOUTHOME || sum == this._NUMBERS.GM_DICEOUTHOME) && !(this.getToken(token).isOutHome);
+    }
+
     move_token(player,token_id){
 
-        let pieces = player.getPieces;
-        let posinit = player.positionInit;
+        let posinit = player.givePositionInit;
 
-        let nums = this.returnDices();
+        let nums = this.returnThrows();
         let sum = this.getSumResults();
 
-        let index = pieces[token_id].getPosition + 1
+        let index = this.arriveBox(token_id);
 
-        if(index > this._endTable){
-            index -= this._endTable;
+        if(index > this._NUMBERS.GM_LASTBOX){
+            index -= this._NUMBERS.GM_LASTBOX;
         }
 
-        for (let d = 0; d < nums.length; d++) {
+        for (let d = this._NUMBERS.GM_ZERO; d < nums.length; d++) {
 
-            if ((nums[d] == this._numExit || sum == this._numExit) && pieces[token_id].getOutHome == false) {
+            if (this.canExitHomeNotOutHome(nums[d],sum,token_id)) {
 
-                pieces[token_id].setPosition = posinit;
-                pieces[token_id].setOutHome = true;
+                this.setPosToken(token_id,posinit);
+                this.setOutToken(token_id,true);
 
-                return -100;
+                return this._NUMBERS.GM_GETOUTHOME;
 
-            } else if(pieces[token_id].getOutHome == true){
+            } else if(this.getToken(token_id).isOutHome){
 
-                pieces[token_id].setPosition = index;
+                this.setPosToken(token_id,index);
 
-                return pieces[token_id].getPosition;
-
+                return this.getPosToken(token_id);
             }
         }        
 
@@ -102,32 +152,40 @@ export default class GameManager{
     _end_turn(player){
 
         if (this._allTokensEnd(player)) {
-            player.setEnd = true;
+            player.hasEnd = true;
         } else {
-            player.setEnd = false;
+            player.hasEnd = false;
         }
 
         this._turn++;
 
-        if( this._turn >= this._configC.countPlayers() ){
-            this._turn = 0;
+        if( this._turn >= this._CHANGEABLES.GM_COUNTPLAYERS){
+            this._turn = this._NUMBERS.GM_ZERO;
         }
 
         this._results = [];
 
     }
 
-    returnDices(){
+    returnThrows(){
         return this._results;
+    }
+    
+    returnQuantityThrows(){
+        return this._results.length;
+    }
+
+    returnThisThrows(x){
+        return this._results[x];
     }
 
     _start_turn(player){
 
-        let rollP = 0;
+        let rollP = this._NUMBERS.GM_ZERO;
 
-        for (let d = 0; d < this._configC.countDices(); d++) {
+        for (let d = this._NUMBERS.GM_ZERO; d < this._configC.countDices(); d++) {
 
-            rollP += this._configC.getDices[d].getNumber;
+            rollP += this.getThisDice(d).getNumber;
 
         }
 
@@ -143,11 +201,11 @@ export default class GameManager{
     }
 
     _allTokensEnd(player){
-        let tfin = 0;
+        let tfin = this._NUMBERS.GM_ZERO;
 
-        for (let t = 0; t < player.getNumPieces; t++) {
+        for (let t = this._NUMBERS.GM_ZERO; t < player.getNumPieces; t++) {
 
-            if (player.getPieces[t].getFinish) {
+            if (this.getToken.getFinish) {
                 tfin++;
             }
         }
@@ -163,7 +221,7 @@ export default class GameManager{
 
     _finish_check(player){
 
-        if (this._allTokensEnd(player) && player.getEnd == true) {
+        if (this._allTokensEnd(player) && player.getEnd) {
             return true;
         }
 
@@ -171,25 +229,22 @@ export default class GameManager{
     }
 
     isFinished(){
-        let finish = 0;
+        let finish = this._NUMBERS.GM_ZERO;
         let ps = [];
 
-        let players = this._configC.getPlayers;
-        let numPlayers = this._configC.countPlayers();
+        for (let p = this._NUMBERS.GM_ZERO; p < this._CHANGEABLES.GM_COUNTPLAYERS; p++) {
 
-        for (let p = 0; p < numPlayers; p++) {
-
-            if (this._finish_check(players[p])) {
+            if (this._finish_check(this._CHANGEABLES.GM_PLAYERS[p])) {
 
                 finish++;
-                ps.push(players[p]);
+                ps.push(this._CHANGEABLES.GM_PLAYERS[p]);
 
             }
 
         }
         this.pFinish = ps;
 
-        if (finish == this._configC.countPlayers() - 1) {
+        if (finish == this._CHANGEABLES.GM_COUNTPLAYERS - this._NUMBERS.GM_ONE) {
 
             return true;
         }
@@ -198,7 +253,7 @@ export default class GameManager{
     }
 
     getWinner(){
-        return this.pFinish[0];
+        return this.pFinish[this._NUMBERS.GM_ZERO];
     }
 
     getPodium(){
@@ -210,17 +265,16 @@ export default class GameManager{
     }
 
     getTurnPlayer(){
-        let players = this._configC.getPlayers;
+        return this._CHANGEABLES.GM_PLAYERS[this._turn];
+    }
 
-        return players[this._turn];
-
+    winnersFull(){
+        return this.countFinishP() == this._configC.countPlayers() - this._NUMBERS.GM_ONE;
     }
 
     start(){
 
-        let finish = this.isFinished();
-
-        if (finish == false || !(this.countFinishP() == this._configC.countPlayers() - 1)) {
+        if (!(this.isFinished()) || !(this.winnersFull())) {
             
             this._start_turn(this.getTurnPlayer());
 
@@ -230,10 +284,10 @@ export default class GameManager{
 
         }else{
             alert('Fin de la partida');
-            this.getTurnPlayer().setEnd = true;
-            return 0;
+            return this._NUMBERS.GM_ZERO;
         }
 
         return this._turn;
     }
+
 }
