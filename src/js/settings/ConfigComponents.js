@@ -6,14 +6,6 @@ export default class GameComponents{
 
     constructor(params){
 
-        this._params = params;
-
-        this._players = [];
-        this._dices = [];
-
-        this.createPlayers();
-        this.createDices();
-
         this._COLORS = {
             COLOR_RED:          'red',
             COLOR_YELLOW:       'yellow',
@@ -22,6 +14,14 @@ export default class GameComponents{
         }
 
         this.valuesColors = Object.values(this._COLORS);
+
+        this._params = params;
+
+        this._players = [];
+        this._dices = [];
+
+        this.createPlayers();
+        this.createDices();
     }
 
     get givePlayers(){
@@ -37,7 +37,7 @@ export default class GameComponents{
     }
 
     getThisValuesColors(x){
-        return this.valuesColors[x];
+        return this.valuesColors[x]
     }
 
     countPlayers(){
@@ -65,10 +65,10 @@ export default class GameComponents{
 
             if (this._params.howMuchPlayers == 2 && j > 0) {
                 
-                this._players[j] = new Player(this.getThisValuesColors(j+1),this._params.howMuchTokens,this.createTokens());
+                this._players[j] = new Player(this.valuesColors[j+1],this._params.howMuchTokens,this.createTokens());
 
             } else {
-                this._players[j] = new Player(this.getThisValuesColors(j),this._params.howMuchTokens,this.createTokens());
+                this._players[j] = new Player(this.valuesColors[j],this._params.howMuchTokens,this.createTokens());
             }
 
         }

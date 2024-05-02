@@ -4,14 +4,6 @@ export default class Events{
 
         this._configC = configC;
 
-        this.pFinish = [];
-
-        this.finish = 0;
-
-        this._turn = 0;
-
-        this._results = [];
-
         this._CHANGEABLES = {
             GM_PLAYERS: this._configC.givePlayers,
             GM_COUNTPLAYERS:    this._configC.countPlayers()
@@ -24,6 +16,14 @@ export default class Events{
             GM_GETOUTHOME: -100,
             GM_ZERO:    0
         }
+
+        this.pFinish = [];
+
+        this.finish = 0;
+
+        this._turn = 0;
+
+        this._results = [];
 
     }
 
@@ -45,7 +45,7 @@ export default class Events{
 
     setPosToken(token_id, pos){
         let token = this.getToken(token_id);
-        token.setPosition = pos;
+        token.whatPosition = pos;
     }
 
     backHome(player){
@@ -121,8 +121,8 @@ export default class Events{
         token.isOutHome = bol;
     }
 
-    checkIfOutHomeOrMove(posinit, sum, token, index){
-        if (this.canExitHomeNotOutHome(nums[d],sum,token)) {
+    checkIfOutHomeOrMove(posinit, sum, token, index, d){
+        if (this.canExitHomeNotOutHome(d,sum,token)) {
 
             this.setExitCase(token,posinit,true);
 
@@ -151,7 +151,7 @@ export default class Events{
 
         for (let d = this._NUMBERS.GM_ZERO; d < nums.length; d++) {
 
-            return this.checkIfOutHomeOrMove(posinit, sum, token_id, index);
+            return this.checkIfOutHomeOrMove(posinit, sum, token_id, index, nums[d]);
 
         }        
 
@@ -211,14 +211,14 @@ export default class Events{
     _allTokensEnd(player){
         let tfin = this._NUMBERS.GM_ZERO;
 
-        for (let t = this._NUMBERS.GM_ZERO; t < player.getNumPieces; t++) {
+        for (let t = this._NUMBERS.GM_ZERO; t < player.howMuchPieces; t++) {
 
             if (this.getToken.getFinish) {
                 tfin++;
             }
         }
 
-        if (tfin == player.getNumPieces) {
+        if (tfin == player.howMuchPieces) {
 
             player.setEnd = true;
             return true;

@@ -2,25 +2,6 @@ export default class Player {
 
     constructor(color,numPieces,pieces){
 
-        this._NUMBER = {
-            P_ZERO: 0   
-        }
-
-        this._color = color;
-
-        this._numPieces = numPieces;
-        this._pieces = pieces;
-
-        this._end = false;
-
-        this.positionInit = this._NUMBER.P_ZERO;
-        this.positionEnd = this._NUMBER.P_ZERO;
-
-        this.posInit();
-        this.setPos();
-
-        this.posEnd();
-
         this._NUMBERSPOSITIONS = {
             P_POSTINITBLUE:  5,
             P_POSTINITRED:  22,
@@ -40,13 +21,32 @@ export default class Player {
             P_COLORYELLOW: 'yellow',
         }
 
+        this._NUMBER = {
+            P_ZERO: 0   
+        }
+
+        this._color = color;
+
+        this._numPieces = numPieces;
+        this._pieces = pieces;
+
+        this._end = false;
+
+        this.positionInit = this._NUMBER.P_ZERO;
+        this.positionEnd = this._NUMBER.P_ZERO;
+
+        this.posInit();
+        this.setPos();
+
+        this.posEnd();
+
     }
 
-    get positionInit(){
+    get givePositionInit(){
         return this.positionInit;
     }
     
-    get positionEnd(){
+    get givePositionEnd(){
         return this.positionEnd;
     }
 
@@ -54,7 +54,7 @@ export default class Player {
         return this._color;
     }
 
-    get numPieces(){
+    get howMuchPieces(){
         return this._numPieces;
     }
 
@@ -69,7 +69,7 @@ export default class Player {
     /**
      * @param {number} np
      */
-    set numPieces(np){
+    set howMuchPieces(np){
         this._numPieces = np;
     }
 
@@ -90,7 +90,7 @@ export default class Player {
     setPos(){
 
         for (let p = this._NUMBER.P_ZERO; p < this._pieces.length; p++) {
-            this._pieces[p].setPosition = this.positionInit;
+            this._pieces[p].whatPosition = this.positionInit;
         }
 
     }

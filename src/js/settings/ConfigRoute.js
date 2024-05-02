@@ -5,12 +5,12 @@ export default class ConfigRoute{
     constructor() {
 
         this._NUMBERSPARAMS={
-            CR_DICEUNITONE: 1,
-            CR_DICEUNITTWO: 2,
-            CR_PLAYERUNITTWO:  2,
+            CR_DICEUNITONE:     1,
+            CR_DICEUNITTWO:     2,
+            CR_PLAYERUNITTWO:   2,
             CR_PLAYERUNITFOUR:  4,
             CR_TOKENUNITMIN:    1,
-            CR_TOKENUNITMAX:4   
+            CR_TOKENUNITMAX:    4   
         }
 
         this._numPlayers = '';
@@ -39,10 +39,10 @@ export default class ConfigRoute{
     }
 
     get howMuchTokens() {
-        return this._tokens.length;
+        return this._tokens;
     }
     
-
+    //2JP8G8Q29
     get giveTokens() {
         return this._tokens;
     }
