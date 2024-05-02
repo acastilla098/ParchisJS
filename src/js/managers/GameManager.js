@@ -114,17 +114,17 @@ export default class Events{
         return (dice == this._NUMBERS.GM_DICEOUTHOME || sum == this._NUMBERS.GM_DICEOUTHOME) && !(this.getToken(token).isOutHome);
     }
 
-    setExitCase(token_id,pos,bol){
+    setExitCase(token_id,pos){
         let token = this.getToken(token_id);
 
         this.setPosToken(token_id,pos);
-        token.isOutHome = bol;
+        token.isOutHome = true;
     }
 
     checkIfOutHomeOrMove(posinit, sum, token, index, d){
         if (this.canExitHomeNotOutHome(d,sum,token)) {
 
-            this.setExitCase(token,posinit,true);
+            this.setExitCase(token,posinit);
 
             return this._NUMBERS.GM_GETOUTHOME;
 
@@ -134,6 +134,8 @@ export default class Events{
 
             return this.getPosToken(token);
         }
+
+        //return this.getPosToken(token);
     }
 
     move_token(player,token_id){
@@ -151,10 +153,12 @@ export default class Events{
 
         for (let d = this._NUMBERS.GM_ZERO; d < nums.length; d++) {
 
-            return this.checkIfOutHomeOrMove(posinit, sum, token_id, index, nums[d]);
+            let num = this.checkIfOutHomeOrMove(posinit, sum, token_id, index, nums[d]);
 
-        }        
-
+            if (num != undefined) {
+                return num;
+            }
+        }
     }
 
     _end_turn(player){

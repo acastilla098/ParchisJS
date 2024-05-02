@@ -105,7 +105,7 @@ export default class DOMManager{
 
         this._podium = 0;
 
-        this._saves = ['casillas c12','casillas c17','casillas c29','casillas c34','casillas c46','casillas c51','casillas c63','casillas c65'];
+        this._saves = ['casillas c12','casillas c17','casillas c29','casillas c34','casillas c46','casillas c51','casillas c63','casillas c68'];
 
         this._divC = document.querySelector(`.${this._CLASSES.UX_CONTENT}`);
 
@@ -241,21 +241,21 @@ export default class DOMManager{
     _eventToken(tokenImg,player){
 
         tokenImg.addEventListener('click', () => {
+console.log('ficha clickada');
+            let players = this._gameManager._configC.givePlayers;
+            let checkTokens = true;
+            let pos = this._NUMBERS.DOM_ZERO;
 
-        let players = this._gameManager._configC.givePlayers;
-        let checkTokens = true;
-        let pos = this._NUMBERS.DOM_ZERO;
-
-        let posOrigin = player.yourPieces[tokenImg.id].whatPosition;
+            let posOrigin = player.yourPieces[tokenImg.id].whatPosition;
 
             if (player === undefined) {
                 player = players[this._NUMBERS.DOM_ONE];
             }
 
-            for (let i = this._NUMBERS.DOM_ONE;  i <= this._gameManager.getSumResults() ;i++) {
+            for (let i = this._NUMBERS.DOM_ONE;  i <= this._gameManager.getSumResults(); i++) {
 
-                if(player.givePositionEnd == player.yourPieces[tokenImg.id].whatPosition || player.yourPieces[tokenImg.id].isInEnd){
-
+                if(player.givePositionEnd == player.yourPieces[tokenImg.id].whatPosition || player.yourPieces[tokenImg.id].isInEnd == true){
+                    console.log('ficha clickada');
                     this._checkBoxLast(i, this._gameManager.getSumResults(), player, tokenImg);
 
                     break;
@@ -277,21 +277,22 @@ export default class DOMManager{
                 }
 
                 pos = this._gameManager.move_token(player, tokenImg.id);
-
+console.log(pos);
                 if(pos == this._NUMBERS.DOM_GET_OUT_HOME){
 
                     if(player.yourPieces[tokenImg.id].isMovementAllowed(document.querySelector(`.c${player.givePositionInit}`).childElementCount )){
-
+                        console.log('ficha clickada');
                         document.querySelector(`.c${player.givePositionInit}`).appendChild(tokenImg);
 
                     }else{
-
+                        console.log('ficha clickada');
                         player.yourPieces[tokenImg.id].whatPosition = this._NUMBERS.DOM_ZERO;
                         player.yourPieces[tokenImg.id].isOutHome = false;
                         
                     }
                     break;
                 }
+                console.log('ficha clickada');
                 document.querySelector(`.c${pos}`).appendChild(tokenImg);
 
             }
@@ -302,7 +303,7 @@ export default class DOMManager{
 
                 player.yourPieces[tokenImg.id].isInEnd = false;
                 player.yourPieces[tokenImg.id].whatPosition = posOrigin;
-
+                console.log('ficha clickada');
                 document.querySelector(`.c${posOrigin}`).appendChild(tokenImg);
 
             } else {
@@ -331,8 +332,8 @@ export default class DOMManager{
         let cont = this._NUMBERS.DOM_ZERO;
         let checkTokens = true;
 
-        if(value <= throu && player.yourPieces[tokenImg.id].getInEnd == false){
-
+        if(value <= throu && player.yourPieces[tokenImg.id].isInEnd == false){
+            console.log('ficha clickada');
             player.yourPieces[tokenImg.id].isInEnd = true;
             player.yourPieces[tokenImg.id].whatPosition = this._NUMBERS.DOM_ZERO;
 
@@ -343,8 +344,8 @@ export default class DOMManager{
 
             let j = player.yourPieces[tokenImg.id].whatPosition + this._NUMBERS.DOM_ONE;
 
-            if (j > this._NUMBERS.DOM_LIMIT_END && player.yourPieces[tokenImg.id].getInEnd) {
-
+            if (j > this._NUMBERS.DOM_LIMIT_END && player.yourPieces[tokenImg.id].isInEnd) {
+                console.log('ficha clickada');
                 let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
                 player.yourPieces[tokenImg.id].isFinish = true;
 
@@ -369,14 +370,12 @@ export default class DOMManager{
         
         if(checkTokens==true){
 
-            //token.increasePosition(count);
-
             player.yourPieces[tokenImg.id].whatPosition = player.yourPieces[tokenImg.id].whatPosition + cont;
     
             if (player.yourPieces[tokenImg.id].whatPosition >= this._NUMBERS.DOM_LIMIT_END + this._NUMBERS.DOM_ONE  && player.yourPieces[tokenImg.id].isInEnd) {
 
                 let div = document.querySelector(`.${this._STRINGS.ST_DICE_FINISHED}${player.getColor}`).appendChild(tokenImg);
-
+                console.log('ficha clickada');
                 div.style.pointerEvents = this._STRINGS.ST_NONE;
                 div.removeAttribute(this._STRINGS.ST_NAME);
 
@@ -384,6 +383,7 @@ export default class DOMManager{
 
             } else {
                 document.querySelector(`.${player.whatColor}${player.yourPieces[tokenImg.id].whatPosition}`).appendChild(tokenImg);
+                console.log('ficha clickada');
             }
     
            
@@ -427,7 +427,7 @@ export default class DOMManager{
             this._gameManager.setPosToken(tokenEnemy.id,this._gameManager.backHome(player));
             this._gameManager.getToken(tokenEnemy.id).isOutHome = false;
 
-            let res = this._gameManager.returnTrhows();
+            let res = this._gameManager.returnThrows();
 
             for (let r = this._NUMBERS.DOM_ZERO; r < res.length; r++) {
                 res[r] = this._NUMBERS.DOM_TEN;
