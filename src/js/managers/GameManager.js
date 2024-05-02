@@ -217,14 +217,14 @@ export default class Events{
 
         for (let t = this._NUMBERS.GM_ZERO; t < player.howMuchPieces; t++) {
 
-            if (this.getToken.getFinish) {
+            if (player.yourPieces[t].isFinish == true) {
                 tfin++;
             }
         }
 
         if (tfin == player.howMuchPieces) {
 
-            player.setEnd = true;
+            player.hasEnd = true;
             return true;
         }
 
@@ -233,7 +233,13 @@ export default class Events{
 
     _finish_check(player){
 
-        if (this._allTokensEnd(player) && player.getEnd) {
+        if (this._allTokensEnd(player) && player.hasEnd) {
+console.log(player);
+
+            if (!(this.pFinish.includes(player))) {
+                this.addPFinish(player);
+            }
+
             return true;
         }
 
@@ -242,19 +248,16 @@ export default class Events{
 
     isFinished(){
         let finish = this._NUMBERS.GM_ZERO;
-        let ps = [];
 
         for (let p = this._NUMBERS.GM_ZERO; p < this._CHANGEABLES.GM_COUNTPLAYERS; p++) {
 
             if (this._finish_check(this._CHANGEABLES.GM_PLAYERS[p])) {
 
                 finish++;
-                ps.push(this._CHANGEABLES.GM_PLAYERS[p]);
 
             }
 
         }
-        this.pFinish = ps;
 
         if (finish == this._CHANGEABLES.GM_COUNTPLAYERS - this._NUMBERS.GM_ONE) {
 

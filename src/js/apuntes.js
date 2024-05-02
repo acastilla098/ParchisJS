@@ -10,9 +10,13 @@
  * --------30/04-----------
  * Falta
  * --------02/05-----------
- * 09:44 -> entrada
+ * 09:44 -> llegada
  * 11:00 -> salida
- * 11:30 -> entrada
+ * 11:30 -> llegada
+ * 12:15 -> salida
+ * 13:13 -> llegada
+ * 13:40 -> salida
+ * 13:50 -> llegada
  */
 class Player{
     constructor(color,numPieces){

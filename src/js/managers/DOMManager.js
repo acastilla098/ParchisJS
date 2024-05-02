@@ -35,8 +35,8 @@ export default class DOMManager{
             UX_GAME:                'ux-game',
             UX_PODIUM:              'ux-podium',
             UX_CUBE:                'ux-cube',
-            UX_CUBE0:                'ux-cube0',
-            UX_CUBE1:                'ux-cube1',
+            UX_CUBE0:               'ux-cube0',
+            UX_CUBE1:               'ux-cube1',
             UX_CUBESDICES:          'ux-cubesdices',
             UX_VIDEO:               'ux-video'
         }
@@ -188,19 +188,12 @@ export default class DOMManager{
            let player = this._gameManager.getTurnPlayer();
 
            if (this._gameManager._finish_check(player)) {
-
-                alert(`El jugador ${player.whatColorColor.toUpperCase()} ha terminado, por favor presione al cubilete para pasar el turno.`);
-
-                this._createVideo();
+                
+                alert(`El jugador ${player.whatColor.toUpperCase()} ha terminado, por favor presione al cubilete para pasar el turno.`);
 
                 this._setAttributesDadosFinishPlayer();
-                
-            }else{
-                let video = document.querySelector(`.${this._CLASSES.UX_VIDEO}`);
 
-                if (video != null) {
-                    video.remove();
-                }
+                this._createVideo();
                 
             }
 
@@ -221,7 +214,8 @@ export default class DOMManager{
 
     _addVideo(video){
         let div = document.querySelector(`.${this._valuesColors[this._gameManager._turn]}`);
-        div.className = this._valuesColors[this._gameManager._turn] + this._STRINGS.ST_TWO;
+
+        div.className = this._valuesColors[this._gameManager._turn] + '2';
 
         div.appendChild(video);
     }
@@ -241,7 +235,7 @@ export default class DOMManager{
     _eventToken(tokenImg,player){
 
         tokenImg.addEventListener('click', () => {
-console.log('ficha clickada');
+
             let players = this._gameManager._configC.givePlayers;
             let checkTokens = true;
             let pos = this._NUMBERS.DOM_ZERO;
@@ -255,7 +249,7 @@ console.log('ficha clickada');
             for (let i = this._NUMBERS.DOM_ONE;  i <= this._gameManager.getSumResults(); i++) {
 
                 if(player.givePositionEnd == player.yourPieces[tokenImg.id].whatPosition || player.yourPieces[tokenImg.id].isInEnd == true){
-                    console.log('ficha clickada');
+                    
                     this._checkBoxLast(i, this._gameManager.getSumResults(), player, tokenImg);
 
                     break;
@@ -277,22 +271,22 @@ console.log('ficha clickada');
                 }
 
                 pos = this._gameManager.move_token(player, tokenImg.id);
-console.log(pos);
+
                 if(pos == this._NUMBERS.DOM_GET_OUT_HOME){
 
                     if(player.yourPieces[tokenImg.id].isMovementAllowed(document.querySelector(`.c${player.givePositionInit}`).childElementCount )){
-                        console.log('ficha clickada');
+                        
                         document.querySelector(`.c${player.givePositionInit}`).appendChild(tokenImg);
 
                     }else{
-                        console.log('ficha clickada');
+                        
                         player.yourPieces[tokenImg.id].whatPosition = this._NUMBERS.DOM_ZERO;
                         player.yourPieces[tokenImg.id].isOutHome = false;
                         
                     }
                     break;
                 }
-                console.log('ficha clickada');
+
                 document.querySelector(`.c${pos}`).appendChild(tokenImg);
 
             }
@@ -303,7 +297,7 @@ console.log(pos);
 
                 player.yourPieces[tokenImg.id].isInEnd = false;
                 player.yourPieces[tokenImg.id].whatPosition = posOrigin;
-                console.log('ficha clickada');
+                
                 document.querySelector(`.c${posOrigin}`).appendChild(tokenImg);
 
             } else {
@@ -317,7 +311,7 @@ console.log(pos);
                 }
 
                 if (!eat) {
-                    this._changeStyleTokens();
+                    //this._changeStyleTokens();
                 }
             }
           
@@ -327,26 +321,31 @@ console.log(pos);
         
     }
 
-    _checkBoxLast(value, throu, player, tokenImg){
+    _moveTokenLastBoxesAllowed(player, tokenImg, cont){
+        player.yourPieces[tokenImg.id].whatPosition = player.yourPieces[tokenImg.id].whatPosition + cont;
+    
+            if (player.yourPieces[tokenImg.id].whatPosition >= this._NUMBERS.DOM_LIMIT_END + this._NUMBERS.DOM_ONE  && player.yourPieces[tokenImg.id].isInEnd) {
 
-        let cont = this._NUMBERS.DOM_ZERO;
-        let checkTokens = true;
+                let div = document.querySelector(`.${this._STRINGS.ST_DICE_FINISHED}${player.whatColor}`).appendChild(tokenImg);
 
-        if(value <= throu && player.yourPieces[tokenImg.id].isInEnd == false){
-            console.log('ficha clickada');
-            player.yourPieces[tokenImg.id].isInEnd = true;
-            player.yourPieces[tokenImg.id].whatPosition = this._NUMBERS.DOM_ZERO;
+                div.style.pointerEvents = this._STRINGS.ST_NONE;
+                div.removeAttribute(this._STRINGS.ST_NAME);
 
-        }
-        
+                player.yourPieces[tokenImg.id].isFinish = true;
 
+            } else {
+                document.querySelector(`.${player.whatColor}${player.yourPieces[tokenImg.id].whatPosition}`).appendChild(tokenImg);
+            }
+    }
+
+    _goOverLastBoxes(cont, checkTokens, player, tokenImg, throu, value){
         for (let i = value ;  i <= throu ;i++) {
 
             let j = player.yourPieces[tokenImg.id].whatPosition + this._NUMBERS.DOM_ONE;
 
             if (j > this._NUMBERS.DOM_LIMIT_END && player.yourPieces[tokenImg.id].isInEnd) {
-                console.log('ficha clickada');
-                let div = document.querySelector(`.diceFinish${player.getColor}`).appendChild(tokenImg);
+
+                let div = document.querySelector(`.${this._STRINGS.ST_DICE_FINISHED}${player.whatColor}`).appendChild(tokenImg);
                 player.yourPieces[tokenImg.id].isFinish = true;
 
                 div.style.pointerEvents = this._STRINGS.ST_NONE;
@@ -363,31 +362,55 @@ console.log(pos);
             if(!player.yourPieces[tokenImg.id].isMovementAllowed(x)){
                 checkTokens = false;
             }
-
             cont++;
+
+        }
+        return [cont, checkTokens]
+    }
+
+    _checkBoxLast(value, throu, player, tokenImg){
+
+        let cont = this._NUMBERS.DOM_ZERO;
+        let checkTokens = true;
+
+        if(value <= throu && player.yourPieces[tokenImg.id].isInEnd == false){
+
+            player.yourPieces[tokenImg.id].isInEnd = true;
+            player.yourPieces[tokenImg.id].whatPosition = this._NUMBERS.DOM_ZERO;
+
         }
         
+        let array = this._goOverLastBoxes(cont, checkTokens, player, tokenImg, throu, value);
+
+        cont = array[0]
+        checkTokens = array[1]
         
         if(checkTokens==true){
 
-            player.yourPieces[tokenImg.id].whatPosition = player.yourPieces[tokenImg.id].whatPosition + cont;
+            this._moveTokenLastBoxesAllowed(player, tokenImg, cont)
     
-            if (player.yourPieces[tokenImg.id].whatPosition >= this._NUMBERS.DOM_LIMIT_END + this._NUMBERS.DOM_ONE  && player.yourPieces[tokenImg.id].isInEnd) {
-
-                let div = document.querySelector(`.${this._STRINGS.ST_DICE_FINISHED}${player.getColor}`).appendChild(tokenImg);
-                console.log('ficha clickada');
-                div.style.pointerEvents = this._STRINGS.ST_NONE;
-                div.removeAttribute(this._STRINGS.ST_NAME);
-
-                player.yourPieces[tokenImg.id].isFinish = true;
-
-            } else {
-                document.querySelector(`.${player.whatColor}${player.yourPieces[tokenImg.id].whatPosition}`).appendChild(tokenImg);
-                console.log('ficha clickada');
-            }
-    
-           
         } 
+    }
+
+    _switchColorToken(colorToken){
+
+        let player;
+
+        switch (colorToken) {
+            case this._COLORS.DICE_RED:
+                document.querySelector(`.${this._COLORS.DICE_RED}`).appendChild(tokenEnemy);
+                return player = this._gameManager.getPlayerSelected(this._STRINGS.ST_RED);
+            case this._COLORS.DICE_YELLOW:
+                document.querySelector(`.${this._COLORS.DICE_YELLOW}`).appendChild(tokenEnemy);
+                return player = this._gameManager.getPlayerSelected(this._STRINGS.ST_YELLOW);
+            case this._COLORS.DICE_GREEN:
+                document.querySelector(`.${this._COLORS.DICE_GREEN}`).appendChild(tokenEnemy);
+                return player = this._gameManager.getPlayerSelected(this._STRINGS.ST_GREEN);
+            case this._COLORS.DICE_BLUE:
+                document.querySelector(`.${this._COLORS.DICE_BLUE}`).appendChild(tokenEnemy);
+                return player = this._gameManager.getPlayerSelected(this._STRINGS.ST_BLUE);
+        }
+
     }
 
     _eatToken(casilla,tokenImg){
@@ -403,26 +426,7 @@ console.log(pos);
             let tokenEnemy = casilla.firstElementChild;
             let colorToken = tokenEnemy.name;
 
-            switch (colorToken) {
-                case this._COLORS.DICE_RED:
-                    document.querySelector(`.${this._COLORS.DICE_RED}`).appendChild(tokenEnemy);
-                    player = this._gameManager.getPlayerSelected(this._STRINGS.ST_RED);
-                    break;
-                case this._COLORS.DICE_YELLOW:
-                    document.querySelector(`.${this._COLORS.DICE_YELLOW}`).appendChild(tokenEnemy);
-                    player = this._gameManager.getPlayerSelected(this._STRINGS.ST_YELLOW);
-                    break;
-                case this._COLORS.DICE_GREEN:
-                    document.querySelector(`.${this._COLORS.DICE_GREEN}`).appendChild(tokenEnemy);
-                    player = this._gameManager.getPlayerSelected(this._STRINGS.ST_GREEN);
-                    break;
-                case this._COLORS.DICE_BLUE:
-                    document.querySelector(`.${this._COLORS.DICE_BLUE}`).appendChild(tokenEnemy);
-                    player = this._gameManager.getPlayerSelected(this._STRINGS.ST_BLUE);
-                    break;
-                default:
-                    break;
-            }
+            this._switchColorToken(colorToken);
             
             this._gameManager.setPosToken(tokenEnemy.id,this._gameManager.backHome(player));
             this._gameManager.getToken(tokenEnemy.id).isOutHome = false;
@@ -686,7 +690,7 @@ console.log(pos);
 
                 let change = document.querySelector(`.podiumPlayer${i}`);
 
-                change.textContent = this._gameManager.pFinish[i].getColor.toUpperCase();
+                change.textContent = this._gameManager.pFinish[i].whatColor.toUpperCase();
 
             }
         }
