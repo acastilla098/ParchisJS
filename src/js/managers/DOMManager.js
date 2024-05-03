@@ -214,10 +214,14 @@ export default class DOMManager{
 
     _addVideo(video){
         let div = document.querySelector(`.${this._valuesColors[this._gameManager._turn]}`);
+        let div2 = document.querySelector(`.${this._valuesColors[this._gameManager._turn]}2`);
 
-        div.className = this._valuesColors[this._gameManager._turn] + '2';
-
-        div.appendChild(video);
+        if (div2 == null) {
+            div.className = this._valuesColors[this._gameManager._turn] + '2';
+            div2 = div;
+            div2.appendChild(video);
+        }
+        
     }
 
     _setAttributesDadosFinishPlayer(){
@@ -248,7 +252,7 @@ export default class DOMManager{
 
             for (let i = this._NUMBERS.DOM_ONE;  i <= this._gameManager.getSumResults(); i++) {
 
-                if(player.givePositionEnd == player.yourPieces[tokenImg.id].whatPosition || player.yourPieces[tokenImg.id].isInEnd == true){
+                if(player.givePositionEnd == player.yourPieces[tokenImg.id].whatPosition || player.yourPieces[tokenImg.id].isInEnd){
                     
                     this._checkBoxLast(i, this._gameManager.getSumResults(), player, tokenImg);
 

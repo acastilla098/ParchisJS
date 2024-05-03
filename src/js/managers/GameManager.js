@@ -234,7 +234,6 @@ export default class Events{
     _finish_check(player){
 
         if (this._allTokensEnd(player) && player.hasEnd) {
-console.log(player);
 
             if (!(this.pFinish.includes(player))) {
                 this.addPFinish(player);
