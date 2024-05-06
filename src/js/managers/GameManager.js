@@ -134,8 +134,6 @@ export default class Events{
 
             return this.getPosToken(token);
         }
-
-        //return this.getPosToken(token);
     }
 
     move_token(player,token_id){

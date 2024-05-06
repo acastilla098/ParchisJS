@@ -131,6 +131,7 @@ export default class DOMManager{
 
     setUp_game(){
 
+
         this._createBtnReturn();
         this._createBtnThrow();
         this._createToken();
@@ -143,9 +144,10 @@ export default class DOMManager{
             this._gameManager._turn = this._NUMBERS.DOM_ZERO;
             this._gameManager.start();
             this._changeDices();
+            this._chanceMoveToken();
             this._gameManager._turn = this._NUMBERS.DOM_ZERO;
             this._podium = this._NUMBERS.DOM_ZERO;
-
+            //this._changeStyleImg();
         })
     }
 
@@ -160,6 +162,7 @@ export default class DOMManager{
     }
 
     _eventBtnThrow(btnT){
+
         btnT.addEventListener('mouseover', () => {
 
             btnT.className = this._CLASSES.UX_IMGANIMATE;
@@ -173,12 +176,15 @@ export default class DOMManager{
         });
 
         btnT.addEventListener('click', () => {
-            this._gameManager.start();
-            this._changeImgTurn();
-            this._updateScore();
+
+                this._gameManager.start();
+                this._changeImgTurn();
+                this._updateScore();
+                
         });
 
         btnT.addEventListener('click', () => {
+            
             this._changeDices();
             this._updateScore();
         });
@@ -239,7 +245,7 @@ export default class DOMManager{
         if(pos == this._NUMBERS.DOM_GET_OUT_HOME){
 
             if(player.yourPieces[tokenImg.id].isMovementAllowed(document.querySelector(`.c${player.givePositionInit}`).childElementCount )){
-
+                //player.yourPieces[tokenImg.id]._canMove = true;
                 document.querySelector(`.c${player.givePositionInit}`).appendChild(tokenImg);
 
             }else{
@@ -293,6 +299,8 @@ export default class DOMManager{
 
                 //this._changeStyleTokens();
 
+                //Hacemos que se pueda pasar de turno, ya que estaba bloqueado
+                this._changeStyleImg();
             }
         }
     }
@@ -339,6 +347,7 @@ export default class DOMManager{
 
             player.yourPieces[tokenImg.id].isInEnd = false;
             player.yourPieces[tokenImg.id].whatPosition = posOrigin;
+            //player.yourPieces[tokenImg.id]._canMove = false;
             
             document.querySelector(`.c${posOrigin}`).appendChild(tokenImg);
 
@@ -354,6 +363,9 @@ export default class DOMManager{
 
             if (!eat) {
                 //this._changeStyleTokens();
+
+                //Hacemos que se pueda pasar de turno, ya que estaba bloqueado
+                this._changeStyleImg();
             }
         }
     }
@@ -363,6 +375,8 @@ export default class DOMManager{
         tokenImg.addEventListener('click', () => {
 
             let players = this._gameManager._configC.givePlayers;
+            //player.yourPieces[tokenImg.id]._canMove = true;
+            //Si se puede mover la ficha
             let checkTokens = true;
             let pos = this._NUMBERS.DOM_ZERO;
 
@@ -383,6 +397,9 @@ export default class DOMManager{
 
                 if(checkTokens==true){
                     checkTokens = this._checkIfCanMoveNextBox(player, tokenImg);
+                    //player.yourPieces[tokenImg.id]._canMove = true;
+                } else {
+                    this._changeStyleImg();
                 }
 
                 pos = this._gameManager.move_token(player, tokenImg.id);
@@ -390,6 +407,7 @@ export default class DOMManager{
                 if(pos == this._NUMBERS.DOM_GET_OUT_HOME){
 
                     this._checkIfCanLeaveHome(player, tokenImg);
+
                     break;
                 }
 
@@ -401,7 +419,10 @@ export default class DOMManager{
           
         });
 
-        tokenImg.addEventListener('click', () => {this._updateScore();});
+        tokenImg.addEventListener('click', () => {
+            this._updateScore();
+            this._chanceMoveToken();
+        });
         
     }
 
@@ -445,6 +466,7 @@ export default class DOMManager{
 
             if(!player.yourPieces[tokenImg.id].isMovementAllowed(x)){
                 checkTokens = false;
+                //player.yourPieces[tokenImg.id]._canMove = false;
             }
             cont++;
 
@@ -474,6 +496,26 @@ export default class DOMManager{
             this._moveTokenLastBoxesAllowed(player, tokenImg, cont)
     
         } 
+    }
+
+    _chanceMoveToken(){
+        let player = this._gameManager.getTurnPlayer();
+        let canMove = 0;
+
+        for (let index = 0; index < player.howMuchPieces; index++) {
+            if (player.yourPieces[index]._canMove) {
+                console.log('Se puede mover la ficha ' + index);
+                canMove++;
+            }else{
+                console.log('NO se puede mover la ficha ' + index);
+            }
+        }
+
+        if (canMove > 0) {
+            this._changeStyleImgCant();
+        }else{
+            this._changeStyleImg();
+        }
     }
 
     _switchColorToken(colorToken,tokenEnemy){
@@ -536,6 +578,12 @@ export default class DOMManager{
 
     }
 
+    _changeStyleImg(){
+        let div = document.querySelector('[title="Cubilete"]');
+
+        div.style.pointerEvents = 'all';
+    }
+
     _changeStyleTokensValueColor(value){
 
         let divT = document.getElementsByName(`${this._valuesColors[value]}`)
@@ -545,6 +593,12 @@ export default class DOMManager{
             token.style.pointerEvents = 'all';
 
         });
+    }
+
+    _changeStyleImgCant(){
+        let div = document.querySelector('[title="Cubilete"]');
+
+        div.style.pointerEvents = 'none';
     }
 
     _createBtnThrow(){
@@ -598,6 +652,7 @@ export default class DOMManager{
             
         }
 
+        this._changeStyleImgCant();
     }
 
     thereAreTwoPlayers(i){
@@ -621,6 +676,8 @@ export default class DOMManager{
         if (i == this._NUMBERS.DOM_ZERO) {
             tokenImg.style.pointerEvents = this._STRINGS.ST_ALL;
         }
+
+        return i;
     }
 
     _createToken(){
@@ -633,7 +690,7 @@ export default class DOMManager{
 
                 let tokenImg = document.createElement('img');
 
-                this._checkIfsCreateToken(i, j, tokenImg, players);
+                i = this._checkIfsCreateToken(i, j, tokenImg, players);
 
                 let divHome = document.querySelector(`.${this._valuesColors[i]}`);
 

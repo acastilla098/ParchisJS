@@ -42,7 +42,6 @@ export default class ConfigRoute{
         return this._tokens;
     }
     
-    //2JP8G8Q29
     get giveTokens() {
         return this._tokens;
     }
