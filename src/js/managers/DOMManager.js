@@ -138,6 +138,7 @@ export default class DOMManager{
         this._createTurnPlayer();
         this._createPodium();
         this._createDices();
+        //this._createModalFinish();
 
         window.addEventListener('load', (e) => {
 
@@ -146,7 +147,7 @@ export default class DOMManager{
             this._changeDices();
             this._gameManager._turn = this._NUMBERS.DOM_ZERO;
             this._podium = this._NUMBERS.DOM_ZERO;
-            this._chanceMoveToken();
+            //this._chanceMoveToken();
         })
     }
 
@@ -186,7 +187,8 @@ export default class DOMManager{
             
             this._changeDices();
             this._updateScore();
-            this._chanceMoveToken();
+            //this._chanceMoveToken();
+            this._showModalForEndGame();
         });
 
         btnT.addEventListener('click',() => {
@@ -195,7 +197,7 @@ export default class DOMManager{
 
            if (this._gameManager._finish_check(player)) {
                 
-                alert(`El jugador ${player.whatColor.toUpperCase()} ha terminado, por favor presione al cubilete para pasar el turno.`);
+                //alert(`El jugador ${player.whatColor.toUpperCase()} ha terminado, por favor presione al cubilete para pasar el turno.`);
 
                 this._setAttributesDadosFinishPlayer();
 
@@ -300,7 +302,7 @@ export default class DOMManager{
                 //this._changeStyleTokens();
 
                 //Hacemos que se pueda pasar de turno, ya que estaba bloqueado
-                this._changeStyleImg();
+                //this._changeStyleImg();
             }
         }
     }
@@ -362,10 +364,10 @@ export default class DOMManager{
             }
 
             if (!eat) {
-                this._changeStyleTokens();
+                //this._changeStyleTokens();
 
                 //Hacemos que se pueda pasar de turno, ya que estaba bloqueado
-                this._changeStyleImg();
+                //this._changeStyleImg();
             }
         }
     }
@@ -399,7 +401,7 @@ export default class DOMManager{
                     checkTokens = this._checkIfCanMoveNextBox(player, tokenImg);
                     //player.yourPieces[tokenImg.id]._canMove = true;
                 } else {
-                    this._changeStyleImg();
+                    //this._changeStyleImg();
                 }
 
                 pos = this._gameManager.move_token(player, tokenImg.id);
@@ -421,7 +423,7 @@ export default class DOMManager{
 
         tokenImg.addEventListener('click', () => {
             this._updateScore();
-            this._chanceMoveToken();
+           // this._chanceMoveToken();
         });
         
     }
@@ -644,7 +646,7 @@ console.log(canMove);
             
         }
 
-        this._changeStyleImgCant();
+        //this._changeStyleImgCant();
     }
 
     thereAreTwoPlayers(i){
@@ -758,7 +760,7 @@ console.log(canMove);
 
     _createBtnReturn(){
 
-        let divF = document.querySelector(`.${this._CLASSES.UX_FOOTER}`)
+        let divF = document.querySelector(`.${this._CLASSES.UX_FOOTER}`);
         let btnR = document.createElement('button');
 
         this._setAttributesBtnReturn(btnR);
@@ -827,6 +829,47 @@ console.log(canMove);
             }
         }
         
+    }
+
+    _showModalForEndGame(){
+        if (this._gameManager.isFinished()) {
+            this._createModalFinish();
+        }
+    }
+
+    _createModalFinish(){
+        let divF = document.querySelector(`.${this._CLASSES.UX_FOOTER}`);
+        let divP = document.querySelector(`.${this._CLASSES.UX_PODIUM}`);
+
+        let modal = document.createElement("div");
+        modal.className = 'modal';
+
+        let divMes = document.createElement('div');
+        divMes.className = 'modal-content';
+        let message = document.createElement('h3');
+        message.textContent = 'FIN DE LA PARTIDA';
+
+        let btnR = document.querySelector(`.${this._CLASSES.UX_RETURN}`);
+        
+        divMes.appendChild(message);
+        modal.appendChild(divMes);
+        divMes.appendChild(divP);
+        divP.style.marginBottom = '30px';
+        divP.style.marginTop = '60px';
+        divMes.appendChild(btnR);
+
+        this._divC.appendChild(modal);
+
+        // Get the button that opens the modal
+        let btn = document.createElement("button");
+        btn.textContent = 'Open Modal';
+
+        divF.appendChild(btn);
+
+        // When the user clicks the button, open the modal 
+        //btn.onclick = function() {
+            modal.style.display = "block";
+        //}
     }
 
 }

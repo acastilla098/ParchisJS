@@ -311,7 +311,7 @@ export default class Events{
             this.getWinner();
 
         }else{
-            alert('Fin de la partida');
+            //alert('Fin de la partida');
             return this._NUMBERS.GM_ZERO;
         }
 
