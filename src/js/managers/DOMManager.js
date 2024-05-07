@@ -144,10 +144,9 @@ export default class DOMManager{
             this._gameManager._turn = this._NUMBERS.DOM_ZERO;
             this._gameManager.start();
             this._changeDices();
-            this._chanceMoveToken();
             this._gameManager._turn = this._NUMBERS.DOM_ZERO;
             this._podium = this._NUMBERS.DOM_ZERO;
-            //this._changeStyleImg();
+            this._chanceMoveToken();
         })
     }
 
@@ -176,7 +175,7 @@ export default class DOMManager{
         });
 
         btnT.addEventListener('click', () => {
-
+                
                 this._gameManager.start();
                 this._changeImgTurn();
                 this._updateScore();
@@ -187,6 +186,7 @@ export default class DOMManager{
             
             this._changeDices();
             this._updateScore();
+            this._chanceMoveToken();
         });
 
         btnT.addEventListener('click',() => {
@@ -362,7 +362,7 @@ export default class DOMManager{
             }
 
             if (!eat) {
-                //this._changeStyleTokens();
+                this._changeStyleTokens();
 
                 //Hacemos que se pueda pasar de turno, ya que estaba bloqueado
                 this._changeStyleImg();
@@ -499,21 +499,13 @@ export default class DOMManager{
     }
 
     _chanceMoveToken(){
-        let player = this._gameManager.getTurnPlayer();
-        let canMove = 0;
-
-        for (let index = 0; index < player.howMuchPieces; index++) {
-            if (player.yourPieces[index]._canMove) {
-                console.log('Se puede mover la ficha ' + index);
-                canMove++;
-            }else{
-                console.log('NO se puede mover la ficha ' + index);
-            }
-        }
-
+        let canMove = this._gameManager._seeChanceOfMoveToken();
+console.log(canMove);
         if (canMove > 0) {
+            //console.log('Se puede dar al cubilete');
             this._changeStyleImgCant();
         }else{
+            //console.log('NO puedes tocar el cubilete');
             this._changeStyleImg();
         }
     }

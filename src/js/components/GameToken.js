@@ -92,6 +92,12 @@ export default class GameToken{
 
     isMovementAllowed(casilla){
 
+        if (casilla < this._NUMBERS.GT_MAXTOKENINBOX) {
+            this.canMove = true;
+        }else{
+            this.canMove = false;
+        }
+
         return casilla < this._NUMBERS.GT_MAXTOKENINBOX;
     }
 
