@@ -838,14 +838,15 @@ console.log(canMove);
     }
 
     _createModalFinish(){
-        let divF = document.querySelector(`.${this._CLASSES.UX_FOOTER}`);
-        let divP = document.querySelector(`.${this._CLASSES.UX_PODIUM}`);
+        let div = document.querySelector(`.${this._CLASSES.UX_PODIUM}`);
+        let divP = div.cloneNode(true);
 
         let modal = document.createElement("div");
         modal.className = 'modal';
 
         let divMes = document.createElement('div');
         divMes.className = 'modal-content';
+
         let message = document.createElement('h3');
         message.textContent = 'FIN DE LA PARTIDA';
 
@@ -854,22 +855,15 @@ console.log(canMove);
         divMes.appendChild(message);
         modal.appendChild(divMes);
         divMes.appendChild(divP);
+
         divP.style.marginBottom = '30px';
         divP.style.marginTop = '60px';
+
         divMes.appendChild(btnR);
 
         this._divC.appendChild(modal);
 
-        // Get the button that opens the modal
-        let btn = document.createElement("button");
-        btn.textContent = 'Open Modal';
-
-        divF.appendChild(btn);
-
-        // When the user clicks the button, open the modal 
-        //btn.onclick = function() {
-            modal.style.display = "block";
-        //}
+        modal.style.display = "block";
     }
 
 }
