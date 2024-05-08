@@ -105,6 +105,8 @@ export default class DOMManager{
 
         this._podium = 0;
 
+        this._fakeTurn = 0;
+
         this._saves = ['casillas c12','casillas c17','casillas c29','casillas c34','casillas c46','casillas c51','casillas c63','casillas c68'];
 
         this._divC = document.querySelector(`.${this._CLASSES.UX_CONTENT}`);
@@ -142,11 +144,17 @@ export default class DOMManager{
 
         window.addEventListener('load', (e) => {
 
+            this._changeStyleImgCant();
             this._gameManager._turn = this._NUMBERS.DOM_ZERO;
             this._gameManager.start();
             this._changeDices();
             this._gameManager._turn = this._NUMBERS.DOM_ZERO;
             this._podium = this._NUMBERS.DOM_ZERO;
+            //this._changeImgTurn(this._fakeTurn);
+            setTimeout(() => {
+                this._changeStyleImg()
+console.log('dentro timeout');
+            },10000);
             //this._chanceMoveToken();
         })
     }
@@ -178,10 +186,20 @@ export default class DOMManager{
         btnT.addEventListener('click', () => {
                 
                 this._gameManager.start();
-                this._changeImgTurn();
+                //this._changeImgTurn(this._gameManager._turn);
                 this._updateScore();
+                this._changeStyleImgCant();
                 
         });
+
+        btnT.addEventListener('click', () => {
+            setTimeout(() => {
+                let faketurn = this._gameManager._turn + 1;
+                this._changeImgTurn(faketurn);
+                this._changeStyleImg();
+                //this._fakeTurn++;
+            },10000);
+        })
 
         btnT.addEventListener('click', () => {
             
@@ -298,8 +316,7 @@ export default class DOMManager{
             } 
 
             if (!eat) {
-
-                //this._changeStyleTokens();
+                this._changeStyleTokens();
 
                 //Hacemos que se pueda pasar de turno, ya que estaba bloqueado
                 //this._changeStyleImg();
@@ -364,7 +381,7 @@ export default class DOMManager{
             }
 
             if (!eat) {
-                //this._changeStyleTokens();
+                this._changeStyleTokens();
 
                 //Hacemos que se pueda pasar de turno, ya que estaba bloqueado
                 //this._changeStyleImg();
@@ -423,6 +440,12 @@ export default class DOMManager{
 
         tokenImg.addEventListener('click', () => {
             this._updateScore();
+            //this._fakeTurn++;
+            setTimeout(() => {
+                this._changeImgTurn(this._gameManager._turn+1)
+                this._changeStyleImg();
+            },1000);
+            
            // this._chanceMoveToken();
         });
         
@@ -719,9 +742,14 @@ console.log(canMove);
         turnPlayer.title = 'Jugador';
     }
 
-    _changeImgTurn(){
+    _changeImgTurn(fakeTurn){
 
         this._changeStyleTokens();
+
+        if (fakeTurn >= this._NUMBERS.DOM_NUM_PLAYERS) {
+            fakeTurn = 0;
+            this._fakeTurn = 0;
+        }
 
         let img = document.querySelector(`.${this._CLASSES.UX_USER}`);
 
@@ -729,15 +757,15 @@ console.log(canMove);
 
             let turnos = [this._NUMBERS.DOM_ZERO,this._NUMBERS.DOM_TWO];
 
-            this._changeStyleTokensValueColor(turnos[this._gameManager._turn]);
+            this._changeStyleTokensValueColor(turnos[fakeTurn]);
 
-            img.src = this._valuesP[turnos[this._gameManager._turn]];
+            img.src = this._valuesP[turnos[fakeTurn]];
 
         } else {
 
-            this._changeStyleTokensValueColor(this._gameManager._turn)
+            this._changeStyleTokensValueColor(fakeTurn)
 
-            img.src = this._valuesP[this._gameManager._turn];
+            img.src = this._valuesP[fakeTurn];
 
         }
 
