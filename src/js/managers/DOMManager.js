@@ -140,21 +140,21 @@ export default class DOMManager{
         this._createTurnPlayer();
         this._createPodium();
         this._createDices();
-        //this._createModalFinish();
 
         window.addEventListener('load', (e) => {
 
-            this._changeStyleImgCant();
+            //this._changeStyleImgCant();
             this._gameManager._turn = this._NUMBERS.DOM_ZERO;
             this._gameManager.start();
+            //this._changeImgTurn();
             this._changeDices();
             this._gameManager._turn = this._NUMBERS.DOM_ZERO;
             this._podium = this._NUMBERS.DOM_ZERO;
-            //this._changeImgTurn(this._fakeTurn);
-            setTimeout(() => {
-                this._changeStyleImg()
-console.log('dentro timeout');
-            },10000);
+            //setTimeout(() => {
+                //this._changeStyleImg();
+                //this._changeImgTurn();
+
+            //},10000);
             //this._chanceMoveToken();
         })
     }
@@ -186,20 +186,20 @@ console.log('dentro timeout');
         btnT.addEventListener('click', () => {
                 
                 this._gameManager.start();
-                //this._changeImgTurn(this._gameManager._turn);
+                this._changeImgTurn();
                 this._updateScore();
-                this._changeStyleImgCant();
+                //this._changeStyleImgCant();
                 
         });
 
-        btnT.addEventListener('click', () => {
+        /*btnT.addEventListener('click', () => {
             setTimeout(() => {
-                let faketurn = this._gameManager._turn + 1;
-                this._changeImgTurn(faketurn);
+                //let faketurn = this._gameManager._turn + 1;
+                this._changeImgTurn(this._gameManager._turn);
                 this._changeStyleImg();
                 //this._fakeTurn++;
             },10000);
-        })
+        })*/
 
         btnT.addEventListener('click', () => {
             
@@ -316,7 +316,7 @@ console.log('dentro timeout');
             } 
 
             if (!eat) {
-                this._changeStyleTokens();
+                //this._changeStyleTokens();
 
                 //Hacemos que se pueda pasar de turno, ya que estaba bloqueado
                 //this._changeStyleImg();
@@ -381,7 +381,7 @@ console.log('dentro timeout');
             }
 
             if (!eat) {
-                this._changeStyleTokens();
+                //this._changeStyleTokens();
 
                 //Hacemos que se pueda pasar de turno, ya que estaba bloqueado
                 //this._changeStyleImg();
@@ -441,10 +441,10 @@ console.log('dentro timeout');
         tokenImg.addEventListener('click', () => {
             this._updateScore();
             //this._fakeTurn++;
-            setTimeout(() => {
-                this._changeImgTurn(this._gameManager._turn+1)
+           /* setTimeout(() => {
+                this._changeImgTurn(this._gameManager._turn)
                 this._changeStyleImg();
-            },1000);
+            },1000);*/
             
            // this._chanceMoveToken();
         });
@@ -746,10 +746,10 @@ console.log(canMove);
 
         this._changeStyleTokens();
 
-        if (fakeTurn >= this._NUMBERS.DOM_NUM_PLAYERS) {
+        /*if (fakeTurn >= this._NUMBERS.DOM_NUM_PLAYERS) {
             fakeTurn = 0;
             this._fakeTurn = 0;
-        }
+        }*/
 
         let img = document.querySelector(`.${this._CLASSES.UX_USER}`);
 
@@ -757,15 +757,15 @@ console.log(canMove);
 
             let turnos = [this._NUMBERS.DOM_ZERO,this._NUMBERS.DOM_TWO];
 
-            this._changeStyleTokensValueColor(turnos[fakeTurn]);
+            this._changeStyleTokensValueColor(turnos[this._gameManager._turn]);
 
-            img.src = this._valuesP[turnos[fakeTurn]];
+            img.src = this._valuesP[turnos[this._gameManager._turn]];
 
         } else {
 
-            this._changeStyleTokensValueColor(fakeTurn)
+            this._changeStyleTokensValueColor(this._gameManager._turn)
 
-            img.src = this._valuesP[fakeTurn];
+            img.src = this._valuesP[this._gameManager._turn];
 
         }
 
@@ -811,7 +811,8 @@ console.log(canMove);
         divP.className = this._CLASSES.UX_PODIUM;
 
         let p = document.createElement('p');
-        p.textContent = 'Marcador';
+        p.textContent = 'Podio';
+        p.style.textDecoration = 'underline';
 
         divP.appendChild(p);
 
@@ -884,8 +885,8 @@ console.log(canMove);
         modal.appendChild(divMes);
         divMes.appendChild(divP);
 
-        divP.style.marginBottom = '30px';
-        divP.style.marginTop = '60px';
+        divP.style.marginBottom = '40px';
+        divP.style.marginTop = '20px';
 
         divMes.appendChild(btnR);
 
