@@ -232,7 +232,7 @@ export default class DOMManager{
         let div = document.querySelector(`.${this._valuesColors[this._gameManager._turn]}`);
         let div2 = document.querySelector(`.${this._valuesColors[this._gameManager._turn]}2`);
 
-        if (div2 == null) {
+        if (div2) {
             div.className = this._valuesColors[this._gameManager._turn] + '2';
             div2 = div;
             div2.appendChild(video);
@@ -253,15 +253,8 @@ export default class DOMManager{
     }
 
     _checkIfCanLeaveHomeEventAdvance(player, tokenImg){
-        if(player.yourPieces[tokenImg.id].isMovementAllowed(document.querySelector(`.c${player.givePositionInit}`).childElementCount )){
-                        
-            return true;
 
-        }else{
-            
-            return false;
-            
-        }
+        return player.yourPieces[tokenImg.id].isMovementAllowed(document.querySelector(`.c${player.givePositionInit}`).childElementCount )
     }
 
     _checkRouteEventAdvance(player, tokenImg, checkTokens, pos){
@@ -270,16 +263,12 @@ console.log(tokenImg);
 
             if(this._checkFinishLine(player, tokenImg)){
                 console.log("estoy aqui");
-
-                return true;
+            
+                return false;
             }
 
             if(checkTokens==true){
-                checkTokens = this._checkIfCanMoveNextBox(player, tokenImg);
-            }else{
-                console.log("estoy aqui");
-
-                return false
+            checkTokens = this._checkIfCanMoveNextBox(player, tokenImg);
             }
 
             let laterpost = player.yourPieces[tokenImg.id].whatPosition; 
@@ -307,7 +296,7 @@ console.log(tokenImg);
         if(player.yourPieces[tokenImg.id].isOutHome == true){
             return true;
         }
-        
+    
     }
 
     _eventsCheckIfCanAdvance(){
@@ -317,7 +306,13 @@ console.log(tokenImg);
         let pos = this._NUMBERS.DOM_ZERO;
 
         let turnos = [this._NUMBERS.DOM_ZERO,this._NUMBERS.DOM_TWO]; //[0,2]
-        let tokenImg = document.querySelectorAll(`[name="${this._valuesColors[turnos[this._gameManager._turn]]}"]`);
+        let tokenImg;
+        if (this._NUMBERS.DOM_NUM_PLAYERS == 2) {
+            tokenImg = document.querySelectorAll(`[name="${this._valuesColors[turnos[this._gameManager._turn]]}"]`);            
+        }else{
+            tokenImg = document.querySelectorAll(`[name="${this._valuesColors[this._gameManager._turn]}"]`);
+        }
+
         let cont = 0;
 
         for (let j = 0; j < player.yourPieces.length; j++) {
@@ -383,7 +378,7 @@ console.log(tokenImg);
 
                 let casilla = document.querySelector(`.c${player.yourPieces[tokenImg.id].whatPosition}`);
                 eat = this._eatToken(casilla,tokenImg);
-
+                this._changeStyleImgCant();
             }
 
             if (!eat) {

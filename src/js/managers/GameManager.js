@@ -38,9 +38,8 @@ export default class Events{
     }
     
     getPosToken(token_id){
-        let pieces = this.getTurnPlayer().yourPieces;
 
-        return pieces[token_id].whatPosition;
+        return this.getTurnPieces()[token_id].whatPosition
     }
 
     setPosToken(token_id, pos){
@@ -54,17 +53,8 @@ export default class Events{
 
     getPlayerSelected(color){
 
-        let player;
+        return this._players.find(player => player.whatColor == color);
 
-        for (let p = this._NUMBERS.GM_ZERO; p < this._CHANGEABLES.GM_COUNTPLAYERS; p++) {
-
-            if (this._CHANGEABLES.GM_PLAYERS[p].whatColor == color) {
-                player = this._CHANGEABLES.GM_PLAYERS[p];
-            }
-
-        }
-
-        return player;
     }
 
     getDices(){
@@ -111,7 +101,7 @@ export default class Events{
     }
     
     canExitHomeNotOutHome(dice, sum, token){
-        return (dice == this._NUMBERS.GM_DICEOUTHOME || sum == this._NUMBERS.GM_DICEOUTHOME) && !(this.getToken(token).isOutHome);
+        return (dice == this._NUMBERS.GM_DICEOUTHOME || sum == this._NUMBERS.GM_DICEOUTHOME) && !this.getToken(token).isOutHome;
     }
 
     setExitCase(token_id,pos){
@@ -153,7 +143,7 @@ export default class Events{
 
             let num = this.checkIfOutHomeOrMove(posinit, sum, token_id, index, nums[d]);
 
-            if (num != undefined) {
+            if (num) {
                 return num;
             }
         }
@@ -226,12 +216,13 @@ export default class Events{
             return true;
         }
 
+        //return player.getTokens().every(token => token.isFinish);
         return false;
     }
 
     _finish_check(player){
 
-        if (this._allTokensEnd(player) && player.hasEnd) {
+        if (this._allTokensEnd(player)) {
 
             if (!(this.pFinish.includes(player))) {
                 this.addPFinish(player);
