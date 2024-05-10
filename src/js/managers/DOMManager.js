@@ -143,19 +143,12 @@ export default class DOMManager{
 
         window.addEventListener('load', (e) => {
 
-            //this._changeStyleImgCant();
             this._gameManager._turn = this._NUMBERS.DOM_ZERO;
             this._gameManager.start();
-            //this._changeImgTurn();
             this._changeDices();
+            this._eventsCheckIfCanAdvance();
             this._gameManager._turn = this._NUMBERS.DOM_ZERO;
             this._podium = this._NUMBERS.DOM_ZERO;
-            //setTimeout(() => {
-                //this._changeStyleImg();
-                //this._changeImgTurn();
-
-            //},10000);
-            //this._chanceMoveToken();
         })
     }
 
@@ -192,20 +185,18 @@ export default class DOMManager{
                 
         });
 
-        /*btnT.addEventListener('click', () => {
+        btnT.addEventListener('click', () => {
             setTimeout(() => {
-                //let faketurn = this._gameManager._turn + 1;
-                this._changeImgTurn(this._gameManager._turn);
+                //this._changeImgTurn(this._gameManager._turn+1);
                 this._changeStyleImg();
-                //this._fakeTurn++;
             },10000);
-        })*/
+        })
 
         btnT.addEventListener('click', () => {
             
             this._changeDices();
             this._updateScore();
-            //this._chanceMoveToken();
+            this._eventsCheckIfCanAdvance();
             this._showModalForEndGame();
         });
 
@@ -261,71 +252,87 @@ export default class DOMManager{
         dado1.style.fontSize = this._STRINGS.ST_SIZE40;
     }
 
-    _checkIfGetOutHome(pos, player, tokenImg){
-        if(pos == this._NUMBERS.DOM_GET_OUT_HOME){
+    _checkIfCanLeaveHomeEventAdvance(player, tokenImg){
+        if(player.yourPieces[tokenImg.id].isMovementAllowed(document.querySelector(`.c${player.givePositionInit}`).childElementCount )){
+                        
+            return true;
 
-            if(player.yourPieces[tokenImg.id].isMovementAllowed(document.querySelector(`.c${player.givePositionInit}`).childElementCount )){
-                //player.yourPieces[tokenImg.id]._canMove = true;
-                document.querySelector(`.c${player.givePositionInit}`).appendChild(tokenImg);
+        }else{
+            
+            return false;
+            
+        }
+    }
 
-            }else{
+    _checkRouteEventAdvance(player, tokenImg, checkTokens, pos){
+console.log(tokenImg);
+        for (let i = this._NUMBERS.DOM_ONE;  i <= this._gameManager.getSumResults(); i++) {
 
-                player.yourPieces[tokenImg.id].whatPosition = this._NUMBERS.DOM_ZERO;
-                player.yourPieces[tokenImg.id].isOutHome = false;
-                
+            if(this._checkFinishLine(player, tokenImg)){
+                console.log("estoy aqui");
+
+                return true;
             }
+
+            if(checkTokens==true){
+                checkTokens = this._checkIfCanMoveNextBox(player, tokenImg);
+            }else{
+                console.log("estoy aqui");
+
+                return false
+            }
+
+            let laterpost = player.yourPieces[tokenImg.id].whatPosition; 
+            let laterboolean = player.yourPieces[tokenImg.id].isOutHome;
+
+            pos = this._gameManager.move_token(player, tokenImg.id);
+
+            player.yourPieces[tokenImg.id].whatPosition = laterpost;
+            player.yourPieces[tokenImg.id].isOutHome = laterboolean;
+
+            if(pos == this._NUMBERS.DOM_GET_OUT_HOME){
+
+                if(this._checkIfCanLeaveHomeEventAdvance(player, tokenImg)){
+                    console.log("estoy aqui");
+                    return true;
+                }else{
+                    console.log("estoy aqui");
+
+                    return false
+                }
+            
+            }
+
+        }
+        if(player.yourPieces[tokenImg.id].isOutHome == true){
             return true;
         }
+        
     }
 
-    _checkNextPositionAndMovement(player, tokenImg, checkTokens){
-        let j = player.yourPieces[tokenImg.id].whatPosition + this._NUMBERS.DOM_ONE;
+    _eventsCheckIfCanAdvance(){
+        
+        let player = this._gameManager.getTurnPlayer()
+        let checkTokens = true;
+        let pos = this._NUMBERS.DOM_ZERO;
 
-        if (j > this._NUMBERS.DOM_LAST_BOX) {
-            j -= this._NUMBERS.DOM_LAST_BOX;
-        }
+        let turnos = [this._NUMBERS.DOM_ZERO,this._NUMBERS.DOM_TWO]; //[0,2]
+        let tokenImg = document.querySelectorAll(`[name="${this._valuesColors[turnos[this._gameManager._turn]]}"]`);
+        let cont = 0;
 
-        let x = document.querySelector(`.c${j}`).childElementCount;
+        for (let j = 0; j < player.yourPieces.length; j++) {
 
-        if(!player.yourPieces[tokenImg.id].isMovementAllowed(x)){
-
-            return checkTokens = false;
-
-        }
-        return checkTokens = true;
-    }
-
-    _checkIfResetTokenOrMoveAndCheckEat(checkTokens, player, tokenImg, posOrigin){
-        if(!checkTokens){
-
-            console.log("reseteo de ficha");
-
-            player.yourPieces[tokenImg.id].isInEnd = false;
-            player.yourPieces[tokenImg.id].whatPosition = posOrigin;
-
-            document.querySelector(`.c${posOrigin}`).appendChild(tokenImg);
-
-        } else {
-            let eat = false;
-
-            if (document.querySelector(`.c${player.yourPieces[tokenImg.id].whatPosition}`).childElementCount == this._NUMBERS.DOM_TWO) {
-
-                let casilla = document.querySelector(`.c${player.yourPieces[tokenImg.id].whatPosition}`);
-                eat = this._eatToken(casilla,tokenImg);
-
-            } 
-
-            if (!eat) {
-                //this._changeStyleTokens();
-
-                //Hacemos que se pueda pasar de turno, ya que estaba bloqueado
-                //this._changeStyleImg();
+            if(this._checkRouteEventAdvance(player, tokenImg[j], checkTokens, pos)){
+                cont++
             }
         }
-    }
-
-    _checkFinishLine(player,tokenImg){
-        return player.givePositionEnd == player.yourPieces[tokenImg.id].whatPosition || player.yourPieces[tokenImg.id].isInEnd;
+        console.log(cont);
+        if(cont!=0){
+            this._changeStyleImgCant()
+        }else{
+            this._changeStyleImg()
+        }
+        
     }
 
     _checkIfCanMoveNextBox(player, tokenImg){
@@ -366,7 +373,6 @@ export default class DOMManager{
 
             player.yourPieces[tokenImg.id].isInEnd = false;
             player.yourPieces[tokenImg.id].whatPosition = posOrigin;
-            //player.yourPieces[tokenImg.id]._canMove = false;
             
             document.querySelector(`.c${posOrigin}`).appendChild(tokenImg);
 
@@ -382,75 +388,70 @@ export default class DOMManager{
 
             if (!eat) {
                 //this._changeStyleTokens();
+                this._changeStyleImg()
 
-                //Hacemos que se pueda pasar de turno, ya que estaba bloqueado
-                //this._changeStyleImg();
             }
+            
         }
+    }
+
+    _checkFinishLine(player, tokenImg){
+//console.log(tokenImg);
+        return player.givePositionEnd == player.yourPieces[tokenImg.id].whatPosition || player.yourPieces[tokenImg.id].isInEnd
+    }
+
+    _checkRouteEventToken(player, tokenImg, checkTokens, pos, posOrigin){
+        for (let i = this._NUMBERS.DOM_ONE;  i <= this._gameManager.getSumResults(); i++) {
+console.log(tokenImg);
+            if(this._checkFinishLine(player, tokenImg)){
+                
+                this._checkBoxLast(i, this._gameManager.getSumResults(), player, tokenImg);
+
+                break;
+            }
+
+            if(checkTokens==true){
+                checkTokens = this._checkIfCanMoveNextBox(player, tokenImg);
+            }
+
+            pos = this._gameManager.move_token(player, tokenImg.id);
+
+console.log(pos);
+            if(pos == this._NUMBERS.DOM_GET_OUT_HOME){
+
+                this._checkIfCanLeaveHome(player, tokenImg);
+                break;
+            }
+
+            document.querySelector(`.c${pos}`).appendChild(tokenImg);
+
+        }
+
+        this._checkIfResetToken(checkTokens, player, tokenImg, posOrigin);
     }
 
     _eventToken(tokenImg,player){
 
         tokenImg.addEventListener('click', () => {
-
             let players = this._gameManager._configC.givePlayers;
-            //player.yourPieces[tokenImg.id]._canMove = true;
-            //Si se puede mover la ficha
             let checkTokens = true;
             let pos = this._NUMBERS.DOM_ZERO;
-
             let posOrigin = player.yourPieces[tokenImg.id].whatPosition;
 
             if (player === undefined) {
                 player = players[this._NUMBERS.DOM_ONE];
             }
 
-            for (let i = this._NUMBERS.DOM_ONE;  i <= this._gameManager.getSumResults(); i++) {
-
-                if(this._checkFinishLine(player,tokenImg)){
-                    
-                    this._checkBoxLast(i, this._gameManager.getSumResults(), player, tokenImg);
-
-                    break;
-                }
-
-                if(checkTokens==true){
-                    checkTokens = this._checkIfCanMoveNextBox(player, tokenImg);
-                    //player.yourPieces[tokenImg.id]._canMove = true;
-                } else {
-                    //this._changeStyleImg();
-                }
-
-                pos = this._gameManager.move_token(player, tokenImg.id);
-
-                if(pos == this._NUMBERS.DOM_GET_OUT_HOME){
-
-                    this._checkIfCanLeaveHome(player, tokenImg);
-
-                    break;
-                }
-
-                document.querySelector(`.c${pos}`).appendChild(tokenImg);
-
-            }
-            
-            this._checkIfResetToken(checkTokens, player, tokenImg, posOrigin);
+            this._checkRouteEventToken(player, tokenImg, checkTokens, pos, posOrigin);
           
         });
 
         tokenImg.addEventListener('click', () => {
             this._updateScore();
-            //this._fakeTurn++;
-           /* setTimeout(() => {
-                this._changeImgTurn(this._gameManager._turn)
-                this._changeStyleImg();
-            },1000);*/
-            
-           // this._chanceMoveToken();
+            this._showModalForEndGame();
         });
         
     }
-
     _moveTokenLastBoxesAllowed(player, tokenImg, cont){
         player.yourPieces[tokenImg.id].whatPosition = player.yourPieces[tokenImg.id].whatPosition + cont;
     
@@ -491,7 +492,6 @@ export default class DOMManager{
 
             if(!player.yourPieces[tokenImg.id].isMovementAllowed(x)){
                 checkTokens = false;
-                //player.yourPieces[tokenImg.id]._canMove = false;
             }
             cont++;
 
@@ -523,20 +523,7 @@ export default class DOMManager{
         } 
     }
 
-    _chanceMoveToken(){
-        let canMove = this._gameManager._seeChanceOfMoveToken();
-console.log(canMove);
-        if (canMove > 0) {
-            //console.log('Se puede dar al cubilete');
-            this._changeStyleImgCant();
-        }else{
-            //console.log('NO puedes tocar el cubilete');
-            this._changeStyleImg();
-        }
-    }
-
-    _switchColorToken(colorToken,tokenEnemy){
-
+    _switchColorToken(colorToken, tokenEnemy){
 
         switch (colorToken) {
             case this._COLORS.DICE_RED:
@@ -563,15 +550,17 @@ console.log(canMove);
         
         if (casilla.firstElementChild.name != tokenImg.name) {
 
+            let player;
+
             let tokenEnemy = casilla.firstElementChild;
             let colorToken = tokenEnemy.name;
 
-            let player = this._switchColorToken(colorToken,tokenEnemy);
+            player = this._switchColorToken(colorToken, tokenEnemy);
             
-            this._gameManager.setPosToken(tokenEnemy.id,this._gameManager.backHome(player));
-            this._gameManager.getToken(tokenEnemy.id).isOutHome = false;
+            player.yourPieces[tokenEnemy.id].whatPosition = this._gameManager.backHome(player);
+            player.yourPieces[tokenEnemy.id].isOutHome = false;
 
-            let res = this._gameManager.returnThrows();
+            let res = this._gameManager._results;
 
             for (let r = this._NUMBERS.DOM_ZERO; r < res.length; r++) {
                 res[r] = this._NUMBERS.DOM_TEN;
@@ -742,14 +731,9 @@ console.log(canMove);
         turnPlayer.title = 'Jugador';
     }
 
-    _changeImgTurn(fakeTurn){
+    _changeImgTurn(){
 
         this._changeStyleTokens();
-
-        /*if (fakeTurn >= this._NUMBERS.DOM_NUM_PLAYERS) {
-            fakeTurn = 0;
-            this._fakeTurn = 0;
-        }*/
 
         let img = document.querySelector(`.${this._CLASSES.UX_USER}`);
 
@@ -861,12 +845,17 @@ console.log(canMove);
     }
 
     _showModalForEndGame(){
+        this._updateScore();
+
         if (this._gameManager.isFinished()) {
+console.log(this._gameManager.isFinished());
             this._createModalFinish();
         }
     }
 
     _createModalFinish(){
+        this._updateScore();
+
         let div = document.querySelector(`.${this._CLASSES.UX_PODIUM}`);
         let divP = div.cloneNode(true);
 
