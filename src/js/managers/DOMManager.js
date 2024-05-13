@@ -53,6 +53,7 @@ export default class DOMManager{
             ST_CENTER:          'center',
             ST_THE:             'THE',
             ST_END:             'END',
+            ST_SIZE35:          '35Px',
             ST_SIZE40:          '40Px',
             ST_SIZE60:          '60Px',
             ST_NONE:            'none',
@@ -190,22 +191,22 @@ export default class DOMManager{
             this._updateScore();
             this._eventsCheckIfCanAdvance();
             this._showModalForEndGame();
-            
+
         });
 
         btnT.addEventListener('click',() => {
 
-           let player = this._gameManager.getTurnPlayer();
-
-           if (this._gameManager._finish_check(player)) {
-                
+            let player = this._gameManager.getTurnPlayer();
+ 
+            if (this._gameManager._finish_check(player)) {
+                 
                 //alert(`El jugador ${player.whatColor.toUpperCase()} ha terminado, por favor presione al cubilete para pasar el turno.`);
-
+ 
                 this._setAttributesDadosFinishPlayer();
 
                 this._createVideo();
             }
-
+ 
         });
     }
 
@@ -228,7 +229,11 @@ export default class DOMManager{
         if (div2) {
             div.className = this._valuesColors[this._gameManager._turn] + '2';
             div2 = div;
+
             div2.appendChild(video);
+        } else {
+            div.className = this._valuesColors[this._gameManager._turn] + '2'
+            div.appendChild(video);
         }
         
     }
@@ -239,10 +244,10 @@ export default class DOMManager{
 
         dado0.style.alignContent = this._STRINGS.ST_CENTER;
         dado0.textContent = this._STRINGS.ST_THE;
-        dado0.style.fontSize = this._STRINGS.ST_SIZE40;
+        dado0.style.fontSize = this._STRINGS.ST_SIZE35;
         dado1.style.alignContent = this._STRINGS.ST_CENTER;
         dado1.textContent = this._STRINGS.ST_END;
-        dado1.style.fontSize = this._STRINGS.ST_SIZE40;
+        dado1.style.fontSize = this._STRINGS.ST_SIZE35;
     }
 
     _checkIfCanLeaveHomeEventAdvance(player, tokenImg){

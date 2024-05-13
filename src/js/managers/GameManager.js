@@ -53,7 +53,7 @@ export default class Events{
 
     getPlayerSelected(color){
 
-        return this._players.find(player => player.whatColor == color);
+        return this._configC.givePlayers.find(player => player.whatColor == color);
 
     }
 
@@ -201,7 +201,7 @@ export default class Events{
     }
 
     _allTokensEnd(player){
-        let tfin = this._NUMBERS.GM_ZERO;
+        /*let tfin = this._NUMBERS.GM_ZERO;
 
         for (let t = this._NUMBERS.GM_ZERO; t < player.howMuchPieces; t++) {
 
@@ -214,9 +214,9 @@ export default class Events{
 
             player.hasEnd = true;
             return true;
-        }
+        }*/
 
-        //return player.getTokens().every(token => token.isFinish);
+        return player.yourPieces.every(token => token.isFinish);
         return false;
     }
 
