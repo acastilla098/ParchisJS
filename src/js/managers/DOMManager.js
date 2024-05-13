@@ -177,20 +177,12 @@ export default class DOMManager{
         });
 
         btnT.addEventListener('click', () => {
-                
+
                 this._gameManager.start();
                 this._changeImgTurn();
                 this._updateScore();
-                //this._changeStyleImgCant();
-                
-        });
 
-        btnT.addEventListener('click', () => {
-            setTimeout(() => {
-                //this._changeImgTurn(this._gameManager._turn+1);
-                this._changeStyleImg();
-            },10000);
-        })
+        });
 
         btnT.addEventListener('click', () => {
             
@@ -198,6 +190,7 @@ export default class DOMManager{
             this._updateScore();
             this._eventsCheckIfCanAdvance();
             this._showModalForEndGame();
+            
         });
 
         btnT.addEventListener('click',() => {
@@ -253,12 +246,11 @@ export default class DOMManager{
     }
 
     _checkIfCanLeaveHomeEventAdvance(player, tokenImg){
-
         return player.yourPieces[tokenImg.id].isMovementAllowed(document.querySelector(`.c${player.givePositionInit}`).childElementCount )
     }
 
     _checkRouteEventAdvance(player, tokenImg, checkTokens, pos){
-console.log(tokenImg);
+
         for (let i = this._NUMBERS.DOM_ONE;  i <= this._gameManager.getSumResults(); i++) {
 
             if(this._checkFinishLine(player, tokenImg)){
@@ -362,9 +354,7 @@ console.log(tokenImg);
     }
     
     _checkIfResetToken(checkTokens, player, tokenImg, posOrigin){
-        if(checkTokens == false){
-
-            console.log("reseteo de ficha");
+        if(!checkTokens){
 
             player.yourPieces[tokenImg.id].isInEnd = false;
             player.yourPieces[tokenImg.id].whatPosition = posOrigin;
@@ -391,13 +381,12 @@ console.log(tokenImg);
     }
 
     _checkFinishLine(player, tokenImg){
-//console.log(tokenImg);
         return player.givePositionEnd == player.yourPieces[tokenImg.id].whatPosition || player.yourPieces[tokenImg.id].isInEnd
     }
 
     _checkRouteEventToken(player, tokenImg, checkTokens, pos, posOrigin){
         for (let i = this._NUMBERS.DOM_ONE;  i <= this._gameManager.getSumResults(); i++) {
-console.log(tokenImg);
+
             if(this._checkFinishLine(player, tokenImg)){
                 
                 this._checkBoxLast(i, this._gameManager.getSumResults(), player, tokenImg);
@@ -405,13 +394,12 @@ console.log(tokenImg);
                 break;
             }
 
-            if(checkTokens==true){
+            if(checkTokens){
                 checkTokens = this._checkIfCanMoveNextBox(player, tokenImg);
             }
 
             pos = this._gameManager.move_token(player, tokenImg.id);
 
-console.log(pos);
             if(pos == this._NUMBERS.DOM_GET_OUT_HOME){
 
                 this._checkIfCanLeaveHome(player, tokenImg);
@@ -448,7 +436,7 @@ console.log(pos);
         
     }
     _moveTokenLastBoxesAllowed(player, tokenImg, cont){
-        player.yourPieces[tokenImg.id].whatPosition = player.yourPieces[tokenImg.id].whatPosition + cont;
+        player.yourPieces[tokenImg.id].whatPosition += cont;
     
             if (player.yourPieces[tokenImg.id].whatPosition >= this._NUMBERS.DOM_LIMIT_END + this._NUMBERS.DOM_ONE  && player.yourPieces[tokenImg.id].isInEnd) {
 
@@ -499,7 +487,7 @@ console.log(pos);
         let cont = this._NUMBERS.DOM_ZERO;
         let checkTokens = true;
 
-        if(value <= throu && player.yourPieces[tokenImg.id].isInEnd == false){
+        if(value <= throu && !player.yourPieces[tokenImg.id].isInEnd){
 
             player.yourPieces[tokenImg.id].isInEnd = true;
             player.yourPieces[tokenImg.id].whatPosition = this._NUMBERS.DOM_ZERO;
@@ -843,7 +831,6 @@ console.log(pos);
         this._updateScore();
 
         if (this._gameManager.isFinished()) {
-console.log(this._gameManager.isFinished());
             this._createModalFinish();
         }
     }

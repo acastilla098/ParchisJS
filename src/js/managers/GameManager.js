@@ -179,7 +179,7 @@ export default class Events{
         return this._results[x];
     }
 
-    _start_turn(player){
+    _start_turn(){
 
         let rollP = this._NUMBERS.GM_ZERO;
 
